@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Habit</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container mt-5">
+
+    <div class="card p-4 shadow">
+
+        <h2>Edit Habit</h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <label>Habit Name</label>
+            <input type="text"
+                   name="habit_name"
+                   value="{{ habit.name }}"
+                   class="form-control mb-3"
+                    readonly>
+
+            <label>Description</label>
+            <textarea name="description"
+                      class="form-control mb-3">{{ habit.description }}</textarea>
+            <label>Habit Time</label>    
+            <input type="time"
+                 name="habit_time"
+                 value="{{ habit.habit_time|time:'H:i' }}"
+                 class="form-control mb-3">      
+
+            <label>Start Date</label>
+            <input type="date"
+                   value="{{ habit.start_date|date:'Y-m-d' }}"
+                   class="form-control mb-3"
+                   readonly>
+
+            <label>End Date</label>
+            <input type="date"
+                   name="end_date"
+                   value="{{ habit.end_date|date:'Y-m-d' }}"
+                   class="form-control mb-3">
+
+            <button type="submit"
+                    class="btn btn-success">
+                Update Habit
+            </button>
+
+            <a href="{% url 'edit_habit' %}"
+               class="btn btn-secondary">
+               Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

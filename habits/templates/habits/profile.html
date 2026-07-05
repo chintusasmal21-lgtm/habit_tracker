@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Profile</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    background:#f4f6fb;
+}
+
+.profile-card{
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0px 0px 15px rgba(0,0,0,.1);
+}
+
+.profile-header{
+    background:#0d6efd;
+    color:white;
+    padding:15px;
+}
+
+.profile-body{
+    padding:25px;
+}
+
+.profile-pic{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #0d6efd;
+}
+
+.action-btn{
+    min-width:180px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container mt-5">
+
+<div class="profile-card">
+
+    <div class="profile-header">
+
+        <h2>User Profile</h2>
+
+    </div>
+
+    <div class="profile-body">
+
+        <div class="row">
+
+            <div class="col-md-8">
+
+                <h5>
+                    <b>Username:</b>
+                    {{ request.user.username }}
+                </h5>
+
+                <br>
+
+                <h5>
+                    <b>Email:</b>
+                    {{ request.user.email }}
+                </h5>
+
+                <br>
+
+                <h5>
+                    <b>Total Habits:</b>
+                    {{ total_habits }}
+                </h5>
+
+                <br>
+
+                <h5>
+                    <b>Completed Habits:</b>
+                    {{ completed_habits }}
+                </h5>
+
+            </div>
+
+            <div class="col-md-4 text-center">
+
+                <img
+                src="{{ profile.profile_pic.url }}"
+                class="profile-pic">
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="text-center">
+
+            <a href="{% url 'edit_profile' %}"
+                 class="btn btn-primary action-btn">
+
+                Edit Profile
+
+            </a>
+
+            <a href="{% url 'change_password' %}"
+                class="btn btn-warning action-btn">
+
+                Change Password
+
+            </a>
+
+            <a href="{% url 'delete_account' %}"
+                class="btn btn-danger">
+
+                 Delete Account
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Add Habit</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+body{
+    background:linear-gradient(135deg,#eef2ff,#f8f9ff);
+    min-height:100vh;
+    padding:30px;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.main-box{
+    background:white;
+    max-width:750px;
+    margin:auto;
+    padding:35px;
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+    animation:fadeIn .7s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.title{
+    text-align:center;
+    color:#001f8f;
+    font-weight:bold;
+    margin-bottom:30px;
+}
+
+.title i{
+    color:#4a4aff;
+    margin-right:10px;
+}
+
+.form-label{
+    font-weight:600;
+    color:#333;
+}
+
+.form-control{
+    border-radius:12px;
+    padding:12px;
+    border:1px solid #ddd;
+    transition:.3s;
+}
+
+.form-control:focus{
+    border-color:#4a4aff;
+    box-shadow:0 0 10px rgba(74,74,255,.2);
+}
+
+.btn-save{
+    background:linear-gradient(135deg,#28a745,#20c997);
+    color:white;
+    border:none;
+    padding:12px 30px;
+    border-radius:12px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.btn-save:hover{
+    transform:translateY(-3px);
+    box-shadow:0 5px 15px rgba(40,167,69,.3);
+}
+
+.btn-back{
+    background:linear-gradient(135deg,#6c757d,#495057);
+    color:white;
+    border:none;
+    padding:12px 30px;
+    border-radius:12px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.btn-back:hover{
+    transform:translateY(-3px);
+    box-shadow:0 5px 15px rgba(108,117,125,.3);
+}
+
+.icon-box{
+    position:relative;
+}
+
+.icon-box i{
+    position:absolute;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#4a4aff;
+}
+
+.icon-box input{
+    padding-left:45px;
+}
+
+.footer-text{
+    text-align:center;
+    margin-top:20px;
+    color:#666;
+    font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="main-box">
+
+<h2 class="title">
+    <i class="fas fa-plus-circle"></i>
+    Add New Habit
+</h2>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="mb-3">
+
+<label class="form-label">
+Habit Name
+</label>
+
+<div class="icon-box">
+
+<i class="fas fa-list-check"></i>
+
+<input type="text"
+       name="habit_name"
+       class="form-control"
+       placeholder="Enter habit name"
+       required>
+
+</div>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+Description
+</label>
+
+<textarea name="description"
+          class="form-control"
+          rows="4"
+          placeholder="Describe your habit"></textarea>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+Habit Time
+</label>
+
+<input type="time"
+       name="habit_time"
+       class="form-control"
+       required>
+
+</div>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="mb-3">
+
+<label class="form-label">
+Start Date
+</label>
+
+<input type="date"
+       name="start_date"
+       class="form-control"
+       required>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="mb-3">
+
+<label class="form-label">
+End Date
+</label>
+
+<input type="date"
+       name="end_date"
+       class="form-control"
+       required>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="text-center mt-4">
+
+<button type="submit"
+        class="btn btn-save">
+
+<i class="fas fa-save"></i>
+ Save Habit
+
+</button>
+
+<a href="/dashboard/"
+   class="btn btn-back ms-2">
+
+<i class="fas fa-arrow-left"></i>
+ Back
+
+</a>
+
+</div>
+
+</form>
+
+<div class="footer-text">
+
+🚀 Build better habits, one day at a time
+
+</div>
+
+</div>
+
+</body>
+</html>
