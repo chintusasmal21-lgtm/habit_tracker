@@ -31,6 +31,7 @@ idna==3.10
 itsdangerous==2.2.0
 jaraco.context==6.0.1
 Jinja2==3.1.4
+jiter==0.10.0
 joblib==1.5.3
 kiwisolver==1.4.9
 MarkupSafe==3.0.2
