@@ -23,25 +23,23 @@ body{
 .sidebar{
 
     position:fixed;
-    top:20px;
-    left:20px;
-    bottom:20px;
+    left:0;
+    top:0;
 
-    width:260px;
-
-    border-radius:25px;
+    width:270px;
+    height:100vh;
 
     background:linear-gradient(
     180deg,
-    #16213E,
-    #1B3C73,
-    #2563EB);
+    #001f8f,
+    #003cff,
+    #0066ff
+    );
+
+    padding-top:25px;
 
     box-shadow:
-    0 20px 50px rgba(0,0,0,.25);
-
-    overflow:hidden;
-
+    5px 0 25px rgba(0,0,0,.15);
 }
 
 .sidebar h3{
@@ -52,27 +50,19 @@ body{
 }
 
 .sidebar a{
-
-    display:flex;
-    align-items:center;
-    gap:15px;
-
-    padding:15px 20px;
-
-    margin:10px;
-
-    border-radius:15px;
-
-    transition:.35s;
-
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:15px 25px;
+    margin:8px 15px;
+    border-radius:10px;
+    transition:.3s;
 }
 
 .sidebar a:hover{
-
-    background:rgba(255,255,255,.18);
-
-    transform:translateX(8px);
-
+    background:white;
+    color:#001f8f;
+    transform:translateX(5px);
 }
 
 .main{
@@ -97,22 +87,21 @@ body{
 }
 
 .card-box{
-
-    background:white;
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(15px);
 
     border-radius:25px;
-
-    padding:30px;
-
-    position:relative;
-
-    overflow:hidden;
-
-    transition:.35s;
+    padding:25px;
 
     box-shadow:
-    0 15px 40px rgba(0,0,0,.08);
+    0 10px 30px rgba(0,0,0,.08);
 
+    transition:all .4s ease;
+
+    text-align:center;
+
+    overflow:hidden;
+    position:relative;
 }
 .card-box h1{
 
