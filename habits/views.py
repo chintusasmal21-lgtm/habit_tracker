@@ -146,6 +146,20 @@ def register(request):
         phone = request.POST.get('phone')
         gender = request.POST.get('gender')
         password = request.POST.get('password')
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Username already exists.")
+            return render(request, 'habits/register.html')
+
+        # Check email
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Email already exists.")
+            return render(request, 'habits/register.html')
+
+        # Check phone
+        if Profile.objects.filter(phone=phone).exists():
+            messages.error(request, "Phone number already exists.")
+            return render(request, 'habits/register.html')
+
 
         Register.objects.create(
 
@@ -173,6 +187,7 @@ def register(request):
 
             fail_silently=False,
         )
+        messages.success(request, "Registration successful.")
         return redirect('/login/')
 
     return render(request, 'habits/register.html')

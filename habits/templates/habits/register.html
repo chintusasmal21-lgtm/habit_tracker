@@ -74,6 +74,13 @@
     <div class="register-box">
 
         <h2>Register</h2>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %}">
+                   {{ message }}
+                </div>
+           {% endfor %}
+        {% endif %}
 
         <form method="POST">
 
