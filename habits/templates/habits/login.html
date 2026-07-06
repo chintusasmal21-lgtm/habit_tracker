@@ -16,327 +16,155 @@
 
     <style>
 
-     *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-     }
-
-body{
-
-    background:
-    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.65)),
-    url("{% static 'image/log.jpg' %}");
-
-    background-size:cover;
-    background-position:center;
-
-    height:100vh;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
-}
-
-.circle{
-
-    position:absolute;
-    border-radius:50%;
-    background:rgba(255,255,255,.12);
-    animation:float 8s infinite ease-in-out;
-}
-
-.c1{
-    width:220px;
-    height:220px;
-    top:-70px;
-    left:-70px;
-}
-
-.c2{
-    width:180px;
-    height:180px;
-    right:40px;
-    bottom:40px;
-    animation-delay:2s;
-}
-
-.c3{
-    width:100px;
-    height:100px;
-    top:25%;
-    right:28%;
-    animation-delay:4s;
-}
-
-@keyframes float{
-
-50%{
-transform:translateY(-20px);
-}
-
-}
-
-.login-box{
-
-    width:430px;
-
-    background:rgba(255,255,255,.15);
-
-    backdrop-filter:blur(18px);
-
-    border:1px solid rgba(255,255,255,.25);
-
-    border-radius:20px;
-
-    padding:35px;
-
-    color:white;
-
-    box-shadow:0 20px 45px rgba(0,0,0,.35);
-
-    animation:fade .8s ease;
-}
-
-@keyframes fade{
-
-from{
-opacity:0;
-transform:translateY(30px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
-
-}
-
-.login-box h2{
-
-font-weight:bold;
-text-align:center;
-margin-bottom:10px;
-color:white;
-
-}
-
-.subtitle{
-
-text-align:center;
-margin-bottom:30px;
-opacity:.9;
-
-}
-
-.form-label{
-
-font-weight:600;
-
-}
-
-.input-group-text{
-
-background:rgba(255,255,255,.18);
-border:none;
-color:white;
-
-}
-
-.form-control{
-
-background:rgba(255,255,255,.15);
-border:none;
-color:white;
-padding:12px;
-
-}
-
-.form-control::placeholder{
-
-color:#ddd;
-
-}
-
-.form-control:focus{
-
-background:rgba(255,255,255,.2);
-color:white;
-box-shadow:none;
-
-}
-
-.btn-login{
-
-width:100%;
-padding:12px;
-
-background:linear-gradient(90deg,#3b82f6,#06b6d4);
-
-border:none;
-
-border-radius:50px;
-
-font-weight:bold;
-
-transition:.3s;
-
-}
-
-.btn-login:hover{
-
-transform:translateY(-3px);
-box-shadow:0 10px 25px rgba(0,150,255,.4);
-
-}
-
-.btn-home{
-
-width:100%;
-margin-top:12px;
-border-radius:50px;
-
-border:1px solid white;
-color:white;
-
-}
-
-.btn-home:hover{
-
-background:white;
-color:#0d6efd;
-
-}
-
-a{
-
-color:#fff;
-font-weight:500;
-
-}
-
-a:hover{
-
-color:#ffd54f;
-
-}
-
-.eye-btn{
-
-cursor:pointer;
-
-background:rgba(255,255,255,.18);
-
-border:none;
-
-color:white;
-
-}
-
-.form-check-label{
-
-color:white;
-
-}
-
-</style>
+      body{
+          margin:0;
+          padding:0;
+
+          background-image: url("{% static 'image/log.jpg' %}");
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+ 
+          height:100vh;
+
+          display:flex;
+          justify-content:center;
+          align-items:center;
+        }
+
+        .login-box{
+          width:420px;
+
+          background: rgba(255,255,255,0.9);
+
+          padding:35px;
+
+          border-radius:15px;
+
+          box-shadow:0px 0px 20px rgba(0,0,0,0.3);
+
+          backdrop-filter: blur(5px);
+        }
+        body{
+           background-image:url("{% static 'image/log.jpg' %}");
+           background-size:cover;
+           background-position:center;
+           height:100vh;
+
+           display:flex;
+           justify-content:center;
+           align-items:center;
+        }
+
+        h2{
+            text-align: center;
+            color: #001f8f;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .btn-login{
+            background-color: #4a4aff;
+            color: white;
+            width: 100%;
+            padding: 10px;
+            border: none;
+        }
+
+        .btn-login:hover{
+            background-color: #3333ff;
+        }
+
+    </style>
 
 </head>
 
 <body>
-    <h2>Welcome Back 👋</h2>
-
-<p class="subtitle">
-Login to continue your healthy journey.
-</p>
       
   
-   <div class="mb-3">
+    <div class="login-box">
 
-<label class="form-label">Username</label>
+        <h2>Login</h2>
 
-<div class="input-group">
+        <form method="POST" autocomplete="off"
+         novalidate
+         onsubmit="return validateForm()">
 
-<span class="input-group-text">
+            {% csrf_token %}
 
-<i class="bi bi-person-fill"></i>
+            <!-- Error Message -->
 
-</span>
+            {% if error %}
 
-<input
-type="text"
-name="username"
-class="form-control"
-placeholder="Enter username"
-required>
+            <div class="alert alert-danger">
 
-</div>
+                {{ error }}
 
-</div>
+            </div>
+
+            {% endif %}
+
+            <!-- Username -->
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Username
+                </label>
+
+                <input type="text"
+                       name="username"
+                       class="form-control"
+                       placeholder="Enter username"
+                       autocomplete="off"
+                       required>
+
+
+            </div>
 
             <!-- Password -->
 
             <div class="mb-3">
 
-<label class="form-label">Password</label>
+                <label class="form-label">
+                    Password
+                </label>
 
-<div class="input-group">
+                <input type="password"
+                       id="password"
+                       name="password"
+                       class="form-control"
+                       placeholder="Enter password"
+                       autocomplete="new-password"
+                       required>
 
-<span class="input-group-text">
 
-<i class="bi bi-lock-fill"></i>
-
-</span>
-
-<input
-type="password"
-id="password"
-name="password"
-class="form-control"
-placeholder="Enter password"
-required>
-
-<button
-type="button"
-class="input-group-text eye-btn"
-onclick="showPassword()">
-
-<i id="eyeIcon"
-class="bi bi-eye-fill"></i>
-
-</button>
-
-</div>
-
-</div>
+            </div>
 
             <!-- Show Password -->
 
-<div class="d-flex justify-content-between mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
 
-<div class="form-check">
+                <div class="form-check">
 
-<input
-class="form-check-input"
-type="checkbox">
+                   <input class="form-check-input"
+                       type="checkbox"
+                       onclick="showPassword()">
 
-<label class="form-check-label">
+                   <label class="form-check-label">
+                      Show Password
+                   </label>
 
-Remember Me
+                </div>
 
-</label>
+                 <a href="/forgot-password/"
+                   class="text-decoration-none">
 
-</div>
+                    Forgot Password
 
-<a href="/forgot-password/">
+                 </a>
 
-Forgot Password?
-
-</a>
-
-</div>
+            </div>
 
             <!-- Login Button -->
 
@@ -403,25 +231,17 @@ Forgot Password?
 
 function showPassword(){
 
-let pass=document.getElementById("password");
+    var x = document.getElementById("password");
 
-let icon=document.getElementById("eyeIcon");
+    if(x.type === "password"){
 
-if(pass.type==="password"){
+        x.type = "text";
 
-pass.type="text";
+    }else{
 
-icon.className="bi bi-eye-slash-fill";
+        x.type = "password";
 
-}
-else{
-
-pass.type="password";
-
-icon.className="bi bi-eye-fill";
-
-}
-
+    }
 }
 
     </script>
