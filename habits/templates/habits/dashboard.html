@@ -272,9 +272,13 @@ li{
 
     <a href="/analysis/">📈 Analysis</a>
 
+    <a href="/habit-list/">📋 My Habits </a>
+
     <a href="/profile/">👤 Profile</a>
 
     <a href="/achievements/">🏆 Achievements</a>
+
+    <a href="/settings/">⚙️ Settings</a>
 
     <a href="/logout/">🚪 Logout</a>
 
@@ -351,14 +355,14 @@ li{
 
         <div class="col-md-4">
             <div class="card-box stat-completed">
-                <h4>Habits Completed Today</h4>
+                <h4>Completed Today</h4>
                 <h1>{{ completed_today }}</h1>
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="card-box stat-week">
-                <h4>Habits Completed This Week</h4>
+                <h4>Completed This Week</h4>
                 <h1>{{ completed_week }}</h1>
             </div>
         </div>
@@ -428,72 +432,122 @@ li{
     </div>
 
     <br><br>
+    <h2 class="heading mt-5">
+    Quick Actions
+</h2>
 
-    <div class="row">
+<div class="row g-4">
 
-        <div class="col-md-6">
+    <!-- Add Habit -->
 
-            <a href="/add_habit/" class="text-decoration-none">
+    <div class="col-md-6">
 
-                <div class="action-box bg-danger text-white">
+        <a href="/add_habit/" class="text-decoration-none">
 
-                    Add New Habit
+            <div class="action-box bg-danger text-white">
 
+                <div>
+                    <div style="font-size:45px;">➕</div>
+                    <div>Add Habit</div>
                 </div>
 
-            </a>
+            </div>
 
-        </div>
-
-        <div class="col-md-6">
-
-            <a href="/habit-list/" class="text-decoration-none">
-
-                <div class="action-box bg-warning">
-
-                    View Habit List
-
-                </div>
-
-            </a>
-
-        </div>
+        </a>
 
     </div>
 
-    <br>
+    <!-- Analytics -->
 
-    <div class="row">
+    <div class="col-md-6">
 
-        <div class="col-md-6">
+        <a href="/analytics/" class="text-decoration-none">
 
-            <a href="/edit_habit/" class="text-decoration-none">
+            <div class="action-box bg-primary text-white">
 
-                <div class="action-box bg-info">
-
-                    Edit Habit
-
+                <div>
+                    <div style="font-size:45px;">📊</div>
+                    <div>Analytics</div>
                 </div>
 
-            </a>
+            </div>
 
-        </div>
-
-        <div class="col-md-6">
-
-            <a href="/analytics/" class="text-decoration-none">
-
-                <div class="action-box bg-primary text-white">
-
-                    Analytics
-
-                </div>
-
-            </a>
-
-        </div>
+        </a>
 
     </div>
+
+    <!-- Health -->
+
+    <div class="col-md-6">
+
+        <a href="/health/" class="text-decoration-none">
+
+            <div class="action-box bg-success text-white">
+
+                <div>
+                    <div style="font-size:45px;">❤️</div>
+                    <div>Health</div>
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+
+    <!-- AI Robot -->
+
+    <div class="col-md-6">
+
+        <a href="/ai/" class="text-decoration-none">
+
+            <div class="action-box bg-info text-white">
+
+                <div>
+                    <div style="font-size:45px;">🤖</div>
+                    <div>AI Coach</div>
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
+
+
+   
+    <div class="card-box mt-4">
+
+           <h4>🎯 Today's Goal</h4>
+
+            <h2>
+   
+              {{ completed_today }}/{{ total_habits }}
+
+            </h2>
+
+            <p>
+
+                Habits Completed
+
+            </p>
+
+    </div>
+    <div class="card-box mt-4">
+
+              <h4>🌟 Quote of the Day</h4>
+
+                <p>
+
+                     Small habits create big results.
+
+                </p>
+
+    </div>
+
+   
 
 </div>
 
