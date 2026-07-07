@@ -19,6 +19,129 @@ body{
 
     background-attachment:fixed;
 }
+/* ================= Header ================= */
+
+.header{
+
+    background:white;
+
+    padding:18px 20px;
+
+    border-radius:22px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+
+    margin-bottom:20px;
+
+}
+
+.header h2{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#1e3a8a;
+
+}
+
+.header small{
+
+    color:#6b7280;
+
+    font-size:14px;
+
+}
+.profile-img{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:3px solid white;
+
+    box-shadow:0 8px 15px rgba(0,0,0,.15);
+
+}
+/* ================= Welcome Card ================= */
+
+.welcome-card{
+
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+
+    border-radius:25px;
+
+    padding:25px;
+
+    color:white;
+
+    box-shadow:0 15px 30px rgba(37,99,235,.35);
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.welcome-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+
+    height:180px;
+
+    background:rgba(255,255,255,.12);
+
+    border-radius:50%;
+
+    top:-80px;
+
+    right:-60px;
+
+}
+
+.welcome-card h4{
+
+    font-size:26px;
+
+    font-weight:700;
+
+}
+
+.welcome-card p{
+
+    font-size:15px;
+
+    margin-top:8px;
+
+    margin-bottom:15px;
+
+    color:#eef6ff;
+
+}
+
+.welcome-card .badge{
+
+    font-size:13px;
+
+    padding:8px 15px;
+
+    border-radius:50px;
+
+}
 /* ================= Overview ================= */
 
 .overview-card{
@@ -428,7 +551,7 @@ body{
 
     </div>
 
-</div>
+
 <!-- ================= Overview ================= -->
 
 <div class="overview-card mt-4">
@@ -757,6 +880,7 @@ body{
 
     </a>
 
+</div>
 </div>
 
 
