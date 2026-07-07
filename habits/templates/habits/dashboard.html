@@ -261,6 +261,8 @@ body{
 
 /* ================= Bottom Navigation ================= */
 
+/* ================= Bottom Navigation ================= */
+
 .bottom-nav{
     position:fixed;
     bottom:0;
@@ -268,39 +270,72 @@ body{
     transform:translateX(-50%);
     width:100%;
     max-width:500px;
-    height:78px;
-    font-size: 28px;
-    background:white;
+    height:85px;
+    background:#ffffff;
     display:flex;
     justify-content:space-around;
     align-items:center;
-    border-top-left-radius:25px;
-    border-top-right-radius:25px;
-    box-shadow:0 -8px 25px rgba(0,0,0,.1);
+    border-top-left-radius:28px;
+    border-top-right-radius:28px;
+    box-shadow:0 -8px 25px rgba(0,0,0,.12);
     z-index:999;
+    padding:0 8px;
 }
 
 .bottom-nav a{
     text-decoration:none;
-    color:#6b7280;
+    color:#7c8595;
     display:flex;
     flex-direction:column;
+    justify-content:center;
     align-items:center;
+    flex:1;
     transition:.3s;
+}
+
+.bottom-nav a i,
+.bottom-nav a .icon{
+    font-size:28px;
+    margin-bottom:4px;
+}
+
+.bottom-nav a span{
+    font-size:12px;
+    font-weight:600;
 }
 
 .bottom-nav a.active{
     color:#2563eb;
-    font-weight:bold;
+}
+
+.bottom-nav a.active i,
+.bottom-nav a.active .icon{
+    transform:scale(1.15);
 }
 
 .bottom-nav a:hover{
-    transform:translateY(-4px);
+    color:#2563eb;
 }
 
-.bottom-nav span{
-    font-size:13px;
-    margin-top:4px;
+/* Floating Add Button */
+
+.bottom-nav .add-btn{
+    width:62px;
+    height:62px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    margin-top:-35px;
+    box-shadow:0 8px 20px rgba(37,99,235,.4);
+}
+
+.bottom-nav .add-btn:hover{
+    transform:scale(1.08);
+    color:#fff;
 }
 
 
@@ -650,46 +685,30 @@ body{
 
 
 <!-- ================= Bottom Navigation ================= -->
-
 <div class="bottom-nav">
 
     <a href="/dashboard/" class="active">
-
-        🏠
-
+        <div class="icon">🏠</div>
         <span>Home</span>
-
     </a>
-     <a href="/analytics/">
 
-        📊
-
+    <a href="/analytics/">
+        <div class="icon">📊</div>
         <span>Analytics</span>
-
     </a>
 
-    <a href="/add_habit/">
-
+    <a href="/add_habit/" class="add-btn">
         ➕
-
-        <span>Add</span>
-
     </a>
 
-    <a href="/award/">
-
-        📊
-
-        <span>Award</span>
-
+    <a href="/awards/">
+        <div class="icon">🏆</div>
+        <span>Awards</span>
     </a>
 
     <a href="/profile/">
-
-        👤
-
+        <div class="icon">👤</div>
         <span>Profile</span>
-
     </a>
 
 </div>
