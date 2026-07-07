@@ -1,187 +1,301 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Habit Tracker</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
+<title>Habit Tracker</title>
 
-        body{
-            background: linear-gradient(180deg,#eef6ff 0%,#ffffff 100%);
-            overflow-x:hidden;
-        }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        .hero{
-            position:relative;
-        }
+<style>
 
-        .hero img{
-            width:100%;
-            height:45vh;
-            object-fit:cover;
-            display:block;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
 
-        .hero-text{
-            position:absolute;
-            top:50%;
-            left:50%;
-            transform:translate(-50%,-50%);
-            color:white;
-            text-align:center;
-        }
+body{
 
-        .hero-text h1{
-            font-size:2.5rem;
-            font-weight:bold;
-        }
+    min-height:100vh;
 
-        .hero-text p{
-            font-size:18px;
-            text-shadow:1px 1px 6px rgba(0,0,0,.4);
-        }
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-        .card-custom{
-            border:none;
-            border-radius:20px;
-            transition:.3s;
-            box-shadow:0 5px 15px rgba(0,0,0,.08);
-        }
+    background:linear-gradient(135deg,#2563eb,#06b6d4,#60a5fa);
 
-        .card-custom:hover{
-            transform:translateY(-8px);
-            box-shadow:0 15px 30px rgba(13,110,253,.25);
-        }
+    overflow:hidden;
 
-        
-        @media(max-width:768px){
+}
 
-            .hero img{
-                height:35vh;
-            }
+.mobile{
 
-            .hero-text h1{
-                font-size:1.8rem;
-            }
+    width:390px;
+    height:844px;
 
-        }
+    background:white;
 
-    </style>
+    border-radius:35px;
+
+    overflow:hidden;
+
+    box-shadow:0 25px 60px rgba(0,0,0,.25);
+
+    position:relative;
+
+}
+
+.top{
+
+    height:330px;
+
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.top img{
+
+    width:90%;
+    height:90%;
+
+    object-fit:contain;
+
+}
+
+.content{
+
+    padding:30px;
+
+}
+
+h1{
+
+    font-size:32px;
+
+    text-align:center;
+
+    font-weight:800;
+
+    color:#1e3a8a;
+
+}
+
+.subtitle{
+
+    text-align:center;
+
+    color:#6b7280;
+
+    margin-top:15px;
+
+    line-height:28px;
+
+    font-size:16px;
+
+}
+
+.feature{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    margin-top:28px;
+
+}
+
+.icon{
+
+    width:60px;
+    height:60px;
+
+    border-radius:18px;
+
+    background:#eef4ff;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:28px;
+
+}
+
+.feature h5{
+
+    margin:0;
+
+    font-weight:700;
+
+    color:#1f2937;
+
+}
+
+.feature p{
+
+    margin:0;
+
+    color:#6b7280;
+
+    font-size:14px;
+
+}
+
+.btn-start{
+
+    margin-top:35px;
+
+    width:100%;
+
+    border:none;
+
+    border-radius:50px;
+
+    padding:15px;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    color:white;
+
+    background:linear-gradient(90deg,#06b6d4,#2563eb);
+
+    transition:.3s;
+
+}
+
+.btn-start:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 12px 25px rgba(37,99,235,.4);
+
+}
+
+.footer{
+
+    position:absolute;
+
+    bottom:20px;
+
+    width:100%;
+
+    text-align:center;
+
+    color:#94a3b8;
+
+    font-size:14px;
+
+}
+
+</style>
 
 </head>
 
 <body>
 
-{% include 'habits/navbar.html' %}
+<div class="mobile">
 
-<!-- Hero Section -->
+<div class="top">
 
-<div class="hero">
-
-    <img src="{% static 'image/habit.jpg' %}" alt="Habit">
-
-  
+<img src="{% static 'image/Healthy.png' %}" alt="Habit Tracker">
 
 </div>
 
-<div class="container py-5">
+<div class="content">
 
-    <!-- Motivation -->
+<h1>
+Build Better Habits
+</h1>
 
-    <div class="text-center mb-5">
+<p class="subtitle">
 
-        <h3>🌟 Today's Motivation</h3>
+Transform your daily routine into lasting success.
+Stay consistent, build healthy habits, and reach your goals one day at a time.
 
-        <p class="text-muted">
-            Small daily improvements lead to amazing long-term results.
-        </p>
+</p>
 
-    </div>
+<div class="feature">
 
-    <!-- Features -->
+<div class="icon">
+🎯
+</div>
 
-    <div class="row g-4">
+<div>
 
-        <div class="col-md-3 col-6">
+<h5>Create Habits</h5>
 
-            <div class="card card-custom p-4 text-center">
-
-                <h1>🔥</h1>
-
-                <h5>Habit Streak</h5>
-
-                <small>Maintain your daily streak.</small>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3 col-6">
-
-            <div class="card card-custom p-4 text-center">
-
-                <h1>📈</h1>
-
-                <h5>Analytics</h5>
-
-                <small>View your progress reports.</small>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3 col-6">
-
-            <div class="card card-custom p-4 text-center">
-
-                <h1>🎯</h1>
-
-                <h5>Goals</h5>
-
-                <small>Stay focused on your targets.</small>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3 col-6">
-
-            <div class="card card-custom p-4 text-center">
-
-                <h1>🏆</h1>
-
-                <h5>Achievement</h5>
-
-                <small>Unlock badges and milestones.</small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-   
-
-    <!-- Quote -->
-
-    <div class="text-center mt-5">
-
-        <h4>💬 Quote of the Day</h4>
-
-        <p class="fst-italic text-secondary">
-            "We become what we repeatedly do. Excellence, then, is not an act but a habit."
-        </p>
-
-    </div>
+<p>Create personalized daily habits.</p>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</div>
+
+<div class="feature">
+
+<div class="icon">
+📈
+</div>
+
+<div>
+
+<h5>Track Progress</h5>
+
+<p>Monitor your growth every day.</p>
+
+</div>
+
+</div>
+
+<div class="feature">
+
+<div class="icon">
+🔥
+</div>
+
+<div>
+
+<h5>Keep Your Streak</h5>
+
+<p>Stay motivated with daily streaks.</p>
+
+</div>
+
+</div>
+
+<a href="/register/">
+
+<button class="btn-start">
+
+Get Started →
+
+</button>
+
+</a>
+
+</div>
+
+<div class="footer">
+
+Made with ❤️ for Healthy Living
+
+</div>
+
+</div>
 
 </body>
+
 </html>
