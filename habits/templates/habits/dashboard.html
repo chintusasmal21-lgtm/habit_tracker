@@ -44,6 +44,22 @@ body{
     left:0;
 
 }
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:15px 25px;
+    margin:8px 15px;
+    border-radius:10px;
+    transition:.3s;
+    font-size:18px;
+}
+
+.sidebar a:hover{
+    background:white;
+    color:#001f8f;
+    transform:translateX(5px);
+}
 
 .menu-btn{
 
@@ -272,36 +288,40 @@ li{
 </head>
 
 <body>
+
     <div id="sidebar" class="sidebar">
 
-    <h3>Habit Tracker</h3>
+       <h3>Habit Tracker</h3>
+ 
+        <a href="/dashboard/" onclick="toggleSidebar()">📊 Dashboard</a>
 
-    <a href="/dashboard/">📊 Dashboard</a>
+        <a href="/analytics/" onclick="toggleSidebar()">📈 Analytics</a>
 
-    <a href="/analytics/">📈 Analytics</a>
+        <a href="/habit-list/" onclick="toggleSidebar()">📋 My Habits</a>
 
-    <a href="/habit-list/">📋 My Habits</a>
+        <a href="/add_habit/" onclick="toggleSidebar()">➕ Add Habit</a>
 
-    <a href="/add_habit/">➕ Add Habit</a>
+        <a href="/profile/" onclick="toggleSidebar()">👤 Profile</a>
 
-    <a href="/profile/">👤 Profile</a>
+        <a href="/logout/" onclick="toggleSidebar()">🚪 Logout</a>
 
-    <a href="/logout/">🚪 Logout</a>
-
-</div>
+    </div>
 
 
-<div class="topbar">
+    <div class="topbar">
 
-    <button class="menu-btn" onclick="toggleSidebar()">
+        <button class="menu-btn" onclick="toggleSidebar()">
 
-        ☰
+            ☰
 
-    </button>
+         </button>
 
-    <h4>Habit Tracker</h4>
+        <h4>Habit Tracker</h4>
+        <a href="/login/" class="btn btn-outline-primary btn-sm">
+           ← Login
+        </a>
 
-</div>
+    </div>
 
 <div class="main">
     <div class="welcome-banner">
@@ -452,9 +472,9 @@ li{
     <br><br>
     <h2 class="heading mt-5">
     Quick Actions
-</h2>
+    </h2>
 
-<div class="row g-4">
+  <div class="row g-4">
 
     <!-- Add Habit -->
 
@@ -532,7 +552,7 @@ li{
 
     </div>
 
-</div>
+  </div>
 
 
    
