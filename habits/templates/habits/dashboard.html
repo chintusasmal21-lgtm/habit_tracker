@@ -57,38 +57,40 @@ body{
 
 .sidebar a:hover{
     background:white;
-    color:#001f8f;
+    color:#b3b7c6;
     transform:translateX(5px);
 }
 
 .menu-btn{
-
-    font-size:30px;
-
     border:none;
-
     background:none;
-
-    cursor:pointer;
-
+    font-size:28px;
     color:#001f8f;
-
-    margin-right:15px;
-
+    cursor:pointer;
 }
 
 .topbar{
-
     display:flex;
-
     align-items:center;
-
-    padding:20px;
-
+    gap:15px;
+    padding:18px 20px;
     background:white;
-
-    box-shadow:0 2px 10px rgba(0,0,0,.1);
-
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+.topbar h4{
+    margin:0;
+    font-weight:700;
+    color:#001f8f;
+}
+.back-btn{
+    text-decoration:none;
+    font-size:30px;
+    font-weight:bold;
+    color:#001f8f;
+    transition:.3s;
+}
+.back-btn:hover{
+    color:#2563eb;
 }
 
 .main{
@@ -309,6 +311,9 @@ li{
 
 
     <div class="topbar">
+         <a href="/login/" class="back-btn">
+        ←
+        </a>
 
         <button class="menu-btn" onclick="toggleSidebar()">
 
