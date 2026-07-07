@@ -9,14 +9,19 @@
 
 body{
 
-     background:linear-gradient(135deg,#eef2ff,#dbeafe,#f8fbff);
-    background-attachment:fixed;
-    font-family:'Segoe UI',sans-serif;
-    padding-bottom:90px;
+    background: linear-gradient(135deg,#eef2ff,#dce7ff,#f8fbff);
+    background-attachment: fixed;
+
+    margin: 0;
+    min-height: 100vh;
 }
 .container-fluid{
     width: 100%;
-    padding:18px;
+
+    padding-bottom:100px; 
+}
+.habit-section{
+    padding-bottom:90px;
 }
 /* ================= Header ================= */
 
@@ -101,6 +106,9 @@ body{
     box-shadow:0 12px 25px rgba(0,0,0,.08);
     transition:.3s;
     min-height:150px;
+}
+.row{
+    --bs-gutter-y:18px;
 }
 
 .info-card:hover{
@@ -261,67 +269,53 @@ body{
 
 /* ================= Bottom Navigation ================= */
 
-/* ================= Bottom Navigation ================= */
-
 .bottom-nav{
     position:fixed;
     bottom:0;
-    left:50%;
-    transform:translateX(-50%);
+    left:0;
     width:100%;
-    max-width:500px;
-    height:85px;
+    height:70px;
     background:#ffffff;
     display:flex;
     justify-content:space-around;
     align-items:center;
-    border-top-left-radius:28px;
-    border-top-right-radius:28px;
-    box-shadow:0 -8px 25px rgba(0,0,0,.12);
+    box-shadow:0 -5px 20px rgba(0,0,0,.12);
+    border-radius:20px 20px 0 0;
     z-index:999;
-    padding:0 8px;
 }
 
 .bottom-nav a{
-    text-decoration:none;
-    color:#7c8595;
+    flex:1;
     display:flex;
     flex-direction:column;
-    justify-content:center;
     align-items:center;
-    flex:1;
-    transition:.3s;
-}
-
-.bottom-nav a i,
-.bottom-nav a .icon{
-    font-size:28px;
-    margin-bottom:4px;
+    justify-content:center;
+    text-decoration:none;
+    color:#8b8b8b;
+    font-size:22px;
+    transition:0.3s;
 }
 
 .bottom-nav a span{
-    font-size:12px;
-    font-weight:600;
+    font-size:11px;
+    margin-top:2px;
+    font-weight:500;
 }
 
 .bottom-nav a.active{
     color:#2563eb;
 }
 
-.bottom-nav a.active i,
-.bottom-nav a.active .icon{
-    transform:scale(1.15);
-}
-
-.bottom-nav a:hover{
+.bottom-nav a.active span{
     color:#2563eb;
+    font-weight:700;
 }
 
-/* Floating Add Button */
+/* Center Add Button */
 
 .bottom-nav .add-btn{
-    width:62px;
-    height:62px;
+    width:58px;
+    height:58px;
     border-radius:50%;
     background:linear-gradient(135deg,#2563eb,#06b6d4);
     color:#fff;
@@ -329,19 +323,17 @@ body{
     justify-content:center;
     align-items:center;
     font-size:30px;
-    margin-top:-35px;
-    box-shadow:0 8px 20px rgba(37,99,235,.4);
+    margin-top:-28px;
+    box-shadow:0 10px 25px rgba(37,99,235,.35);
+}
+
+.bottom-nav .add-btn span{
+    display:none;
 }
 
 .bottom-nav .add-btn:hover{
     transform:scale(1.08);
-    color:#fff;
 }
-
-
-
-
-
 
 
 </style>
@@ -688,26 +680,26 @@ body{
 <div class="bottom-nav">
 
     <a href="/dashboard/" class="active">
-        <div class="icon">🏠</div>
+        🏠
         <span>Home</span>
     </a>
 
     <a href="/analytics/">
-        <div class="icon">📊</div>
-        <span>Analytics</span>
+        📊
+        <span>Stats</span>
     </a>
 
     <a href="/add_habit/" class="add-btn">
-        ➕
+        +
     </a>
 
     <a href="/awards/">
-        <div class="icon">🏆</div>
+        🏆
         <span>Awards</span>
     </a>
 
     <a href="/profile/">
-        <div class="icon">👤</div>
+        👤
         <span>Profile</span>
     </a>
 
