@@ -19,243 +19,282 @@ body{
 
     background-attachment:fixed;
 }
+/* ================= Overview ================= */
 
-.sidebar{
+.overview-card{
+
+    margin-top:25px;
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:18px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.progress-text{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:#2563eb;
+
+}
+
+.custom-progress{
+
+    height:12px;
+
+    border-radius:50px;
+
+    background:#e5e7eb;
+
+}
+
+.custom-progress .progress-bar{
+
+    border-radius:50px;
+
+    background:linear-gradient(90deg,#06b6d4,#2563eb);
+
+}
+
+
+/* ================= Stats ================= */
+
+.stats-card{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    text-align:center;
+
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.stats-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.stats-icon{
+
+    font-size:28px;
+
+    margin-bottom:8px;
+
+}
+
+.stats-card h3{
+
+    font-weight:700;
+
+    margin:0;
+
+}
+
+.stats-card p{
+
+    margin-top:5px;
+
+    color:#6b7280;
+
+    font-size:14px;
+
+}
+
+.total-card{
+
+    border-top:5px solid #2563eb;
+
+}
+
+.completed-card{
+
+    border-top:5px solid #22c55e;
+
+}
+
+.pending-card{
+
+    border-top:5px solid #f59e0b;
+
+}
+/* ================= Section Title ================= */
+
+.section-title{
+
+    font-weight:700;
+
+    color:#1f2937;
+
+}
+
+
+/* ================= Quick Action ================= */
+
+.action-card{
+
+    border-radius:20px;
+
+    padding:20px;
+
+    text-align:center;
+
+    color:white;
+
+    transition:.3s;
+
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+
+}
+
+.action-card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.action-icon{
+
+    font-size:35px;
+
+    margin-bottom:12px;
+
+}
+
+.add-card{
+
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+}
+
+.analytics-card{
+
+    background:linear-gradient(135deg,#06b6d4,#0ea5e9);
+
+}
+
+.habit-card{
+
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+
+}
+
+.profile-card{
+
+    background:linear-gradient(135deg,#8b5cf6,#7c3aed);
+
+}
+
+
+/* ================= Today's Habits ================= */
+
+.habit-section{
+
+    margin-bottom:20px;
+
+}
+
+.habit-card{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:16px;
+
+    margin-bottom:12px;
+
+    box-shadow:0 8px 18px rgba(0,0,0,.08);
+
+}
+.bottom-nav{
 
     position:fixed;
+
+    bottom:0;
+
     left:0;
-    top:0;
 
-    width:270px;
-    height:100vh;
-
-    background:linear-gradient(
-    180deg,
-    #001f8f,
-    #003cff,
-    #0066ff
-    );
-
-    padding-top:25px;
-
-    box-shadow:
-    5px 0 25px rgba(0,0,0,.15);
-}
-
-.sidebar h3{
-    color:white;
-    text-align:center;
-    margin-bottom:40px;
-    font-weight:bold;
-}
-
-.sidebar a{
-    display:block;
-    color:white;
-    text-decoration:none;
-    padding:15px 25px;
-    margin:8px 15px;
-    border-radius:10px;
-    transition:.3s;
-}
-
-.sidebar a:hover{
-    background:white;
-    color:#001f8f;
-    transform:translateX(5px);
-}
-
-.main{
-    margin-left:280px;
-    padding:30px;
-}
-
-.heading{
-
-    font-size:38px;
-    font-weight:800;
-
-    background:
-    linear-gradient(
-    90deg,
-    #001f8f,
-    #4a4aff
-    );
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-.card-box{
-    background:rgba(255,255,255,0.9);
-    backdrop-filter:blur(15px);
-
-    border-radius:25px;
-    padding:25px;
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,.08);
-
-    transition:all .4s ease;
-
-    text-align:center;
-
-    overflow:hidden;
-    position:relative;
-}
-.card-box h1{
-
-    font-size:42px;
-
-    font-weight:bold;
-
-    color:#001f8f;
-
-    text-shadow:
-    0 0 10px rgba(74,74,255,.2);
-}
-
-.card-box::before{
-    content:'';
-    position:absolute;
-    top:0;
-    left:0;
     width:100%;
-    height:5px;
-    background:linear-gradient(
-    90deg,
-    #4a4aff,
-    #00c6ff
-    );
-}
 
-.card-box:hover{
-    transform:translateY(-10px);
-    box-shadow:
-    0 20px 40px rgba(0,0,0,.15);
-}
+    height:75px;
 
-.pending-box,
-.completed-box{
     background:white;
-    border:none;
-    border-radius:20px;
-    padding:25px;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
 
-.pending-box{
-    border-left:6px solid #dc3545;
-}
-
-.completed-box{
-    border-left:6px solid #28a745;
-}
-
-.action-box{
-    height:140px;
-    border-radius:20px;
     display:flex;
-    justify-content:center;
+
+    justify-content:space-around;
+
     align-items:center;
-    font-size:24px;
-    font-weight:bold;
-    box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+    box-shadow:0 -5px 20px rgba(0,0,0,.1);
+
+    border-top-left-radius:25px;
+
+    border-top-right-radius:25px;
+
+    z-index:1000;
+
+}
+
+.bottom-nav a{
+
+    text-decoration:none;
+
+    color:#6b7280;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    font-size:14px;
+
     transition:.3s;
+
 }
 
-.action-box{
+.bottom-nav a.active{
 
-    height:150px;
+    color:#2563eb;
 
-    border-radius:25px;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    font-size:26px;
     font-weight:bold;
 
-    cursor:pointer;
-
-    transition:.4s;
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,.15);
 }
 
-.action-box:hover{
+.bottom-nav a:hover{
 
-    transform:
-    scale(1.07)
+    transform:translateY(-4px);
 
 }
 
-.bg-danger{
-    background:linear-gradient(135deg,#ff4d4d,#ff0000)!important;
+.bottom-nav span{
+
+    font-size:12px;
+
+    margin-top:4px;
+
 }
 
-.bg-warning{
-    background:linear-gradient(135deg,#ffd54f,#ffb300)!important;
-}
 
-.bg-info{
-    background:linear-gradient(135deg,#4fc3f7,#0288d1)!important;
-    color:white;
-}
 
-.bg-primary{
-    background:linear-gradient(135deg,#4a4aff,#001f8f)!important;
-}
 
-ul{
-    padding-left:20px;
-}
 
-li{
-    margin-bottom:8px;
-}
-.stat-total{
-    border-left:6px solid #0d6efd;
-}
 
-.stat-completed{
-    border-left:6px solid #198754;
-}
-
-.stat-week{
-    border-left:6px solid #ffc107;
-}
-.welcome-banner{
-
-    background:
-    linear-gradient(
-    135deg,
-    #4a4aff,
-    #00c6ff
-    );
-
-    color:white;
-
-    padding:25px;
-
-    border-radius:25px;
-
-    margin-bottom:25px;
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,.15);
-}
-.stat-total{
-     border-left:6px solid #0d6efd;
-     } 
-.stat-completed{
-     border-left:6px solid #198754; 
-    } 
-.stat-week{ 
-    border-left:6px solid #ffc107;
- }
 
 
 </style>
@@ -263,147 +302,280 @@ li{
 </head>
 
 <body>
+    
 
-<div class="sidebar">
+<div class="container-fluid p-3">
 
-    <h3>Habit Tracker</h3>
+    <!-- Header -->
 
-    <a href="/dashboard/">📊 Dashboard</a>
+    <div class="header d-flex justify-content-between align-items-center mb-4">
 
-    <a href="/analysis/">📈 Analysis</a>
+        <div>
 
-    <a href="/profile/">👤 Profile</a>
+            <h2 class="mb-0">👋 Hello, {{ request.user.username }}</h2>
 
-    <a href="/achievements/">🏆 Achievements</a>
+            <small class="text-muted">
+                Keep building healthy habits every day.
+            </small>
 
-    <a href="/logout/">🚪 Logout</a>
+        </div>
 
+        <img src="{% static 'image/profile.png' %}"
+             class="profile-img">
+
+    </div>
+
+
+    <!-- Welcome Card -->
+
+    <div class="welcome-card mb-4">
+
+        <div class="row align-items-center">
+
+            <div class="col-8">
+
+                <h4>
+                    Good Morning ☀️
+                </h4>
+
+                <p>
+                    Every small habit makes you stronger.
+                </p>
+
+                <span class="badge bg-light text-primary">
+
+                    ⭐ Stay Consistent
+
+                </span>
+
+            </div>
+
+            <div class="col-4 text-end">
+
+                <div class="emoji">
+
+                    🚀
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Top Cards -->
+
+    <div class="row g-3">
+
+        <!-- Streak -->
+
+        <div class="col-6">
+
+            <div class="info-card streak">
+
+                <div class="icon">
+
+                    🔥
+
+                </div>
+
+                <h1>
+
+                    {{ current_streak }}
+
+                </h1>
+
+                <p>
+
+                    Day Streak
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Active Days -->
+
+        <div class="col-6">
+
+            <div class="info-card active">
+
+                <div class="icon">
+
+                    📅
+
+                </div>
+
+                <h1>
+
+                    {{ active_days }}
+
+                </h1>
+
+                <p>
+
+                    Active Days
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ================= Overview ================= -->
+
+<div class="overview-card mt-4">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-1">
+                Today's Overview
+            </h5>
+
+            <small class="text-muted">
+                Keep going! You're doing great.
+            </small>
+
+        </div>
+
+        <span class="progress-text">
+
+            {{ completion_percentage }}%
+
+        </span>
+
+    </div>
+
+    <!-- Progress Bar -->
+
+    <div class="progress custom-progress mt-3">
+
+        <div class="progress-bar"
+
+             role="progressbar"
+
+             style="width: {{ completion_percentage }}%;">
+
+        </div>
+
+    </div>
 
 </div>
 
-<div class="main">
-    <div class="welcome-banner">
-      <h4>
-        👋 Welcome, {{ request.user.username }}
-      </h4>
-    </div>
 
-    <h1 class="heading">
-        Summary Statistics
-    </h1>
+<!-- ================= Statistics ================= -->
 
-    <div class="row">
+<div class="row g-3 mt-1">
 
-        <div class="col-md-4">
-            <div class="card-box stat-total">
-                <h4>Total Habits</h4>
-                <h1>{{ total_habits }}</h1>
-            </div>
-        </div>
+    <div class="col-4">
 
-        <div class="col-md-4">
-            <div class="card-box stat-completed">
-                <h4>Habits Completed Today</h4>
-                <h1>{{ habits_completed_today }}</h1>
-            </div>
-        </div>
+        <div class="stats-card total-card">
 
-        <div class="col-md-4">
-            <div class="card-box stat-week">
-                <h4>Habits Completed This Week</h4>
-                <h1>{{ habits_completed_this_week }}</h1>
-            </div>
-        </div>
+            <div class="stats-icon">
 
-    </div>
-
-    <br><br>
-
-    <h1 class="heading">
-        Habit Status For Today
-    </h1>
-
-    <div class="row">
-
-        <div class="col-md-6">
-
-            <div class="pending-box">
-
-                <h3 class="text-danger">
-                    Pending Habits
-                </h3>
-
-                <ul>
-
-                    {% for habit in pending_habits %}
-
-                    <li>{{ habit.name }}</li>
-
-                    {% empty %}
-
-                    <li>No Pending Habits</li>
-
-                    {% endfor %}
-
-                </ul>
+                🎯
 
             </div>
 
-        </div>
+            <h3>
 
-        <div class="col-md-6">
+                {{ total_habits }}
 
-            <div class="completed-box">
+            </h3>
 
-                <h3 class="text-success">
-                    Completed Habits
-                </h3>
+            <p>
 
-                <ul>
+                Total
 
-                    {% for habit in completed_habits %}
-
-                    <li>{{ habit.name }}</li>
-
-                    {% empty %}
-
-                    <li>No Completed Habits</li>
-
-                    {% endfor %}
-
-                </ul>
-
-            </div>
+            </p>
 
         </div>
 
     </div>
 
-    <br><br>
+    <div class="col-4">
 
-    <div class="row">
+        <div class="stats-card completed-card">
 
-        <div class="col-md-6">
+            <div class="stats-icon">
+
+                ✅
+
+            </div>
+
+            <h3>
+
+                {{ completed_today }}
+
+            </h3>
+
+            <p>
+
+                Done
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="col-4">
+
+        <div class="stats-card pending-card">
+
+            <div class="stats-icon">
+
+                ⏳
+
+            </div>
+
+            <h3>
+
+                {{ pending_today }}
+
+            </h3>
+
+            <p>
+
+                Pending
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ================= Quick Actions ================= -->
+
+<div class="mt-4">
+
+    <h5 class="section-title">
+        ⚡ Quick Actions
+    </h5>
+
+    <div class="row g-3 mt-1">
+
+        <div class="col-6">
 
             <a href="/add_habit/" class="text-decoration-none">
 
-                <div class="action-box bg-danger text-white">
+                <div class="action-card add-card">
 
-                    Add New Habit
+                    <div class="action-icon">
+                        ➕
+                    </div>
 
-                </div>
-
-            </a>
-
-        </div>
-
-        <div class="col-md-6">
-
-            <a href="/habit-list/" class="text-decoration-none">
-
-                <div class="action-box bg-warning">
-
-                    View Habit List
+                    <h6>Add Habit</h6>
 
                 </div>
 
@@ -411,33 +583,53 @@ li{
 
         </div>
 
-    </div>
-
-    <br>
-
-    <div class="row">
-
-        <div class="col-md-6">
-
-            <a href="/edit_habit/" class="text-decoration-none">
-
-                <div class="action-box bg-info">
-
-                    Edit Habit
-
-                </div>
-
-            </a>
-
-        </div>
-
-        <div class="col-md-6">
+        <div class="col-6">
 
             <a href="/analytics/" class="text-decoration-none">
 
-                <div class="action-box bg-primary text-white">
+                <div class="action-card analytics-card">
 
-                    Analytics
+                    <div class="action-icon">
+                        📊
+                    </div>
+
+                    <h6>Analytics</h6>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <div class="col-6">
+
+            <a href="/habit-list/" class="text-decoration-none">
+
+                <div class="action-card habit-card">
+
+                    <div class="action-icon">
+                        📋
+                    </div>
+
+                    <h6>My Habits</h6>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <div class="col-6">
+
+            <a href="/profile/" class="text-decoration-none">
+
+                <div class="action-card profile-card">
+
+                    <div class="action-icon">
+                        👤
+                    </div>
+
+                    <h6>Profile</h6>
 
                 </div>
 
@@ -448,6 +640,125 @@ li{
     </div>
 
 </div>
+
+
+
+<!-- ================= Today's Habits ================= -->
+
+<div class="habit-section mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <h5 class="section-title mb-0">
+
+            ✅ Today's Habits
+
+        </h5>
+
+        <small class="text-primary">
+
+            {{ completed_today }}/{{ total_habits }}
+
+        </small>
+
+    </div>
+
+    {% for habit in today_habits %}
+
+    <div class="habit-card">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <h6 class="mb-1">
+
+                    {{ habit.name }}
+
+                </h6>
+
+                <small class="text-muted">
+
+                    {{ habit.category }}
+
+                </small>
+
+            </div>
+
+            {% if habit.completed %}
+
+                <span class="badge bg-success">
+
+                    Completed
+
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-warning text-dark">
+
+                    Pending
+
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="habit-card text-center">
+
+        No habits for today.
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+
+<!-- ================= Bottom Navigation ================= -->
+
+<div class="bottom-nav">
+
+    <a href="/dashboard/" class="active">
+
+        🏠
+
+        <span>Home</span>
+
+    </a>
+
+    <a href="/add_habit/">
+
+        ➕
+
+        <span>Add</span>
+
+    </a>
+
+    <a href="/analytics/">
+
+        📊
+
+        <span>Stats</span>
+
+    </a>
+
+    <a href="/profile/">
+
+        👤
+
+        <span>Profile</span>
+
+    </a>
+
+</div>
+
 
 </body>
 </html>
