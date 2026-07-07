@@ -443,8 +443,7 @@ body{
 
         </div>
 
-        <img src="{% static 'image/profile.png' %}"
-             class="profile-img">
+       
 
     </div>
 
@@ -680,89 +679,6 @@ body{
 </div>
 <!-- ================= Quick Actions ================= -->
 
-<div class="mt-4">
-
-    <h5 class="section-title">
-        ⚡ Quick Actions
-    </h5>
-
-    <div class="row g-3 mt-1">
-
-        <div class="col-6">
-
-            <a href="/add_habit/" class="text-decoration-none">
-
-                <div class="action-card add-card">
-
-                    <div class="action-icon">
-                        ➕
-                    </div>
-
-                    <h6>Add Habit</h6>
-
-                </div>
-
-            </a>
-
-        </div>
-
-        <div class="col-6">
-
-            <a href="/analytics/" class="text-decoration-none">
-
-                <div class="action-card analytics-card">
-
-                    <div class="action-icon">
-                        📊
-                    </div>
-
-                    <h6>Analytics</h6>
-
-                </div>
-
-            </a>
-
-        </div>
-
-        <div class="col-6">
-
-            <a href="/habit-list/" class="text-decoration-none">
-
-                <div class="action-card habit-card">
-
-                    <div class="action-icon">
-                        📋
-                    </div>
-
-                    <h6>My Habits</h6>
-
-                </div>
-
-            </a>
-
-        </div>
-
-        <div class="col-6">
-
-            <a href="/profile/" class="text-decoration-none">
-
-                <div class="action-card profile-card">
-
-                    <div class="action-icon">
-                        👤
-                    </div>
-
-                    <h6>Profile</h6>
-
-                </div>
-
-            </a>
-
-        </div>
-
-    </div>
-
-</div>
 
 
 
@@ -802,7 +718,7 @@ body{
 
                 <small class="text-muted">
 
-                    {{ habit.category }}
+                    {{ habit.description }}
 
                 </small>
 
@@ -855,6 +771,13 @@ body{
         <span>Home</span>
 
     </a>
+     <a href="/analytics/">
+
+        📊
+
+        <span>Analytics</span>
+
+    </a>
 
     <a href="/add_habit/">
 
@@ -864,11 +787,11 @@ body{
 
     </a>
 
-    <a href="/analytics/">
+    <a href="/award/">
 
         📊
 
-        <span>Stats</span>
+        <span>Award</span>
 
     </a>
 
