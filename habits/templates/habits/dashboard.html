@@ -22,21 +22,32 @@ body{
 
 .sidebar{
 
-    position:fixed;
+    position: fixed;
+    top: 0;
+    left: -280px;
 
-    top:0;
-    left:-280px;
+    width: 260px;
+    height: 100vh;
 
-    width:260px;
-    height:100dvh;
+    background: linear-gradient(180deg, #001f8f, #003cff);
 
-    background:#001f8f;
+    padding-top: 25px;
 
-    transition:.3s;
+    transition: .35s;
+    z-index: 9999;
+}
 
-    z-index:9999;
+.sidebar h3{
 
-    padding-top:20px;
+    color: #ffffff !important;
+
+    text-align: center;
+
+    font-weight: bold;
+
+    margin-bottom: 30px;
+
+    font-size: 28px;
 }
 
 .sidebar.show{
