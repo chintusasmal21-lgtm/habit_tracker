@@ -317,9 +317,7 @@ li{
          </button>
 
         <h4>Habit Tracker</h4>
-        <a href="/login/" class="btn btn-outline-primary btn-sm">
-           ← Login
-        </a>
+        
 
     </div>
 
@@ -556,23 +554,8 @@ li{
 
 
    
-    <div class="card-box mt-4">
 
-           <h4>🎯 Today's Goal</h4>
-
-            <h2>
-   
-              {{ completed_today }}/{{ total_habits }}
-
-            </h2>
-
-            <p>
-
-                Habits Completed
-
-            </p>
-
-    </div>
+         
     <div class="card-box mt-4">
 
               <h4>🌟 Quote of the Day</h4>
@@ -590,11 +573,24 @@ li{
 </div>
 <script>
 
-function toggleSidebar(){
-
+function toggleSidebar() {
     document.getElementById("sidebar").classList.toggle("show");
-
 }
+
+document.addEventListener("click", function(event) {
+
+    const sidebar = document.getElementById("sidebar");
+    const menuBtn = document.querySelector(".menu-btn");
+
+    // If click is NOT inside sidebar and NOT on menu button
+    if (
+        !sidebar.contains(event.target) &&
+        !menuBtn.contains(event.target)
+    ) {
+        sidebar.classList.remove("show");
+    }
+
+});
 
 </script>
 
