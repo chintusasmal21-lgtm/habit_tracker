@@ -59,95 +59,50 @@ def dashboard(request):
 
     today = date.today()
 
-    Habit.objects.filter(
-        user=request.user,
-        end_date__lte=today,
-        status="Pending"
-    ).update(status="Completed")
+    # Total Habits
+    total_habits = Habit.objects.filter(
+        user=request.user
+    ).count()
 
-    total_habits = Habit.objects.filter(user=request.user).count()
-
+    # Pending Habits
     pending_habits = Habit.objects.filter(
         user=request.user,
         status="Pending"
     )
 
+    # Completed Habits
     completed_habits = Habit.objects.filter(
         user=request.user,
         status="Completed"
     )
 
-    habits_completed_today = HabitLog.objects.filter(
+    # Habits completed today
+    completed_today = HabitLog.objects.filter(
         habit__user=request.user,
-        completed=True,
-        log_date=today
-    ).count()
-
-    habits_completed_this_week = HabitLog.objects.filter(
-        habit__user=request.user,
-        completed=True,
-        log_date__gte=today - timedelta(days=6)
-    ).count()
-
-    # Dashboard values
-
-    completed_today = habits_completed_today
-
-    pending_today = max(total_habits - completed_today, 0)
-
-    if total_habits > 0:
-        completion_percentage = int((completed_today / total_habits) * 100)
-    else:
-        completion_percentage = 0
-
-    # Calculate Active Days
-    active_days = HabitLog.objects.filter(
-    habit__user=request.user,
-    completed=True
-    ).values("log_date").distinct().count()
-
-
-    # Calculate Current Streak
-    completed_dates = list(
-    HabitLog.objects.filter(
-        habit__user=request.user,
+        log_date=today,
         completed=True
-    )
-    .values_list("log_date", flat=True)
-    .distinct()
-    )
+    ).count()
 
-    completed_dates = sorted(completed_dates)
+    # Habits completed this week
+    week_start = today - timedelta(days=6)
 
-    current_streak = 0
-    check_day = today
-
-    while check_day in completed_dates:
-       current_streak += 1
-       check_day -= timedelta(days=1)
+    completed_week = HabitLog.objects.filter(
+        habit__user=request.user,
+        log_date__range=[week_start, today],
+        completed=True
+    ).count()
 
     context = {
 
-      
+        "total_habits": total_habits,
 
-    "total_habits": total_habits,
+        "pending_habits": pending_habits,
 
-    "pending_habits": pending_habits,
+        "completed_habits": completed_habits,
 
-    "completed_habits": completed_habits,
+        "completed_today": completed_today,
 
-    "completed_today": completed_today,
-
-    "pending_today": pending_today,
-
-    "completion_percentage": completion_percentage,
-
-    "current_streak": current_streak,
-
-    "active_days": active_days,
-
-    "today_habits": pending_habits | completed_habits,
-
+        "completed_week": completed_week,
 
     }
 
