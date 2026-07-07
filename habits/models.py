@@ -43,6 +43,14 @@ class Habit(models.Model):
     null=True,
     blank=True
     )
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ('Pending', 'Pending'),
+            ('Completed', 'Completed'),
+        ],
+        default='Pending'
+    )
 
     start_date = models.DateField()
 
