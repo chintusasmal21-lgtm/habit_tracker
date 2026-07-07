@@ -230,7 +230,9 @@ def add_habit(request):
             user=request.user,
             name=request.POST.get('habit_name'),
             description=request.POST.get('description'),
-            habit_time=request.POST.get('habit_time'),
+            category=request.POST.get('category'),
+            frequency=request.POST.get('frequency'),
+            reminder_time=request.POST.get('reminder_time'),
             start_date=start_date,
             end_date=end_date,
             status='Pending'
@@ -251,10 +253,20 @@ def add_habit(request):
 
             current_date += timedelta(days=1)
         send_mail(
-          'Habit Created',
-           f'Your habit "{habit.name}" has been created successfully.\n\n'
-           f'Start Date: {habit.start_date}\n'
-           f'End Date: {habit.end_date}',
+            'Habit Created Successfully',
+            f'''
+        Your habit has been created successfully.
+
+        Habit Name : {habit.name}
+        Category   : {habit.category}
+        Frequency  : {habit.frequency}
+        Reminder   : {habit.reminder_time}
+
+        Start Date : {habit.start_date}
+        End Date   : {habit.end_date}
+
+        Stay consistent and achieve your goals!
+        ''',
            'yourgmail@gmail.com',
            [request.user.email],
            fail_silently=False,

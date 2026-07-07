@@ -29,11 +29,19 @@ class Habit(models.Model):
     description = models.TextField(
         blank=True
     )
-    habit_time = models.TimeField()
+    category = models.CharField(
+    max_length=50,
+    default="Health"
+    )
 
-    status = models.CharField(
-        max_length=20,
-        default='Pending'
+    frequency = models.CharField(
+    max_length=20,
+    default="Daily"
+    )
+
+    reminder_time = models.TimeField(
+    null=True,
+    blank=True
     )
 
     start_date = models.DateField()
