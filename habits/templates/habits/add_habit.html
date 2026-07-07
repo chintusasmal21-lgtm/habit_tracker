@@ -170,20 +170,71 @@ Description
           placeholder="Describe your habit"></textarea>
 
 </div>
+<div class="mb-3">
+
+<label class="form-label">
+Category
+</label>
+
+<select name="category" class="form-control" required>
+
+<option value="">Select Category</option>
+
+<option value="Health">❤️ Health</option>
+
+<option value="Fitness">💪 Fitness</option>
+
+<option value="Study">📚 Study</option>
+
+<option value="Work">💼 Work</option>
+
+<option value="Meditation">🧘 Meditation</option>
+
+<option value="Reading">📖 Reading</option>
+
+<option value="Water">💧 Water Intake</option>
+
+<option value="Sleep">😴 Sleep</option>
+
+<option value="Custom">✨ Custom</option>
+
+</select>
+
+</div>
+<div class="mb-3">
+
+<label class="form-label">
+Frequency
+</label>
+
+<select name="frequency" class="form-control" required>
+
+<option value="Daily">Daily</option>
+
+<option value="Weekdays">Weekdays</option>
+
+<option value="Weekends">Weekends</option>
+
+<option value="Weekly">Weekly</option>
+
+<option value="Custom">Custom</option>
+
+</select>
+
+</div>
 
 <div class="mb-3">
 
 <label class="form-label">
-Habit Time
+Reminder Time
 </label>
 
-<input type="time"
-       name="habit_time"
-       class="form-control"
-       required>
+<input
+type="time"
+name="reminder_time"
+class="form-control">
 
 </div>
-
 <div class="row">
 
 <div class="col-md-6">
