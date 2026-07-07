@@ -91,6 +91,22 @@ def dashboard(request):
         log_date__range=[week_start, today],
         completed=True
     ).count()
+    active_days = HabitLog.objects.filter(
+    habit__user=request.user,
+    completed=True
+    ).values('log_date').distinct().count()
+
+    current_streak = 0
+    check_date = date.today()
+
+    while HabitLog.objects.filter(
+        habit__user=request.user,
+        log_date=check_date,
+        completed=True
+    ).exists():
+
+       current_streak += 1
+       check_date -= timedelta(days=1)
 
     context = {
 
@@ -103,6 +119,9 @@ def dashboard(request):
         "completed_today": completed_today,
 
         "completed_week": completed_week,
+        "active_days": active_days,
+
+        "current_streak": current_streak,
 
     }
 
