@@ -18,7 +18,7 @@ body{
 .container-fluid{
     width: 100%;
 
-    padding-bottom:110px; 
+    padding-bottom:130px; 
 }
 .habit-section{
     padding-bottom:90px;
@@ -272,23 +272,28 @@ body{
 
 .bottom-nav{
     position:fixed;
-    bottom:0;
-    left:0;
 
-    width:100%;
-    height:90px;
+    left:50%;
+    transform:translateX(-50%);
 
-    background:#4b5062;   /* Same dark color */
+    bottom:40px;          /* <-- Move it upward */
+
+    width:95%;
+    max-width:450px;
+
+    height:80px;
+
+    background:#4b5062;
 
     display:flex;
-    justify-content:space-evenly;
+    justify-content:space-around;
     align-items:center;
 
+    border-radius:25px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+
     z-index:9999;
-
-    border-radius:25px 25px 0 0;
-
-    box-shadow:0 -8px 25px rgba(0,0,0,.35);
 }
 
 .bottom-nav a{
