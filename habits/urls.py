@@ -111,6 +111,8 @@ path(
       views.health,
      name="health"
 ),
+path("bmi/", views.bmi_calculator, name="bmi_calculator"),
+path("calories/", views.calorie_calculator, name="calorie_calculator"),
 
 
 

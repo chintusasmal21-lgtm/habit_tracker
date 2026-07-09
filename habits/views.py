@@ -1127,45 +1127,88 @@ def reset_password(request):
     )
 
 
-@login_required
+
+from django.shortcuts import render
+
 def health(request):
+    return render(request, "habits/health.html")
+from django.shortcuts import render
+
+
+
+
+def bmi_calculator(request):
 
     bmi = None
     status = None
+    tips = []
 
     if request.method == "POST":
 
+        age = int(request.POST["age"])
+        gender = request.POST["gender"]
         height = float(request.POST["height"])
-
         weight = float(request.POST["weight"])
 
-        bmi = weight / ((height/100)**2)
-
-        bmi = round(bmi,1)
+        bmi = round(weight / ((height / 100) ** 2), 1)
 
         if bmi < 18.5:
-
             status = "🔵 Underweight"
+            tips = [
+                "🍗 Eat protein-rich foods",
+                "🥛 Drink milk daily",
+                "💪 Do strength training",
+                "🍌 Increase healthy calories"
+            ]
 
         elif bmi < 25:
-
-            status = "🟢 Normal Weight"
+            status = "🟢 Healthy"
+            tips = [
+                "🥗 Maintain a balanced diet",
+                "🏃 Exercise daily",
+                "💧 Drink enough water",
+                "😴 Sleep 7-8 hours"
+            ]
 
         elif bmi < 30:
-
             status = "🟠 Overweight"
+            tips = [
+                "🚶 Walk 8000 steps daily",
+                "🥦 Eat more vegetables",
+                "🍩 Reduce sugar",
+                "🚫 Avoid junk food"
+            ]
 
         else:
-
             status = "🔴 Obese"
+            tips = [
+                "👨‍⚕️ Consult a doctor",
+                "🏃 Cardio exercise",
+                "🥗 Follow a calorie deficit",
+                "🚫 Avoid sugary drinks"
+            ]
 
-    return render(request,"habits/health.html",{
+        if gender == "Male":
+            tips.append("🥩 Increase protein for muscle growth")
+            tips.append("🏋️ Include strength workouts")
 
-        "bmi":bmi,
+        else:
+            tips.append("🥛 Eat calcium-rich foods")
+            tips.append("🥬 Include iron-rich foods")
 
-        "status":status
+        return render(request, "habits/bmi.html", {
+            "age": age,
+            "gender": gender,
+            "height": height,
+            "weight": weight,
+            "bmi": bmi,
+            "status": status,
+            "tips": tips,
+        })
 
-    })
+    return render(request, "habits/bmi.html")
 
 
+def calorie_calculator(request):
+    return render(request, "habits/calories.html")
 # Create your views here.

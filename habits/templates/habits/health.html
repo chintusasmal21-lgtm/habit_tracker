@@ -2,125 +2,81 @@
 <html>
 <head>
 
-<title>BMI Calculator</title>
+    <title>Health Center</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
+    <style>
 
-body{
-    background: linear-gradient(135deg,#eef2ff,#dce7ff,#f7f9ff);
-    font-family: Arial, sans-serif;
+        body{
+            background:linear-gradient(135deg,#eef2ff,#dce7ff,#f7f9ff);
+            font-family:Arial,sans-serif;
+        }
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-}
+        .heading{
+            font-size:45px;
+            font-weight:bold;
+            color:#0d6efd;
+            text-align:center;
+            margin-top:50px;
+        }
 
-.container{
-   max-width:800px;
-}
+        .subheading{
+            text-align:center;
+            color:#666;
+            margin-bottom:50px;
+            font-size:20px;
+        }
 
-.card{
-    border:none;
-    border-radius:25px;
-    box-shadow:0 12px 30px rgba(0,0,0,.15);
-    padding:50px;
-    width:100%;
-    max-width:700px;
-}
+        .tool-card{
 
-.heading{
+            border:none;
+            border-radius:25px;
+            box-shadow:0 10px 25px rgba(0,0,0,.12);
+            transition:.3s;
+            padding:35px;
+            height:100%;
 
-font-size:40px;
+        }
 
-font-weight:bold;
+        .tool-card:hover{
 
-text-align:center;
+            transform:translateY(-8px);
 
-color:#003cff;
+        }
 
-margin-bottom:30px;
+        .icon{
 
-}
+            font-size:70px;
 
-.form-control{
+        }
 
-height:55px;
+        .title{
 
-border-radius:15px;
+            font-size:30px;
+            font-weight:bold;
+            margin-top:20px;
 
-font-size:18px;
+        }
 
-}
+        .desc{
 
-.btn-primary{
+            color:#666;
+            font-size:18px;
+            margin:20px 0;
 
-width:100%;
+        }
 
-height:55px;
+        .btn{
 
-border-radius:15px;
+            width:100%;
+            height:55px;
+            font-size:20px;
+            border-radius:15px;
 
-font-size:20px;
+        }
 
-font-weight:bold;
-
-}
-
-.result{
-
-margin-top:30px;
-
-text-align:center;
-
-}
-
-.circle{
-
-width:170px;
-
-height:170px;
-
-border-radius:50%;
-
-background:#003cff;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-margin:auto;
-
-color:white;
-
-font-size:40px;
-
-font-weight:bold;
-
-}
-
-.status{
-
-font-size:28px;
-
-font-weight:bold;
-
-margin-top:20px;
-
-}
-
-table{
-
-margin-top:25px;
-
-}
-
-</style>
+    </style>
 
 </head>
 
@@ -128,125 +84,79 @@ margin-top:25px;
 
 <div class="container">
 
-<div class="row justify-content-center">
+<h1 class="heading">
 
-<div class="col-md-10 col-lg-8">
+💚 Health Center
 
-<div class="card">
+</h1>
 
-<div class="heading">
+<p class="subheading">
 
-💚 BMI Calculator
+Track your health using smart calculators.
 
-</div>
+</p>
 
-<form method="POST">
+<div class="row g-4">
 
-{% csrf_token %}
+<div class="col-lg-6">
 
-<label>
+<div class="tool-card">
 
-Height (cm)
+<div class="icon">
 
-</label>
-
-<input
-type="number"
-step="0.1"
-name="height"
-class="form-control"
-placeholder="Enter Height"
-required>
-
-<br>
-
-<label>
-
-Weight (kg)
-
-</label>
-
-<input
-type="number"
-step="0.1"
-name="weight"
-class="form-control"
-placeholder="Enter Weight"
-required>
-
-<br>
-
-<button class="btn btn-primary">
-
-Calculate BMI
-
-</button>
-
-</form>
-
-{% if bmi %}
-
-<div class="result">
-
-<div class="circle">
-
-{{ bmi }}
+🧮
 
 </div>
 
-<div class="status">
+<div class="title">
 
-{{ status }}
-
-</div>
-
-<table class="table table-bordered">
-
-<tr>
-
-<th>BMI Range</th>
-
-<th>Status</th>
-
-</tr>
-
-<tr>
-
-<td>Below 18.5</td>
-
-<td>Underweight</td>
-
-</tr>
-
-<tr>
-
-<td>18.5 - 24.9</td>
-
-<td>Normal</td>
-
-</tr>
-
-<tr>
-
-<td>25 - 29.9</td>
-
-<td>Overweight</td>
-
-</tr>
-
-<tr>
-
-<td>30+</td>
-
-<td>Obese</td>
-
-</tr>
-
-</table>
+BMI Calculator
 
 </div>
 
-{% endif %}
+<div class="desc">
+
+Calculate your Body Mass Index and get personalized health recommendations.
+
+</div>
+
+<a href="{% url 'bmi_calculator' %}" class="btn btn-primary">
+
+Open BMI Calculator
+
+</a>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="tool-card">
+
+<div class="icon">
+
+🔥
+
+</div>
+
+<div class="title">
+
+Calories Calculator
+
+</div>
+
+<div class="desc">
+
+Calculate your daily calorie requirement based on age, weight, height and activity.
+
+</div>
+
+<a href="{% url 'calorie_calculator' %}" class="btn btn-success">
+
+Open Calories Calculator
+
+</a>
 
 </div>
 
@@ -257,5 +167,4 @@ Calculate BMI
 </div>
 
 </body>
-
 </html>
