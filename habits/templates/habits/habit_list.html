@@ -149,6 +149,38 @@ body{
 .total-box h2{
     margin:0;
 }
+.card-footer-box{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-top:15px;
+}
+
+.btn-track,
+.btn-update{
+    flex:1;
+    border-radius:12px;
+    padding:10px;
+    font-weight:600;
+    text-align:center;
+    text-decoration:none;
+    color:#fff;
+    transition:.3s;
+}
+
+.btn-track{
+    background:linear-gradient(135deg,#0d6efd,#4a90ff);
+}
+
+.btn-update{
+    background:linear-gradient(135deg,#ff9800,#ff5722);
+}
+
+.btn-track:hover,
+.btn-update:hover{
+    transform:translateY(-2px);
+    color:#fff;
+}
 
 </style>
 
@@ -206,6 +238,12 @@ body{
                Track Daily
 
             </a>
+            <a href="{% url 'habit_edits' habit.id %}"
+                   class="btn btn-update">
+                <i class="fas fa-pen"></i>
+                Update Habit
+            </a>
+            
 
            
         </div>

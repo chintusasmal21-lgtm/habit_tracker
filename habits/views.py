@@ -14,6 +14,7 @@ from django.db.models import Count
 from habits.models import Profile
 from django.shortcuts import render
 import random
+from django.conf import settings
 
    
 
@@ -217,66 +218,105 @@ def add_habit(request):
     if request.method == "POST":
 
         start_date = datetime.strptime(
-            request.POST.get('start_date'),
-            '%Y-%m-%d'
+            request.POST.get("start_date"),
+            "%Y-%m-%d"
         ).date()
 
         end_date = datetime.strptime(
-            request.POST.get('end_date'),
-            '%Y-%m-%d'
+            request.POST.get("end_date"),
+            "%Y-%m-%d"
         ).date()
 
         habit = Habit.objects.create(
             user=request.user,
-            name=request.POST.get('habit_name'),
-            description=request.POST.get('description'),
-            category=request.POST.get('category'),
-            frequency=request.POST.get('frequency'),
-            reminder_time=request.POST.get('reminder_time'),
+            name=request.POST.get("habit_name"),
+            description=request.POST.get("description"),
+            category=request.POST.get("category"),
+            frequency=request.POST.get("frequency"),
+            reminder_time=request.POST.get("reminder_time"),
             start_date=start_date,
             end_date=end_date,
-            status='Pending'
+            status="Pending"
         )
+
         messages.success(request, "Habit successfully added!")
 
         current_date = start_date
 
         while current_date <= end_date:
 
-            print("Creating:", current_date)
+            if habit.frequency == "Daily":
 
-            HabitLog.objects.create(
-                habit=habit,
-                log_date=current_date,
-                completed=False
+                HabitLog.objects.create(
+                    habit=habit,
+                    log_date=current_date,
+                    completed=False,
+                    missed=False
+                )
+                current_date += timedelta(days=1)
+
+            elif habit.frequency == "Weekdays":
+
+                if current_date.weekday() < 5:
+                    HabitLog.objects.create(
+                        habit=habit,
+                        log_date=current_date,
+                        completed=False,
+                        missed=False
+                    )
+
+                current_date += timedelta(days=1)
+
+            elif habit.frequency == "Weekends":
+
+                if current_date.weekday() >= 5:
+                    HabitLog.objects.create(
+                        habit=habit,
+                        log_date=current_date,
+                        completed=False,
+                        missed=False
+                    )
+
+                current_date += timedelta(days=1)
+
+            elif habit.frequency == "Weekly":
+
+                HabitLog.objects.create(
+                    habit=habit,
+                    log_date=current_date,
+                    completed=False,
+                    missed=False
+                )
+
+                current_date += timedelta(days=7)
+
+        try:
+            send_mail(
+                "Habit Created Successfully",
+                f"""
+Your habit has been created successfully.
+
+Habit Name : {habit.name}
+Category   : {habit.category}
+Frequency  : {habit.frequency}
+Reminder   : {habit.reminder_time}
+
+Start Date : {habit.start_date}
+End Date   : {habit.end_date}
+
+Stay consistent and achieve your goals!
+""",
+                settings.EMAIL_HOST_USER  # or settings.DEFAULT_FROM_EMAIL
+                [request.user.email],
+                fail_silently=False,
             )
 
-            current_date += timedelta(days=1)
-        send_mail(
-            'Habit Created Successfully',
-            f'''
-        Your habit has been created successfully.
+        except Exception as e:
+            print("Email Error:", e)
 
-        Habit Name : {habit.name}
-        Category   : {habit.category}
-        Frequency  : {habit.frequency}
-        Reminder   : {habit.reminder_time}
+        return redirect("/dashboard/")
 
-        Start Date : {habit.start_date}
-        End Date   : {habit.end_date}
-
-        Stay consistent and achieve your goals!
-        ''',
-           'chintu.sasmal21@gmail.com',
-           [request.user.email],
-           fail_silently=False,
-        )
-    
-        
-
-        return redirect('/dashboard/')
-
-    return render(request, 'habits/add_habit.html')
+    return render(request, "habits/add_habit.html")
 
 def profile(request):
     return render(request, 'habits/profile.html')
@@ -407,71 +447,89 @@ def edit_habit(request):
         }
     )
 
+
 @login_required
-    
 def habit_edits(request, id):
 
     habit = get_object_or_404(
-    Habit,
-    id=id,
-    user=request.user
-)
-
-    if request.method == 'POST':
-
-        habit.name = request.POST.get(
-            'habit_name'
-        )
-
-        habit.description = request.POST.get(
-            'description'
-        )
-        habit.habit_time = request.POST.get(
-        'habit_time'
+        Habit,
+        id=id,
+        user=request.user
     )
-        
+
+    if request.method == "POST":
+
+        habit.description = request.POST.get("description")
+        habit.category = request.POST.get("category")
+        habit.frequency = request.POST.get("frequency")
+        habit.reminder_time = request.POST.get("reminder_time")
+
         new_end_date = datetime.strptime(
-            request.POST.get('end_date'),
-            '%Y-%m-%d'
+            request.POST.get("end_date"),
+            "%Y-%m-%d"
         ).date()
 
         habit.end_date = new_end_date
 
-        if new_end_date > date.today():
-         habit.status = 'Pending'
+        if new_end_date >= date.today():
+            habit.status = "Pending"
+        else:
+            habit.status = "Completed"
 
         habit.save()
 
-        send_mail(
-           'Habit Updated',
-           f'Your habit "{habit.name}" has been updated.\n\n'
-           f'Your description "{habit.description}" has been updated\n'
-           f'Start Date: {habit.start_date}\n'
-           f'New End Date: {habit.end_date}',
-           'yourgmail@gmail.com',
+        # Remove old logs
+        HabitLog.objects.filter(habit=habit).delete()
 
-           [request.user.email],
-           fail_silently=False,
-        ) 
         current_date = habit.start_date
 
         while current_date <= habit.end_date:
 
-            HabitLog.objects.get_or_create(
+            HabitLog.objects.create(
                 habit=habit,
-                log_date=current_date
+                log_date=current_date,
+                completed=False,
+                missed=False
             )
 
-            current_date =current_date+ timedelta(days=1)
-    
+            if habit.frequency == "Daily":
+                current_date += timedelta(days=1)
 
-        return redirect('edit_habit')
-   
+            elif habit.frequency == "Weekly":
+                current_date += timedelta(days=7)
+
+        try:
+            send_mail(
+                "Habit Updated",
+                f"""
+Your habit "{habit.name}" has been updated.
+
+Description : {habit.description}
+Category    : {habit.category}
+Frequency   : {habit.frequency}
+Reminder    : {habit.reminder_time}
+Start Date  : {habit.start_date}
+End Date    : {habit.end_date}
+Status      : {habit.status}
+                """,
+                settings.DEFAULT_FROM_EMAIL,
+                [request.user.email],
+                fail_silently=False,
+            )
+
+        except Exception as e:
+            print("Email Error:", e)
+
+        messages.success(request, "Habit updated successfully!")
+
+        return redirect("edit_habit")
 
     return render(
         request,
-        'habits/habit_edits.html',
-        {'habit': habit}
+        "habits/habit_edits.html",
+        {
+            "habit": habit
+        }
     )
 def complete_habit(request, id):
 
