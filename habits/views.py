@@ -267,7 +267,7 @@ def add_habit(request):
 
         Stay consistent and achieve your goals!
         ''',
-           'yourgmail@gmail.com',
+           'chintu.sasmal21@gmail.com',
            [request.user.email],
            fail_silently=False,
         )
