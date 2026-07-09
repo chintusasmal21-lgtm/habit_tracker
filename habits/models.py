@@ -76,7 +76,14 @@ class HabitLog(models.Model):
 
     missed = models.BooleanField(
         default=False
-    )   
+    ) 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["habit", "log_date"],
+                name="unique_habit_log"
+            )
+        ]  
 class Profile(models.Model):
 
     user = models.OneToOneField(

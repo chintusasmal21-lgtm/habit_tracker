@@ -83,15 +83,22 @@ def dashboard(request):
         log_date=today,
         completed=True
     ).count()
+    
 
     # Habits completed this week
-    week_start = today - timedelta(days=6)
+    completed_week = 0
 
-    completed_week = HabitLog.objects.filter(
-        habit__user=request.user,
-        log_date__range=[week_start, today],
+    habits = Habit.objects.filter(user=request.user)
+
+    for habit in habits:
+       total_logs = HabitLog.objects.filter(habit=habit).count()
+       completed_logs = HabitLog.objects.filter(
+        habit=habit,
         completed=True
-    ).count()
+        ).count()
+       if total_logs > 0 and total_logs == completed_logs:
+        completed_week += 1
+
     active_days = HabitLog.objects.filter(
     habit__user=request.user,
     completed=True
@@ -123,6 +130,7 @@ def dashboard(request):
         "active_days": active_days,
 
         "current_streak": current_streak,
+       
 
     }
 
@@ -239,30 +247,34 @@ def add_habit(request):
             status="Pending"
         )
 
-        messages.success(request, "Habit successfully added!")
-
         current_date = start_date
 
         while current_date <= end_date:
 
             if habit.frequency == "Daily":
 
-                HabitLog.objects.create(
+                HabitLog.objects.get_or_create(
                     habit=habit,
                     log_date=current_date,
-                    completed=False,
-                    missed=False
+                    defaults={
+                        "completed": False,
+                        "missed": False
+                    }
                 )
+
                 current_date += timedelta(days=1)
 
             elif habit.frequency == "Weekdays":
 
                 if current_date.weekday() < 5:
-                    HabitLog.objects.create(
+
+                    HabitLog.objects.get_or_create(
                         habit=habit,
                         log_date=current_date,
-                        completed=False,
-                        missed=False
+                        defaults={
+                            "completed": False,
+                            "missed": False
+                        }
                     )
 
                 current_date += timedelta(days=1)
@@ -270,22 +282,27 @@ def add_habit(request):
             elif habit.frequency == "Weekends":
 
                 if current_date.weekday() >= 5:
-                    HabitLog.objects.create(
+
+                    HabitLog.objects.get_or_create(
                         habit=habit,
                         log_date=current_date,
-                        completed=False,
-                        missed=False
+                        defaults={
+                            "completed": False,
+                            "missed": False
+                        }
                     )
 
                 current_date += timedelta(days=1)
 
             elif habit.frequency == "Weekly":
 
-                HabitLog.objects.create(
+                HabitLog.objects.get_or_create(
                     habit=habit,
                     log_date=current_date,
-                    completed=False,
-                    missed=False
+                    defaults={
+                        "completed": False,
+                        "missed": False
+                    }
                 )
 
                 current_date += timedelta(days=7)
@@ -306,7 +323,7 @@ End Date   : {habit.end_date}
 
 Stay consistent and achieve your goals!
 """,
-                settings.EMAIL_HOST_USER  # or settings.DEFAULT_FROM_EMAIL
+                settings.EMAIL_HOST_USER,
                 [request.user.email],
                 fail_silently=False,
             )
@@ -314,7 +331,9 @@ Stay consistent and achieve your goals!
         except Exception as e:
             print("Email Error:", e)
 
-        return redirect("/dashboard/")
+        messages.success(request, "Habit added successfully!")
+
+        return redirect("dashboard")
 
     return render(request, "habits/add_habit.html")
 
@@ -457,6 +476,10 @@ def habit_edits(request, id):
         user=request.user
     )
 
+    old_frequency = habit.frequency
+    old_start_date = habit.start_date
+    old_end_date = habit.end_date
+
     if request.method == "POST":
 
         habit.description = request.POST.get("description")
@@ -464,39 +487,86 @@ def habit_edits(request, id):
         habit.frequency = request.POST.get("frequency")
         habit.reminder_time = request.POST.get("reminder_time")
 
-        new_end_date = datetime.strptime(
+        habit.end_date = datetime.strptime(
             request.POST.get("end_date"),
             "%Y-%m-%d"
         ).date()
 
-        habit.end_date = new_end_date
-
-        if new_end_date >= date.today():
+        if habit.end_date >= date.today():
             habit.status = "Pending"
         else:
             habit.status = "Completed"
 
         habit.save()
 
-        # Remove old logs
-        HabitLog.objects.filter(habit=habit).delete()
+        # Recreate logs only if schedule changed
+        if (
+            old_frequency != habit.frequency or
+            old_start_date != habit.start_date or
+            old_end_date != habit.end_date
+        ):
 
-        current_date = habit.start_date
+            HabitLog.objects.filter(habit=habit).delete()
 
-        while current_date <= habit.end_date:
+            current_date = habit.start_date
 
-            HabitLog.objects.create(
-                habit=habit,
-                log_date=current_date,
-                completed=False,
-                missed=False
-            )
+            while current_date <= habit.end_date:
 
-            if habit.frequency == "Daily":
-                current_date += timedelta(days=1)
+                if habit.frequency == "Daily":
 
-            elif habit.frequency == "Weekly":
-                current_date += timedelta(days=7)
+                    HabitLog.objects.get_or_create(
+                        habit=habit,
+                        log_date=current_date,
+                        defaults={
+                            "completed": False,
+                            "missed": False
+                        }
+                    )
+
+                    current_date += timedelta(days=1)
+
+                elif habit.frequency == "Weekdays":
+
+                    if current_date.weekday() < 5:
+
+                        HabitLog.objects.get_or_create(
+                            habit=habit,
+                            log_date=current_date,
+                            defaults={
+                                "completed": False,
+                                "missed": False
+                            }
+                        )
+
+                    current_date += timedelta(days=1)
+
+                elif habit.frequency == "Weekends":
+
+                    if current_date.weekday() >= 5:
+
+                        HabitLog.objects.get_or_create(
+                            habit=habit,
+                            log_date=current_date,
+                            defaults={
+                                "completed": False,
+                                "missed": False
+                            }
+                        )
+
+                    current_date += timedelta(days=1)
+
+                elif habit.frequency == "Weekly":
+
+                    HabitLog.objects.get_or_create(
+                        habit=habit,
+                        log_date=current_date,
+                        defaults={
+                            "completed": False,
+                            "missed": False
+                        }
+                    )
+
+                    current_date += timedelta(days=7)
 
         try:
             send_mail(
@@ -511,8 +581,8 @@ Reminder    : {habit.reminder_time}
 Start Date  : {habit.start_date}
 End Date    : {habit.end_date}
 Status      : {habit.status}
-                """,
-                settings.DEFAULT_FROM_EMAIL,
+""",
+                settings.EMAIL_HOST_USER,
                 [request.user.email],
                 fail_silently=False,
             )
@@ -1055,6 +1125,47 @@ def reset_password(request):
         request,
         'habits/reset_password.html'
     )
+
+
+@login_required
+def health(request):
+
+    bmi = None
+    status = None
+
+    if request.method == "POST":
+
+        height = float(request.POST["height"])
+
+        weight = float(request.POST["weight"])
+
+        bmi = weight / ((height/100)**2)
+
+        bmi = round(bmi,1)
+
+        if bmi < 18.5:
+
+            status = "🔵 Underweight"
+
+        elif bmi < 25:
+
+            status = "🟢 Normal Weight"
+
+        elif bmi < 30:
+
+            status = "🟠 Overweight"
+
+        else:
+
+            status = "🔴 Obese"
+
+    return render(request,"habits/health.html",{
+
+        "bmi":bmi,
+
+        "status":status
+
+    })
 
 
 # Create your views here.

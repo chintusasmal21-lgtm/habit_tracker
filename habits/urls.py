@@ -107,6 +107,10 @@ path(
     views.reset_password,
     name='reset_password'
 ),
+ path("health/", 
+      views.health,
+     name="health"
+),
 
 
 
