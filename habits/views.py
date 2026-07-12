@@ -324,7 +324,6 @@ Stay consistent and achieve your goals!
             logger.error(f"Email Error: {e}")
 
         messages.success(request, "Habit added successfully!")
-
         return redirect("dashboard")
 
     return render(request, "habits/add_habit.html")

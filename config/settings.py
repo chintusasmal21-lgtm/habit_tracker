@@ -145,7 +145,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_TIMEOUT = 10
 LOGIN_REDIRECT_URL = '/dashboard/'
 
-LOGIN_URL = '/admin-login/'
+LOGIN_URL = '/login/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
