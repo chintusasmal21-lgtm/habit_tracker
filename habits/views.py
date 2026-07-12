@@ -219,6 +219,8 @@ def register(request):
 
 from datetime import datetime, timedelta
 from .models import Habit, HabitLog
+logger = logging.getLogger(__name__)
+import logging
 
 @login_required
 def add_habit(request):
@@ -307,10 +309,11 @@ def add_habit(request):
 
                 current_date += timedelta(days=7)
 
+        # Send email (optional)
         try:
             send_mail(
-                "Habit Created Successfully",
-                f"""
+                subject="Habit Created Successfully",
+                message=f"""
 Your habit has been created successfully.
 
 Habit Name : {habit.name}
@@ -323,19 +326,19 @@ End Date   : {habit.end_date}
 
 Stay consistent and achieve your goals!
 """,
-                settings.EMAIL_HOST_USER,
-                [request.user.email],
-                fail_silently=False,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[request.user.email],
+                fail_silently=True,
             )
-
         except Exception as e:
-            print("Email Error:", e)
+            logger.error(f"Email Error: {e}")
 
         messages.success(request, "Habit added successfully!")
 
         return redirect("dashboard")
 
     return render(request, "habits/add_habit.html")
+
 
 def profile(request):
     return render(request, 'habits/profile.html')
