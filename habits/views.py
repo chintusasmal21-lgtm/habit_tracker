@@ -217,10 +217,11 @@ def register(request):
 
     return render(request, 'habits/register.html')
 
+import logging
 from datetime import datetime, timedelta
 from .models import Habit, HabitLog
 logger = logging.getLogger(__name__)
-import logging
+
 
 @login_required
 def add_habit(request):
