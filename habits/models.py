@@ -123,4 +123,70 @@ class PasswordOTP(models.Model):
 
     created_at = models.DateTimeField(
         auto_now_add=True
-    )    
+    )  
+
+from django.db import models
+
+class Food(models.Model):
+
+    FOOD_TYPES = [
+        ("Fruit", "Fruit"),
+        ("Vegetable", "Vegetable"),
+        ("Grain", "Grain"),
+        ("Protein", "Protein"),
+        ("Dairy", "Dairy"),
+        ("Nut", "Nut & Seeds"),
+        ("Beverage", "Beverage"),
+        ("Snack", "Snack"),
+        ("Fast Food", "Fast Food"),
+        ("Dessert", "Dessert"),
+    ]
+
+    MEAL_TYPES = [
+        ("Breakfast", "Breakfast"),
+        ("Lunch", "Lunch"),
+        ("Dinner", "Dinner"),
+        ("Snack", "Snack"),
+        ("Any", "Any Time"),
+    ]
+
+    DIET_TYPES = [
+        ("Veg", "Vegetarian"),
+        ("Non-Veg", "Non Vegetarian"),
+        ("Vegan", "Vegan"),
+    ]
+
+    GOALS = [
+        ("Weight Gain", "Weight Gain"),
+        ("Weight Loss", "Weight Loss"),
+        ("Maintain", "Maintain"),
+    ]
+    HEALTH_SCORES = [
+        (5, "⭐⭐⭐⭐⭐ Excellent"),
+        (4, "⭐⭐⭐⭐ Good"),
+        (3, "⭐⭐⭐ Average"),
+        (2, "⭐⭐ Poor"),
+        (1, "⭐ Avoid"),
+    ]
+
+    name = models.CharField(max_length=100)
+
+    food_type = models.CharField(max_length=30, choices=FOOD_TYPES)
+
+    meal_type = models.CharField(max_length=20, choices=MEAL_TYPES)
+
+    diet_type = models.CharField(max_length=20, choices=DIET_TYPES)
+
+    goal = models.CharField(max_length=20, choices=GOALS)
+
+    serving_size = models.CharField(max_length=50)
+
+    calories = models.IntegerField()
+    health_score = models.IntegerField(
+        choices=HEALTH_SCORES,
+        default=3
+    )
+
+
+    def __str__(self):
+        return self.name

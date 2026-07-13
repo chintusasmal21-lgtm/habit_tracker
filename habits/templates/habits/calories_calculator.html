@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Calories Calculator</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+</head>
+
+<body style="background:#f4f7fc;">
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    <h2 class="text-center">
+                        Daily Calories Calculator
+                    </h2>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Age
+                                </label>
+
+                                <input type="number"
+                                       name="age"
+                                       class="form-control"
+                                       required>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Gender
+                                </label>
+
+                                <select name="gender"
+                                        class="form-select"
+                                        required>
+
+                                    <option value="">Select</option>
+
+                                    <option value="Male">
+                                        Male
+                                    </option>
+
+                                    <option value="Female">
+                                        Female
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Weight (kg)
+                                </label>
+
+                                <input type="number"
+                                       step="0.1"
+                                       name="weight"
+                                       class="form-control"
+                                       required>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Height (cm)
+                                </label>
+
+                                <input type="number"
+                                       step="0.1"
+                                       name="height"
+                                       class="form-control"
+                                       required>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Activity Level
+                                </label>
+
+                                <select name="activity"
+                                        class="form-select"
+                                        required>
+
+                                    <option value="">Select</option>
+
+                                    <option value="1.2">
+                                        Sedentary
+                                    </option>
+
+                                    <option value="1.375">
+                                        Light Exercise
+                                    </option>
+
+                                    <option value="1.55">
+                                        Moderate Exercise
+                                    </option>
+
+                                    <option value="1.725">
+                                        Heavy Exercise
+                                    </option>
+
+                                    <option value="1.9">
+                                        Athlete
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                           
+
+                        </div>
+
+                        <div class="text-center">
+
+                            <button type="submit"
+                                    class="btn btn-success btn-lg">
+
+                                Calculate Calories
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                    {% if calories %}
+
+                    <hr>
+
+                   <div class="alert alert-success text-center">
+
+    <h4>
+        Your Current Daily Calories
+    </h4>
+
+    <h2>
+        {{ calories }} kcal/day
+    </h2>
+
+   
+      <hr>
+
+<h4 class="mt-4">Enter Your Target Calories</h4>
+
+<form action="{% url 'food_recommendations' %}" method="GET">
+
+    <input type="hidden"
+           name="target"
+           value="{{ calories }}">
+
+    <input type="hidden"
+           name="goal"
+           value="{{ goal }}">
+
+    <div class="mb-3">
+
+      <label class="form-label">
+    Target Calories
+</label>
+
+<input
+    type="number"
+    name="target_calories"
+    class="form-control"
+    placeholder="Enter your target calories"
+    required>
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+        Find Food
+    </button>
+
+</form>
+
+</div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

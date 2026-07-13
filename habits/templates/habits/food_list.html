@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Food Management</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+</head>
+
+<body style="background:#f5f5f5;">
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>Food Management</h2>
+
+        <div>
+
+            <a href="{% url 'add_food' %}"
+               class="btn btn-success">
+                Add Food
+            </a>
+
+            <a href="{% url 'admin_dashboard' %}"
+               class="btn btn-secondary">
+                Back
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Food Type</th>
+
+                        <th>Meal</th>
+
+                        <th>Diet</th>
+
+                        <th>Goal</th>
+
+                        <th>Serving</th>
+
+                        <th>Calories</th>
+                        <th>Health Score</th>
+
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for food in foods %}
+
+                    <tr>
+
+                        <td>{{ food.name }}</td>
+
+                        <td>{{ food.food_type }}</td>
+
+                        <td>{{ food.meal_type }}</td>
+
+                        <td>{{ food.diet_type }}</td>
+
+                        <td>{{ food.goal }}</td>
+
+                        <td>{{ food.serving_size }}</td>
+
+                        <td>{{ food.calories }}</td>
+                        <td>{{ food.get_health_score_display }}</td>
+
+                       
+
+                        <td>
+
+                            <a href="{% url 'edit_food' food.id %}"
+                               class="btn btn-primary btn-sm">
+                                Edit
+                            </a>
+
+                            <a href="{% url 'delete_food' food.id %}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Delete this food?')">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="13" class="text-center">
+                            No food items found.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

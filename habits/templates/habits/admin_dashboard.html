@@ -22,6 +22,14 @@
     <!-- Header -->
 
     <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="m-0">
+            Admin Dashboard
+        </h1>
+        <a href="{% url 'food_list' %}"
+            class="btn btn-success me-2">
+            Food Management
+        </a>
+
         <a href="/logout/"
            class="btn btn-danger position-absolute top-0 end-0 m-4">
            Logout
@@ -29,9 +37,7 @@
 
 
 
-        <h1 class="m-0">
-            Admin Dashboard
-        </h1>
+        
         
         
 
@@ -175,11 +181,8 @@
 
                     <td>
 
-                        <a href="/delete-habit/{{ habit.id }}/"
-                           class="btn btn-danger btn-sm">
-
-                            Delete
-
+                        <a href="{% url 'admin_delete_habit' habit.id %}">
+                             Delete
                         </a>
 
                     </td>

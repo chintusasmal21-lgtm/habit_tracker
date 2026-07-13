@@ -112,9 +112,55 @@ path(
      name="health"
 ),
 path("bmi/", views.bmi_calculator, name="bmi_calculator"),
-path("calories/", views.calorie_calculator, name="calorie_calculator"),
+path(
+    "calories_calculator/",
+    views.calorie_calculator,
+    name="calorie_calculator"
+),
+path(
+    'admin-delete-habit/<int:id>/',
+    views.admin_delete_habit,
+    name='admin_delete_habit'
+),
+path(
+    "food-list/",
+    views.food_list,
+    name="food_list"
+),
+
+path(
+    "add-food/",
+    views.add_food,
+    name="add_food"
+),
+
+path(
+    "edit-food/<int:id>/",
+    views.edit_food,
+    name="edit_food"
+),
+
+path(
+    "delete-food/<int:id>/",
+    views.delete_food,
+    name="delete_food"
+),
+path(
+    "food-recommendations/",
+    views.food_recommendations,
+    name="food_recommendations"
+),
+path(
+    "medicine-search/",
+     views.medicine_search,
+     name="medicine_search"
+),
 
 
 
 
 ]
+
+
+
+

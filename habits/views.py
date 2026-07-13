@@ -419,7 +419,14 @@ def delete_user(request, id):
     )
 
     return redirect('/admin-dashboard/')
+@login_required(login_url='/admin-login/')
+def admin_delete_habit(request, id):
+    habit = get_object_or_404(Habit, id=id)
+    habit.delete()
 
+    messages.success(request, "Habit deleted successfully.")
+
+    return redirect('admin_dashboard')
 
 
 
@@ -1201,6 +1208,186 @@ def bmi_calculator(request):
     return render(request, "habits/bmi.html")
 
 
+from django.shortcuts import render
+
 def calorie_calculator(request):
-    return render(request, "habits/calories.html")
+
+    calories = None
+    goal = None
+
+    if request.method == "POST":
+
+        age = int(request.POST.get("age"))
+        gender = request.POST.get("gender")
+        weight = float(request.POST.get("weight"))
+        height = float(request.POST.get("height"))
+        activity = float(request.POST.get("activity"))
+        goal = request.POST.get("goal")
+
+        # Calculate BMR (Mifflin-St Jeor Equation)
+        if gender == "Male":
+            bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
+        else:
+            bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
+
+        # Daily calories
+        calories = bmr * activity
+
+        # Adjust based on goal
+        if goal == "Weight Loss":
+            calories -= 500
+        elif goal == "Weight Gain":
+            calories += 500
+
+        calories = round(calories)
+
+    return render(
+        request,
+        "habits/calories_calculator.html",
+        {
+            "calories": calories,
+            "goal": goal,
+        }
+    )
+
+from .models import Food
+@login_required(login_url='/admin-login/')
+def food_list(request):
+
+    foods = Food.objects.all().order_by("name")
+
+    return render(
+        request,
+        "habits/food_list.html",
+        {
+            "foods": foods
+        }
+    )
+@login_required(login_url='/admin-login/')
+def add_food(request):
+
+    if request.method == "POST":
+
+        Food.objects.create(
+
+            name=request.POST.get("name"),
+
+            food_type=request.POST.get("food_type"),
+
+            meal_type=request.POST.get("meal_type"),
+
+            diet_type=request.POST.get("diet_type"),
+
+            goal=request.POST.get("goal"),
+
+            serving_size=request.POST.get("serving_size"),
+
+            calories=request.POST.get("calories"),
+            health_score=request.POST.get("health_score"),
+           
+
+            
+        )
+
+        return redirect("food_list")
+
+    return render(request, "habits/add_food.html")
+@login_required(login_url='/admin-login/')
+def edit_food(request, id):
+
+    food = get_object_or_404(
+        Food,
+        id=id
+    )
+
+    if request.method == "POST":
+
+        food.name = request.POST.get("name")
+        food.food_type = request.POST.get("food_type")
+        food.meal_type = request.POST.get("meal_type")
+        food.diet_type = request.POST.get("diet_type")
+        food.goal = request.POST.get("goal")
+        food.serving_size = request.POST.get("serving_size")
+        food.calories = request.POST.get("calories")
+        food.health_score = request.POST.get("health_score")
+       
+        
+
+        food.save()
+
+        return redirect("food_list")
+
+    return render(
+        request,
+        "habits/edit_food.html",
+        {
+            "food": food
+        }
+    )
+@login_required(login_url='/admin-login/')
+def delete_food(request, id):
+
+    food = get_object_or_404(
+        Food,
+        id=id
+    )
+
+    food.delete()
+
+    return redirect("food_list")
+
+
+@login_required
+def food_recommendations(request):
+
+    foods = []
+
+    current = None
+    target_calories = None
+    difference = None
+    total_calories = 0
+
+    if request.GET.get("target"):
+
+        current = int(request.GET.get("target"))
+
+        target_calories = int(request.GET.get("target_calories"))
+
+        difference = abs(current - target_calories)
+
+        # Healthy foods first, then higher calories
+        all_foods = Food.objects.order_by("-health_score", "-calories")
+
+        for food in all_foods:
+
+            if total_calories + food.calories <= difference:
+
+                foods.append(food)
+
+                total_calories += food.calories
+
+    return render(
+        request,
+        "habits/food_recommendations.html",
+        {
+            "foods": foods,
+            "current": current,
+            "target_calories": target_calories,
+            "difference": difference,
+            "total_calories": total_calories,
+        }
+    )
+@login_required
+def medicine_search(request):
+
+    medicines = []
+
+    return render(
+        request,
+        "habits/medicine_search.html",
+        {
+            "medicines": medicines,
+        }
+    )
+
 # Create your views here.
