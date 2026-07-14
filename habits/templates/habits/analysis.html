@@ -9,128 +9,227 @@
       rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
-.card canvas{
+
+body{
+    background:linear-gradient(135deg,#d4fc79,#96e6a1);
+    font-family:'Segoe UI',sans-serif;
+    min-height:100vh;
+}
+
+.container{
+    margin-top:40px;
+}
+
+h1{
+    text-align:center;
+    font-size:45px;
+    font-weight:bold;
+    color:#1f2937;
+    margin-bottom:35px;
+}
+
+/* Cards */
+
+.card{
+    border:none;
+    border-radius:20px;
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+}
+
+/* Statistic Cards */
+
+.total-card{
+    background:#dbeafe;
+}
+
+.completed-card{
+    background:#dcfce7;
+}
+
+.pending-card{
+    background:#fef9c3;
+}
+
+.missed-card{
+    background:#fee2e2;
+}
+
+.card h5{
+    font-weight:bold;
+    color:#555;
+}
+
+.card h2{
+    font-size:40px;
+    font-weight:bold;
+}
+
+/* Chart Cards */
+
+.chart-card{
+    background:#ffffff;
+    margin-bottom:25px;
+}
+
+.chart-card h4{
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+/* Progress */
+
+.progress{
+    height:30px;
+    border-radius:20px;
+}
+
+.progress-bar{
+    font-size:18px;
+    font-weight:bold;
+}
+
+/* Charts */
+
+canvas{
     max-height:300px;
 }
+
+/* Buttons */
+
 .button-group{
 
     display:flex;
-
     justify-content:center;
-
-    align-items:center;
-
-    gap:20px;
-
     margin:40px 0;
-
-    flex-wrap:wrap;
 
 }
 
 .button-group .btn{
 
     min-width:180px;
-
+    padding:12px 30px;
     border-radius:12px;
-
+    font-size:18px;
     font-weight:bold;
 
-    padding:12px 25px;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+h1{
+    font-size:32px;
+}
+
+.card{
+    margin-bottom:20px;
+}
+
+.button-group .btn{
+    width:100%;
+}
 
 }
 
-@media (max-width:768px){
-
-    .button-group{
-
-        flex-direction:column;
-
-    }
-
-    .button-group .btn{
-
-        width:100%;
-
-        max-width:300px;
-
-    }
-
-}
 </style>
 
 </head>
 
 <body>
 
-<div class="container mt-5">
+<div class="container">
 
-<h1 class="text-center mb-4">
-Overall Analytics Dashboard
+<h1>
+📊 Overall Analytics Dashboard
 </h1>
 
-<div class="row">
+<div class="row g-4">
 
 <div class="col-md-3">
-<div class="card p-3 text-center shadow">
+
+<div class="card total-card text-center p-3">
 
 <h5>Total Habits</h5>
 
 <h2>{{ total }}</h2>
 
 </div>
+
 </div>
 
 <div class="col-md-3">
-<div class="card p-3 text-center shadow">
+
+<div class="card completed-card text-center p-3">
 
 <h5>Completed</h5>
 
 <h2 class="text-success">
+
 {{ completed }}
+
 </h2>
 
 </div>
+
 </div>
 
 <div class="col-md-3">
-<div class="card p-3 text-center shadow">
+
+<div class="card pending-card text-center p-3">
 
 <h5>Pending</h5>
 
 <h2 class="text-warning">
+
 {{ pending }}
+
 </h2>
 
 </div>
+
 </div>
 
 <div class="col-md-3">
-<div class="card p-3 text-center shadow">
+
+<div class="card missed-card text-center p-3">
 
 <h5>Missed</h5>
 
 <h2 class="text-danger">
+
 {{ missed }}
+
 </h2>
 
 </div>
+
 </div>
- 
 
 </div>
 
 <br>
 
-<div class="card p-4 shadow">
+<div class="card chart-card p-4">
 
-<h3>Overall Success Rate</h3>
+<h3>
 
-<div class="progress" style="height:30px">
+Overall Success Rate
+
+</h3>
+
+<div class="progress">
 
 <div class="progress-bar bg-success"
-     style="width: {{ success_rate }}%">
+
+style="width:{{ success_rate }}%;">
 
 {{ success_rate }}%
 
@@ -146,13 +245,15 @@ Overall Analytics Dashboard
 
 <div class="col-md-6">
 
-<div class="card p-3 shadow">
+<div class="card chart-card p-4">
 
 <h4 class="text-center">
-Habit Status
+
+🥧 Habit Status
+
 </h4>
 
-<canvas id="pieChart" width="230"></canvas>
+<canvas id="pieChart"></canvas>
 
 </div>
 
@@ -160,10 +261,12 @@ Habit Status
 
 <div class="col-md-6">
 
-<div class="card p-3 shadow">
+<div class="card chart-card p-4">
 
 <h4 class="text-center">
-Habit Comparison
+
+📊 Habit Comparison
+
 </h4>
 
 <canvas id="barChart"></canvas>
@@ -174,10 +277,12 @@ Habit Comparison
 
 <div class="col-md-6">
 
-<div class="card p-3 shadow">
+<div class="card chart-card p-4">
 
 <h4 class="text-center">
-Date Wise Progress
+
+📅 Date Wise Progress
+
 </h4>
 
 <canvas id="dateChart"></canvas>
@@ -188,10 +293,12 @@ Date Wise Progress
 
 <div class="col-md-6">
 
-<div class="card p-3 shadow">
+<div class="card chart-card p-4">
 
 <h4 class="text-center">
-Weekly Progress
+
+📈 Weekly Progress
+
 </h4>
 
 <canvas id="weeklyChart"></canvas>
@@ -202,34 +309,49 @@ Weekly Progress
 
 </div>
 
+<div class="button-group">
+
+<a href="/dashboard/"
+class="btn btn-primary">
+
+⬅ Back
+
+</a>
+
 </div>
 
-
+</div>
 
 <script>
 
-// PIE CHART
+new Chart(document.getElementById('pieChart'),{
 
-new Chart(document.getElementById('pieChart'), {
+type:'pie',
 
-type: 'pie',
+data:{
 
-data: {
+labels:['Completed','Pending','Missed'],
 
-labels: ['Completed','Pending','Missed'],
+datasets:[{
 
-datasets: [{
+data:[
 
-data: [
 {{ completed }},
+
 {{ pending }},
+
 {{ missed }}
+
 ],
 
-backgroundColor: [
-'#28a745',
-'#ffc107',
-'#dc3545'
+backgroundColor:[
+
+'#22c55e',
+
+'#facc15',
+
+'#ef4444'
+
 ]
 
 }]
@@ -238,31 +360,36 @@ backgroundColor: [
 
 });
 
+new Chart(document.getElementById('barChart'),{
 
-// BAR CHART
+type:'bar',
 
-new Chart(document.getElementById('barChart'), {
+data:{
 
-type: 'bar',
+labels:['Completed','Pending','Missed'],
 
-data: {
+datasets:[{
 
-labels: ['Completed','Pending','Missed'],
+label:'Habits',
 
-datasets: [{
+data:[
 
-label: 'Habits',
-
-data: [
 {{ completed }},
+
 {{ pending }},
+
 {{ missed }}
+
 ],
 
-backgroundColor: [
-'#28a745',
-'#ffc107',
-'#dc3545'
+backgroundColor:[
+
+'#22c55e',
+
+'#facc15',
+
+'#ef4444'
+
 ]
 
 }]
@@ -270,52 +397,59 @@ backgroundColor: [
 }
 
 });
-new Chart(document.getElementById('dateChart'), {
 
-type: 'line',
+new Chart(document.getElementById('dateChart'),{
 
-data: {
+type:'line',
 
-labels: {{ date_labels|safe }},
+data:{
 
-datasets: [{
+labels:{{ date_labels|safe }},
 
-label: 'Completed Habits',
+datasets:[{
 
-data: {{ date_counts|safe }},
+label:'Completed Habits',
 
-borderColor: '#0d6efd',
+data:{{ date_counts|safe }},
 
-backgroundColor: 'rgba(13,110,253,0.2)',
+borderColor:'#2563eb',
 
-fill: true,
+backgroundColor:'rgba(37,99,235,.2)',
 
-tension: 0.4
+fill:true,
+
+tension:.4
 
 }]
 
 }
 
 });
-new Chart(document.getElementById('weeklyChart'), {
 
-type: 'bar',
+new Chart(document.getElementById('weeklyChart'),{
 
-data: {
+type:'bar',
 
-labels: ['Week 1','Week 2','Week 3','Week 4'],
+data:{
 
-datasets: [{
+labels:['Week 1','Week 2','Week 3','Week 4'],
 
-label: 'Completed Habits',
+datasets:[{
 
-data: {{ weekly_counts|safe }},
+label:'Completed',
 
-backgroundColor: [
-'#0d6efd',
-'#198754',
-'#ffc107',
-'#dc3545'
+data:{{ weekly_counts|safe }},
+
+backgroundColor:[
+
+'#3b82f6',
+
+'#22c55e',
+
+'#f59e0b',
+
+'#ef4444'
+
 ]
 
 }]
@@ -325,15 +459,6 @@ backgroundColor: [
 });
 
 </script>
-
-<div class="button-group">
-
-    <a href="/analytics/"
-       class="btn btn-primary btn-lg">
-        ⬅ Back
-    </a>
-
-</div>
 
 </body>
 
