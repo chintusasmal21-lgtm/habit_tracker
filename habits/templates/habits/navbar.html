@@ -49,6 +49,18 @@
             background:#001f8f;
             color:white;
         }
+        .navbar-toggler{
+    border:2px solid white;
+    padding:6px 10px;
+}
+
+.navbar-toggler:focus{
+    box-shadow:none;
+}
+
+.navbar-toggler-icon{
+    filter:brightness(0) invert(1);
+}
 
     </style>
 
@@ -64,6 +76,7 @@
             Habit Tracker
         </a>
 
+        <!-- Mobile Toggle Button -->
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
@@ -86,8 +99,7 @@
                     <a class="nav-link dropdown-toggle"
                        href="#"
                        role="button"
-                       data-bs-toggle="dropdown"
-                       aria-expanded="false">
+                       data-bs-toggle="dropdown">
 
                         Login
 
@@ -96,15 +108,13 @@
                     <ul class="dropdown-menu dropdown-menu-end">
 
                         <li>
-                            <a class="dropdown-item"
-                               href="/admin-login/">
+                            <a class="dropdown-item" href="/admin-login/">
                                 👨‍💼 Admin Login
                             </a>
                         </li>
 
                         <li>
-                            <a class="dropdown-item"
-                               href="/login/">
+                            <a class="dropdown-item" href="/login/">
                                 👤 User Login
                             </a>
                         </li>
