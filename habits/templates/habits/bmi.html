@@ -116,6 +116,27 @@
             margin-bottom:20px;
 
         }
+        .btn-secondary{
+
+    border-radius:15px;
+
+    padding:12px 35px;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+}
+
+.btn-secondary:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
+
+}
 
     </style>
 
@@ -296,8 +317,16 @@ Health Tips
 </ul>
 
 {% endif %}
+<div class="text-center mt-4">
+
+    <a href="{% url 'health' %}" class="btn btn-secondary btn-lg px-5">
+        ⬅ Back
+    </a>
 
 </div>
+
+</div>
+
 
 </body>
 </html>

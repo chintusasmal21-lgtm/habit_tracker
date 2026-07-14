@@ -67,14 +67,58 @@
 
         }
 
-        .btn{
-
-            width:100%;
-            height:55px;
-            font-size:20px;
-            border-radius:15px;
-
+       .tool-btn{
+        width:100%;
+        height:55px;
+        font-size:20px;
+        border-radius:15px;
         }
+       .back-btn{
+           padding:8px 24px;
+           font-size:16px;
+           border-radius:10px;
+           font-weight:600;
+           min-width:140px;
+        }
+        @media(max-width:768px){
+
+    .heading{
+        font-size:34px;
+    }
+
+    .subheading{
+        font-size:17px;
+        margin-bottom:30px;
+    }
+
+    .tool-card{
+        padding:25px;
+    }
+
+    .title{
+        font-size:24px;
+    }
+
+    .desc{
+        font-size:16px;
+    }
+
+    .icon{
+        font-size:55px;
+    }
+
+    .tool-btn{
+        height:50px;
+        font-size:18px;
+    }
+
+    .back-btn{
+        min-width:120px;
+        font-size:15px;
+    }
+}
+
+      
 
     </style>
 
@@ -120,10 +164,8 @@ Calculate your Body Mass Index and get personalized health recommendations.
 
 </div>
 
-<a href="{% url 'bmi_calculator' %}" class="btn btn-primary">
-
-Open BMI Calculator
-
+<a href="{% url 'bmi_calculator' %}" class="btn btn-primary tool-btn">
+    Open BMI Calculator
 </a>
 
 </div>
@@ -152,10 +194,8 @@ Calculate your daily calorie requirement based on age, weight, height and activi
 
 </div>
 
-<a href="{% url 'calorie_calculator' %}" class="btn btn-success">
-
-Open Calories Calculator
-
+<a href="{% url 'calorie_calculator' %}" class="btn btn-success tool-btn">
+    Open Calories Calculator
 </a>
 
 </div>
@@ -194,6 +234,19 @@ Open Medicine Information
 </div>
 
 </div>
+
+
+
+
+
+
+</div>
+<div class="text-center mt-5 mb-4">
+
+    <a href="{% url 'dashboard' %}"
+       class="btn btn-secondary back-btn">
+        ⬅ Back
+    </a>
 
 </div>
 

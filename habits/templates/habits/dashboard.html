@@ -343,25 +343,7 @@ li{
         👋 Welcome, {{ request.user.username }}
       </h4>
     </div>
-    <div>
-    <div class="d-flex justify-content-between">
-
-        <h4>Today's Progress</h4>
-
-        <strong>{{ completed_today }}/{{ total_habits }}</strong>
-
-    </div>
-    <div class="progress mt-3" style="height:18px;">
-
-        <div class="progress-bar bg-success"
-             style="width:{{ completion_percentage }}%">
-
-            {{ completion_percentage }}%
-
-        </div>
-
-    </div>
-    </div>  
+     
     <div class="row mt-4">
 
         <div class="col-md-6">

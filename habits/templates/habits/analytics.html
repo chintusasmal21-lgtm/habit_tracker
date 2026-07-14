@@ -1,43 +1,205 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>analytics</title>
+
+    <title>Habit Analytics</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
           rel="stylesheet">
+
+    <style>
+
+        body{
+
+            background:linear-gradient(135deg,#667eea,#764ba2);
+            min-height:100vh;
+            font-family:'Segoe UI',sans-serif;
+
+        }
+
+        .page-title{
+
+            color:white;
+            text-align:center;
+            font-size:42px;
+            font-weight:bold;
+            margin:40px 0;
+
+        }
+
+       .habit-card{
+
+             background:#eaf4ff;
+
+             border:none;
+
+             border-radius:20px;
+
+             padding:25px;
+
+             box-shadow:0 15px 30px rgba(0,0,0,.15);
+
+            transition:.3s;
+
+        }
+
+        .habit-card:hover{
+
+            transform:translateY(-5px);
+
+            box-shadow:0 20px 35px rgba(0,0,0,.2);
+
+        }
+
+        .habit-title{
+
+            color:#1d3557;
+
+            font-weight:bold;
+
+        }
+
+        .habit-desc{
+
+            color:#666;
+
+            margin:15px 0;
+
+        }
+
+        .btn-analysis{
+
+            background:linear-gradient(135deg,#4facfe,#00c6fb);
+
+            color:white;
+
+            border:none;
+
+            border-radius:12px;
+
+            padding:10px 25px;
+
+            font-weight:bold;
+
+        }
+
+        .btn-analysis:hover{
+
+            color:white;
+
+            transform:scale(1.03);
+
+        }
+
+        .btn-back{
+
+            background:#343a40;
+
+            color:white;
+
+            border-radius:12px;
+
+            padding:12px 30px;
+
+            font-weight:bold;
+
+            border:none;
+
+        }
+
+        .btn-back:hover{
+
+            background:#212529;
+
+            color:white;
+
+        }
+
+        @media(max-width:768px){
+
+            .page-title{
+
+                font-size:30px;
+
+            }
+
+            .habit-card{
+
+                padding:20px;
+
+            }
+
+            .btn-analysis,
+            .btn-back{
+
+                width:100%;
+
+                margin-top:10px;
+
+            }
+
+        }
+
+    </style>
+
 </head>
+
 <body>
 
-<div class="container mt-5">
+<div class="container py-4">
 
-    <h1>My Habits</h1>
+    <h1 class="page-title">
+        📊 My Habit Analytics
+    </h1>
 
     {% for habit in habits %}
 
-    <div class="card p-4 mb-4 shadow">
+    <div class="habit-card mb-4">
 
-        <h2>{{ habit.name }}</h2>
+        <h3 class="habit-title">
+            {{ habit.name }}
+        </h3>
 
-        <p>{{ habit.description }}</p>
+        <p class="habit-desc">
+            {{ habit.description }}
+        </p>
 
         <a href="{% url 'habit_analytics' habit.id %}"
-           class="btn btn-primary "
-           style="width:180px;">
+           class="btn btn-analysis">
 
-           Detail Analysis
+            📈 View Detailed Analysis
+
         </a>
 
     </div>
 
+    {% empty %}
+
+    <div class="alert alert-light text-center">
+
+        No habits found.
+
+    </div>
+
     {% endfor %}
-      <a href="{% url 'dashboard' %}"
-         class="btn btn-secondary">
 
-          Back
+    <div class="text-center mt-4">
 
-       </a>
+        <a href="{% url 'dashboard' %}"
+           class="btn btn-back">
+
+            ⬅ Back to Dashboard
+
+        </a>
+
+    </div>
 
 </div>
 
 </body>
+
 </html>
