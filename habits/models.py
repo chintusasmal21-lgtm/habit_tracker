@@ -190,3 +190,20 @@ class Food(models.Model):
 
     def __str__(self):
         return self.name
+
+from django.db import models
+
+class Medicine(models.Model):
+    problem = models.CharField(max_length=200)
+    medicine_name = models.TextField()
+    dosage = models.CharField(max_length=200)
+    precautions = models.TextField()
+    symptoms = models.TextField()
+    home_remedy = models.TextField()
+    foods_to_eat = models.TextField()
+    foods_to_avoid = models.TextField()
+    consult_doctor = models.TextField()
+
+    def __str__(self):
+        return self.problem    
+

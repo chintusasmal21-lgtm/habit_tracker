@@ -1344,27 +1344,23 @@ def food_recommendations(request):
 
     current = None
     target_calories = None
-    difference = None
     total_calories = 0
 
-    if request.GET.get("target"):
+    if request.GET.get("target_calories"):
 
         current = int(request.GET.get("target"))
 
         target_calories = int(request.GET.get("target_calories"))
 
-        difference = abs(current - target_calories)
-
-        # Healthy foods first, then higher calories
         all_foods = Food.objects.order_by("-health_score", "-calories")
 
         for food in all_foods:
 
-            if total_calories + food.calories <= difference:
+            if total_calories >= target_calories:
+                break
 
-                foods.append(food)
-
-                total_calories += food.calories
+            foods.append(food)
+            total_calories += food.calories
 
     return render(
         request,
@@ -1373,21 +1369,33 @@ def food_recommendations(request):
             "foods": foods,
             "current": current,
             "target_calories": target_calories,
-            "difference": difference,
             "total_calories": total_calories,
         }
     )
-@login_required
+from django.db.models import Q
+from .models import Medicine
+
+
 def medicine_search(request):
 
     medicines = []
+
+    query = request.GET.get("q")
+
+    if query:
+
+        medicines = Medicine.objects.filter(
+            Q(problem__icontains=query) |
+            Q(medicine_name__icontains=query) |
+            Q(symptoms__icontains=query)
+        )
 
     return render(
         request,
         "habits/medicine_search.html",
         {
             "medicines": medicines,
-        }
+            "query": query,
+        },
     )
-
 # Create your views here.

@@ -152,8 +152,8 @@ path(
 ),
 path(
     "medicine-search/",
-     views.medicine_search,
-     name="medicine_search"
+    views.medicine_search,
+    name="medicine_search",
 ),
 
 

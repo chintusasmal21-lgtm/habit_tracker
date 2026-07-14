@@ -85,6 +85,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 import dj_database_url
 
 
+
+
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 if DATABASE_URL:
