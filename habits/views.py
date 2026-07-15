@@ -169,17 +169,15 @@ def user_login(request):
 def register(request):
     if request.method == "POST":
 
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        gender = request.POST.get('gender')
-        password = request.POST.get('password')
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        phone = request.POST.get("phone")
+        gender = request.POST.get("gender")
+        password = request.POST.get("password")
 
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists.")
-            return render(request, 'habits/register.html')
-
-     
+            return render(request, "habits/register.html")
 
         Register.objects.create(
             username=username,
@@ -195,12 +193,40 @@ def register(request):
             password=password
         )
 
-        # Email temporarily disabled
+        # Send welcome email
+        try:
+            send_mail(
+                subject="🎉 Welcome to Habit Tracker",
+                message=f"""
+Hello {username},
+
+Welcome to Habit Tracker!
+
+Your account has been created successfully.
+
+Account Details:
+-------------------------
+Username : {username}
+Email    : {email}
+
+You can now log in and start building healthy habits.
+
+Thank you for joining us!
+
+Habit Tracker Team
+                """,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[email],
+                fail_silently=False,
+            )
+
+        except Exception as e:
+            print("Email Error:", e)
 
         messages.success(request, "Registration successful.")
-        return redirect('/login/')
+        return redirect("/login/")
 
-    return render(request, 'habits/register.html')
+    return render(request, "habits/register.html")
 
 import logging
 from datetime import datetime, timedelta
@@ -1473,7 +1499,7 @@ Habit Tracker Team
 """,
                             from_email=settings.EMAIL_HOST_USER,
                             recipient_list=[request.user.email],
-                            fail_silently=True,
+                            fail_silently=False,
                         )
 
                     except Exception as e:
