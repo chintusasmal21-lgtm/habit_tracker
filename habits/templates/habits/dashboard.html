@@ -310,9 +310,8 @@ li{
 
         <a href="/analysis/" onclick="toggleSidebar()">📈 Analytics</a>
 
-        <a href="/habit-list/" onclick="toggleSidebar()">📋 My Habits</a>
-
         <a href="/add_habit/" onclick="toggleSidebar()">➕ Add Habit</a>
+        <a href="{% url 'reminder' %}" onclick="toggleSidebar()">⏰ Reminder</a>
 
         <a href="/profile/" onclick="toggleSidebar()">👤 Profile</a>
 
@@ -490,6 +489,23 @@ li{
         </a>
 
     </div>
+    
+    <div class="col-md-6">
+
+        <a href="/habit-list/" class="text-decoration-none">
+
+            <div class="action-box bg-info text-white">
+
+                <div>
+                    <div style="font-size:45px;">📋</div>
+                    <div>Habit list</div>
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
 
     <!-- Analytics -->
 
@@ -531,22 +547,6 @@ li{
 
     <!-- AI Robot -->
 
-    <div class="col-md-6">
-
-        <a href="/ai/" class="text-decoration-none">
-
-            <div class="action-box bg-info text-white">
-
-                <div>
-                    <div style="font-size:45px;">🤖</div>
-                    <div>AI Coach</div>
-                </div>
-
-            </div>
-
-        </a>
-
-    </div>
 
   </div>
  

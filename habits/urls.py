@@ -160,6 +160,7 @@ path(
     views.profile,
     name="profile"
 ),
+path("reminder/", views.reminder, name="reminder"),
 
 
 
