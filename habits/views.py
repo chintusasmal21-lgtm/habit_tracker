@@ -413,15 +413,16 @@ def logout_view(request):
     logout(request)
 
     return redirect('/')
-
-@login_required
+@login_required(login_url='/admin-login/')
 def delete_user(request, id):
-    habit = Habit.objects.get(
-        id=id,
-        user=request.user
-    )
 
-    return redirect('/admin-dashboard/')
+    user = get_object_or_404(Register, id=id)
+
+    user.delete()
+
+    messages.success(request, "User deleted successfully.")
+
+    return redirect("admin_dashboard")
 @login_required(login_url='/admin-login/')
 def admin_delete_habit(request, id):
     habit = get_object_or_404(Habit, id=id)
