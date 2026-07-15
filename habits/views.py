@@ -179,13 +179,7 @@ def register(request):
             messages.error(request, "Username already exists.")
             return render(request, 'habits/register.html')
 
-        if User.objects.filter(email=email).exists():
-            messages.error(request, "Email already exists.")
-            return render(request, 'habits/register.html')
-
-        if Profile.objects.filter(phone=phone).exists():
-            messages.error(request, "Phone number already exists.")
-            return render(request, 'habits/register.html')
+     
 
         Register.objects.create(
             username=username,
