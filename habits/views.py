@@ -821,7 +821,7 @@ def analysis(request):
 @login_required
 def profile(request):
 
-    profile = Profile.objects.get(
+    profile, created = Profile.objects.get_or_create(
         user=request.user
     )
 
@@ -829,19 +829,19 @@ def profile(request):
         user=request.user
     ).count()
 
-    completed_habits = Habit.objects.filter(
-        user=request.user,
-        status='Completed'
+    completed_habits = HabitLog.objects.filter(
+        habit__user=request.user,
+        completed=True
     ).count()
 
     return render(
         request,
-        'habits/profile.html',
+        "habits/profile.html",
         {
-            'profile': profile,
-            'total_habits': total_habits,
-            'completed_habits': completed_habits
-        }
+            "profile": profile,
+            "total_habits": total_habits,
+            "completed_habits": completed_habits,
+        },
     )
 @login_required
 def achievements(request):

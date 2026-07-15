@@ -155,6 +155,11 @@ path(
     views.medicine_search,
     name="medicine_search",
 ),
+path(
+    "profile/",
+    views.profile,
+    name="profile"
+),
 
 
 
