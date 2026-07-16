@@ -1602,6 +1602,13 @@ def food_summary(request):
             dinner.append(food)
 
     remaining = target - total
+    # Suggested foods within remaining calories
+    suggested_foods = []
+
+    if remaining > 0:
+       suggested_foods = Food.objects.filter(
+          calories__lte=remaining
+        ).order_by("-health_score", "calories")[:5]
 
     context = {
         "breakfast": breakfast,
@@ -1611,6 +1618,7 @@ def food_summary(request):
         "target": target,
         "total": total,
         "remaining": remaining,
+        "suggested_foods": suggested_foods,
     }
 
     return render(

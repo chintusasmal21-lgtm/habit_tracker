@@ -356,6 +356,52 @@ You reached your target calories.
 {% endif %}
 
 </div>
+{% if remaining > 0 %}
+
+<div class="summary-card">
+
+    <h4 class="text-success">
+        🥗 Suggested Foods
+    </h4>
+
+    <p class="text-muted">
+        These foods fit within your remaining {{ remaining }} kcal.
+    </p>
+
+    {% for food in suggested_foods %}
+
+    <div class="food-row">
+
+        <div>
+            <strong>{{ food.name }}</strong><br>
+
+            <small>
+                {{ food.serving_size }}
+            </small>
+
+        </div>
+
+        <span class="badge bg-success">
+
+            {{ food.calories }} kcal
+
+        </span>
+
+    </div>
+
+    {% empty %}
+
+    <p class="text-muted">
+
+        No suitable foods found.
+
+    </p>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
 
 
 <div class="text-center mt-4">
