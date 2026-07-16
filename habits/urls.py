@@ -161,7 +161,16 @@ path(
     name="profile"
 ),
 path("reminder/", views.reminder, name="reminder"),
-
+path(
+    "food-selection/",
+    views.food_selection,
+    name="food_selection",
+),
+path(
+    "food-summary/",
+    views.food_summary,
+    name="food_summary",
+),
 
 
 

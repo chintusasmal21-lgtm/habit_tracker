@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Meal Planner</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    background:#f4f6fb;
+}
+
+.card{
+    border-radius:15px;
+    margin-bottom:25px;
+}
+
+.section-title{
+    background:#198754;
+    color:white;
+    padding:12px;
+    border-radius:10px 10px 0 0;
+}
+
+.food-item{
+    display:flex;
+    justify-content:space-between;
+    padding:10px;
+    border-bottom:1px solid #eee;
+}
+
+.summary{
+    position:sticky;
+    top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container mt-4">
+
+<div class="row">
+
+<div class="col-lg-8">
+
+<form method="POST">
+
+{% csrf_token %}
+
+<!-- Breakfast -->
+<div class="accordion" id="mealAccordion">
+
+    <!-- Breakfast -->
+
+    <div class="accordion-item">
+
+        <h2 class="accordion-header">
+
+            <button class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#breakfast">
+
+                🍳 Breakfast
+
+            </button>
+
+        </h2>
+
+        <div id="breakfast"
+             class="accordion-collapse collapse show"
+             data-bs-parent="#mealAccordion">
+
+            <div class="accordion-body">
+
+                {% for food in breakfast_foods %}
+
+               <div class="card mb-3 p-3">
+
+    <div class="d-flex justify-content-between">
+
+        <div>
+
+            <input
+                type="checkbox"
+                class="food-checkbox"
+                name="foods"
+                value="{{ food.id }}"
+                data-calories="{{ food.calories }}">
+
+            <strong>{{ food.name }}</strong>
+
+            <br>
+
+            <small class="text-muted">
+
+                Serving :
+                {{ food.serving_size }}
+
+            </small>
+
+            <br>
+
+            <small>
+
+                {{ food.calories }}
+                kcal /
+                {{ food.serving_size }}
+
+            </small>
+
+        </div>
+
+        <div class="text-center">
+         {% if "g" in food.serving_size %}
+
+<select
+    class="form-select quantity"
+    name="quantity_{{ food.id }}"
+    style="width:120px;">
+
+    <option value="0.5">50 g</option>
+    <option value="1">100 g</option>
+    <option value="1.5">150 g</option>
+    <option value="2">200 g</option>
+    <option value="2.5">250 g</option>
+    <option value="3">300 g</option>
+
+</select>
+
+{% elif "Piece" in food.serving_size %}
+
+<select
+    class="form-select quantity"
+    name="quantity_{{ food.id }}"
+    style="width:120px;">
+
+    <option value="1">1 Piece</option>
+    <option value="2">2 Pieces</option>
+    <option value="3">3 Pieces</option>
+    <option value="4">4 Pieces</option>
+
+</select>
+
+{% elif "Bowl" in food.serving_size %}
+
+<select
+    class="form-select quantity"
+    name="quantity_{{ food.id }}"
+    style="width:120px;">
+
+    <option value="1">1 Bowl</option>
+    <option value="2">2 Bowls</option>
+    <option value="3">3 Bowls</option>
+
+</select>
+
+{% elif "Cup" in food.serving_size %}
+
+<select
+    class="form-select quantity"
+    name="quantity_{{ food.id }}"
+    style="width:120px;">
+
+    <option value="1">1 Cup</option>
+    <option value="2">2 Cups</option>
+    <option value="3">3 Cups</option>
+
+</select>
+
+{% elif "Glass" in food.serving_size %}
+
+<select
+    class="form-select quantity"
+    name="quantity_{{ food.id }}"
+    style="width:120px;">
+
+    <option value="1">1 Glass</option>
+    <option value="2">2 Glasses</option>
+    <option value="3">3 Glasses</option>
+
+</select>
+
+{% else %}
+
+<select
+    class="form-select quantity"
+    name="quantity_{{ food.id }}"
+    style="width:120px;">
+
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+
+</select>
+
+{% endif %}
+
+            <div class="mt-2">
+
+                Total :
+
+                <span class="food-total">
+
+                    {{ food.calories }}
+
+                </span>
+
+                kcal
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+<!-- Lunch -->
+<div class="accordion-item">
+
+    <h2 class="accordion-header">
+
+        <button class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#lunch">
+
+            🍛 Lunch
+
+        </button>
+
+    </h2>
+
+    <div id="lunch"
+         class="accordion-collapse collapse"
+         data-bs-parent="#mealAccordion">
+
+        <div class="accordion-body">
+
+            {% for food in lunch_foods %}
+
+           <div class="card mb-3 p-3">
+
+    <div class="d-flex justify-content-between">
+
+        <div>
+
+            <input
+                type="checkbox"
+                class="food-checkbox"
+                name="foods"
+                value="{{ food.id }}"
+                data-calories="{{ food.calories }}">
+
+            <strong>{{ food.name }}</strong>
+
+            <br>
+
+            <small class="text-muted">
+
+                Serving :
+                {{ food.serving_size }}
+
+            </small>
+
+            <br>
+
+            <small>
+
+                {{ food.calories }}
+                kcal /
+                {{ food.serving_size }}
+
+            </small>
+
+        </div>
+
+        <div class="text-center">
+
+           {% if "g" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="0.5">50 g</option>
+    <option value="1">100 g</option>
+    <option value="1.5">150 g</option>
+    <option value="2">200 g</option>
+    <option value="2.5">250 g</option>
+    <option value="3">300 g</option>
+
+</select>
+
+{% elif "Piece" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1 Piece</option>
+    <option value="2">2 Pieces</option>
+    <option value="3">3 Pieces</option>
+    <option value="4">4 Pieces</option>
+
+</select>
+
+{% elif "Bowl" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1 Bowl</option>
+    <option value="2">2 Bowls</option>
+    <option value="3">3 Bowls</option>
+
+</select>
+
+{% elif "Cup" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1 Cup</option>
+    <option value="2">2 Cups</option>
+    <option value="3">3 Cups</option>
+
+</select>
+
+{% elif "Glass" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1 Glass</option>
+    <option value="2">2 Glasses</option>
+    <option value="3">3 Glasses</option>
+
+</select>
+
+{% else %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+
+</select>
+
+{% endif %}
+
+            <div class="mt-2">
+
+                Total :
+
+                <span class="food-total">
+
+                    {{ food.calories }}
+
+                </span>
+
+                kcal
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- Snacks -->
+<div class="accordion-item">
+
+    <h2 class="accordion-header">
+
+        <button class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#snacks">
+
+            🥜 Snacks
+
+        </button>
+
+    </h2>
+
+    <div id="snacks"
+         class="accordion-collapse collapse"
+         data-bs-parent="#mealAccordion">
+
+        <div class="accordion-body">
+
+            {% for food in snack_foods %}
+
+            <div class="card mb-3 p-3">
+
+    <div class="d-flex justify-content-between">
+
+        <div>
+
+            <input
+                type="checkbox"
+                class="food-checkbox"
+                name="foods"
+                value="{{ food.id }}"
+                data-calories="{{ food.calories }}">
+
+            <strong>{{ food.name }}</strong>
+
+            <br>
+
+            <small class="text-muted">
+
+                Serving :
+                {{ food.serving_size }}
+
+            </small>
+
+            <br>
+
+            <small>
+
+                {{ food.calories }}
+                kcal /
+                {{ food.serving_size }}
+
+            </small>
+
+        </div>
+
+        <div class="text-center">
+
+           {% if "g" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="0.5">50 g</option>
+    <option value="1">100 g</option>
+    <option value="1.5">150 g</option>
+    <option value="2">200 g</option>
+    <option value="2.5">250 g</option>
+    <option value="3">300 g</option>
+
+</select>
+
+{% elif "Piece" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1 Piece</option>
+    <option value="2">2 Pieces</option>
+    <option value="3">3 Pieces</option>
+    <option value="4">4 Pieces</option>
+
+</select>
+
+{% elif "Bowl" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1 Bowl</option>
+    <option value="2">2 Bowls</option>
+    <option value="3">3 Bowls</option>
+
+</select>
+
+{% elif "Cup" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1 Cup</option>
+    <option value="2">2 Cups</option>
+    <option value="3">3 Cups</option>
+
+</select>
+
+{% elif "Glass" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1 Glass</option>
+    <option value="2">2 Glasses</option>
+    <option value="3">3 Glasses</option>
+
+</select>
+
+{% else %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+
+</select>
+
+{% endif %}
+
+            <div class="mt-2">
+
+                Total :
+
+                <span class="food-total">
+
+                    {{ food.calories }}
+
+                </span>
+
+                kcal
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- Dinner -->
+
+<div class="accordion-item">
+
+    <h2 class="accordion-header">
+
+        <button class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#dinner">
+
+            🍽 Dinner
+
+        </button>
+
+    </h2>
+
+    <div id="dinner"
+         class="accordion-collapse collapse"
+         data-bs-parent="#mealAccordion">
+
+        <div class="accordion-body">
+
+            {% for food in dinner_foods %}
+
+            <div class="card mb-3 p-3">
+
+    <div class="d-flex justify-content-between">
+
+        <div>
+
+            <input
+                type="checkbox"
+                class="food-checkbox"
+                name="foods"
+                value="{{ food.id }}"
+                data-calories="{{ food.calories }}">
+
+            <strong>{{ food.name }}</strong>
+
+            <br>
+
+            <small class="text-muted">
+
+                Serving :
+                {{ food.serving_size }}
+
+            </small>
+
+            <br>
+
+            <small>
+
+                {{ food.calories }}
+                kcal /
+                {{ food.serving_size }}
+
+            </small>
+
+        </div>
+
+        <div class="text-center">
+
+          
+          {% if "g" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="0.5">50 g</option>
+    <option value="1">100 g</option>
+    <option value="1.5">150 g</option>
+    <option value="2">200 g</option>
+    <option value="2.5">250 g</option>
+    <option value="3">300 g</option>
+
+</select>
+
+{% elif "Piece" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1 Piece</option>
+    <option value="2">2 Pieces</option>
+    <option value="3">3 Pieces</option>
+    <option value="4">4 Pieces</option>
+
+</select>
+
+{% elif "Bowl" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1 Bowl</option>
+    <option value="2">2 Bowls</option>
+    <option value="3">3 Bowls</option>
+
+</select>
+
+{% elif "Cup" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1 Cup</option>
+    <option value="2">2 Cups</option>
+    <option value="3">3 Cups</option>
+
+</select>
+
+{% elif "Glass" in food.serving_size %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1 Glass</option>
+    <option value="2">2 Glasses</option>
+    <option value="3">3 Glasses</option>
+
+</select>
+
+{% else %}
+
+<select class="form-select quantity"
+        name="quantity_{{ food.id }}"
+        style="width:120px;">
+
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+
+</select>
+
+{% endif %}
+
+            <div class="mt-2">
+
+                Total :
+
+                <span class="food-total">
+
+                    {{ food.calories }}
+
+                </span>
+
+                kcal
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+<input
+    type="hidden"
+    name="target"
+    value="{{ target_calories }}">
+
+<button
+    type="submit"
+    class="btn btn-success btn-lg w-100">
+
+    Continue
+
+</button>
+
+
+</form>
+
+</div>
+<br>
+
+
+
+<div class="col-lg-4">
+
+<div class="card summary">
+
+<div class="card-body text-center">
+
+<h3>Your Target</h3>
+
+<h1>{{ target_calories }}</h1>
+
+<hr>
+
+<h4>Selected Calories</h4>
+
+<h1 id="selectedCalories">0</h1>
+
+<hr>
+
+<h4>Remaining</h4>
+
+<h1 id="remainingCalories">{{ target_calories }}</h1>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const target = parseInt("{{ target_calories }}");
+
+const selected = document.getElementById("selectedCalories");
+const remaining = document.getElementById("remainingCalories");
+
+function calculate(changedElement = null){
+
+    let total = 0;
+
+    document.querySelectorAll(".food-checkbox").forEach(function(box){
+
+        let card = box.closest(".card");
+
+        let quantity = card.querySelector(".quantity");
+
+        let foodTotal = card.querySelector(".food-total");
+
+        let calories = parseFloat(box.dataset.calories);
+
+        let qty = parseFloat(quantity.value);
+
+        let currentCalories = calories * qty;
+
+        if(box.checked){
+
+            total += currentCalories;
+
+            foodTotal.innerHTML = Math.round(currentCalories);
+
+        }else{
+
+            foodTotal.innerHTML = calories;
+
+        }
+
+    });
+
+    // Don't allow calories above target
+    if(total > target){
+
+        alert("Target calories exceeded!");
+
+        if(changedElement){
+
+            if(changedElement.classList.contains("food-checkbox")){
+
+                changedElement.checked = false;
+
+            }else{
+
+                changedElement.value = 1;
+
+            }
+
+        }
+
+        calculate();
+
+        return;
+
+    }
+
+    selected.innerHTML = Math.round(total);
+
+    remaining.innerHTML = Math.round(target-total);
+
+}
+
+document.querySelectorAll(".food-checkbox").forEach(function(box){
+
+    box.addEventListener("change", function(){
+
+        calculate(this);
+
+    });
+
+});
+
+document.querySelectorAll(".quantity").forEach(function(select){
+
+    select.addEventListener("change", function(){
+
+        calculate(this);
+
+    });
+
+});
+
+calculate();
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

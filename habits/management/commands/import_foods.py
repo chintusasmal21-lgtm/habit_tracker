@@ -11,40 +11,45 @@ class Command(BaseCommand):
 
         file_path = os.path.join(
             "data",
-            "Food_Database_400.xlsx"
+            "food_dataset_240_real_foods.xlsx"
         )
 
         workbook = openpyxl.load_workbook(file_path)
         sheet = workbook.active
 
-        # Delete old records
+        # Delete existing data
         Food.objects.all().delete()
 
-        # Convert text to numbers
+        # Convert health score text to number
         score_map = {
+            "Excellent": 5,
+            "Very Good": 4,
+            "Good": 3,
+            "Average": 2,
+            "Poor": 1,
             "High": 5,
             "Medium": 3,
             "Low": 1,
-            "Excellent": 5,
-            "Good": 4,
-            "Average": 3,
-            "Poor": 2,
             "Avoid": 1,
         }
 
         for row in sheet.iter_rows(min_row=2, values_only=True):
 
+            # Skip empty rows
+            if not row[0]:
+                continue
+
             Food.objects.create(
-                name=row[0],
-                food_type=row[1],
-                meal_type=row[2],
-                diet_type=row[3],
-                goal=row[4],
-                serving_size=row[5],
+                name=str(row[0]).strip(),
+                food_type=str(row[1]).strip(),
+                meal_type=str(row[2]).strip(),
+                diet_type=str(row[3]).strip(),
+                goal=str(row[4]).strip(),
+                serving_size=str(row[5]).strip(),
                 calories=int(row[6]),
                 health_score=score_map.get(str(row[7]).strip(), 3),
             )
 
         self.stdout.write(
-            self.style.SUCCESS("Foods imported successfully!")
+            self.style.SUCCESS("✅ Foods imported successfully!")
         )

@@ -221,7 +221,8 @@ Habit Tracker Team
             )
 
         except Exception as e:
-            print("Email Error:", e)
+           import traceback
+           traceback.print_exc()
 
         messages.success(request, "Registration successful.")
         return redirect("/login/")
@@ -1511,6 +1512,111 @@ Habit Tracker Team
         {
             "pending_reminders": pending_reminders
         }
+    )
+@login_required
+def food_selection(request):
+
+    breakfast_foods = Food.objects.filter(meal_type="Breakfast")
+    lunch_foods = Food.objects.filter(meal_type="Lunch")
+    snack_foods = Food.objects.filter(meal_type="Snacks")
+    dinner_foods = Food.objects.filter(meal_type="Dinner")
+
+    target_calories = request.GET.get("target") or request.POST.get("target")
+
+    if request.method == "POST":
+
+        selected_foods = request.POST.getlist("foods")
+
+        food_data = []
+        total_calories = 0
+
+        for food_id in selected_foods:
+
+            food = Food.objects.get(id=food_id)
+
+            quantity = float(request.POST.get(f"quantity_{food_id}", 1))
+
+            food_total = round(food.calories * quantity)
+
+            total_calories += food_total
+
+            food_data.append({
+                "id": food.id,
+                "name": food.name,
+                "meal_type": food.meal_type,
+                "serving_size": food.serving_size,
+                "quantity": quantity,
+                "calories_per_serving": food.calories,
+                "total_calories": food_total,
+                
+            })
+
+        request.session["food_data"] = food_data
+        request.session["target_calories"] = target_calories
+        request.session["selected_total"] = total_calories
+        request.session["food_data"] = food_data
+        request.session["target_calories"] = target_calories
+        request.session["selected_total"] = total_calories
+
+        return redirect("food_summary")
+
+    return render(
+        request,
+        "habits/food_selection.html",
+        {
+            "breakfast_foods": breakfast_foods,
+            "lunch_foods": lunch_foods,
+            "snack_foods": snack_foods,
+            "dinner_foods": dinner_foods,
+            "target_calories": target_calories,
+        },
+    )
+@login_required
+def food_summary(request):
+
+    food_data = request.session.get("food_data", [])
+
+    target = int(request.session.get("target_calories", 0))
+
+    breakfast = []
+    lunch = []
+    snacks = []
+    dinner = []
+
+    total = 0
+
+    for food in food_data:
+
+        total += food["total_calories"]
+
+        if food["meal_type"] == "Breakfast":
+            breakfast.append(food)
+
+        elif food["meal_type"] == "Lunch":
+            lunch.append(food)
+
+        elif food["meal_type"] == "Snacks":
+            snacks.append(food)
+
+        elif food["meal_type"] == "Dinner":
+            dinner.append(food)
+
+    remaining = target - total
+
+    context = {
+        "breakfast": breakfast,
+        "lunch": lunch,
+        "snacks": snacks,
+        "dinner": dinner,
+        "target": target,
+        "total": total,
+        "remaining": remaining,
+    }
+
+    return render(
+        request,
+        "habits/food_summary.html",
+        context
     )
 
 # Create your views here.

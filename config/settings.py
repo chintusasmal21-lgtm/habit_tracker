@@ -152,7 +152,7 @@ EMAIL_HOST_PASSWORD ="byfgrjdmupttfmcl"
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-EMAIL_TIMEOUT = 10
+
 LOGIN_REDIRECT_URL = '/dashboard/'
 
 LOGIN_URL = '/login/'

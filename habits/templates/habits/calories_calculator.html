@@ -243,34 +243,29 @@ body{
 
 <h4 class="mt-4">Enter Your Target Calories</h4>
 
-<form action="{% url 'food_recommendations' %}" method="GET">
-
-    <input type="hidden"
-           name="target"
-           value="{{ calories }}">
-
-    <input type="hidden"
-           name="goal"
-           value="{{ goal }}">
+<form action="{% url 'food_selection' %}" method="GET">
 
     <div class="mb-3">
 
-      <label class="form-label">
-    Target Calories
-</label>
+        <label class="form-label">
+            Target Calories
+        </label>
 
-<input
-    type="number"
-    name="target_calories"
-    class="form-control"
-    placeholder="Enter your target calories"
-    required>
+        <input
+            type="number"
+            name="target"
+            class="form-control"
+            placeholder="Enter your target calories"
+            min="1"
+            required>
 
     </div>
 
     <button type="submit"
-            class="btn btn-primary">
-        Find Food
+            class="btn btn-primary btn-lg w-100">
+
+        Continue to Food Selection 🍽
+
     </button>
 
 </form>
