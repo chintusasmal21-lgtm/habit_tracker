@@ -233,6 +233,7 @@ Open Medicine Information
 
 </div>
 
+
 <div class="col-lg-6">
 
     <div class="tool-card">
@@ -242,34 +243,22 @@ Open Medicine Information
         </div>
 
         <div class="title">
-            Nearby Healthcare
+            Nearby Medical Shops
         </div>
 
         <div class="desc">
 
-            Find nearby pharmacies and hospitals using your current location.
+            Find pharmacies and medical stores near your current location using Google Maps.
 
         </div>
 
-        <div class="d-grid gap-3">
+        <button
+            class="btn btn-danger tool-btn"
+            onclick="findMedicalShops()">
 
-            <button
-                class="btn btn-success tool-btn"
-                onclick="findMedicalShops()">
+            Find Medical Shops
 
-                💊 Medical Shops
-
-            </button>
-
-            <button
-                class="btn btn-primary tool-btn"
-                onclick="findHospitals()">
-
-                🏥 Hospitals
-
-            </button>
-
-        </div>
+        </button>
 
     </div>
 
@@ -291,15 +280,36 @@ Open Medicine Information
 
 </div>
 <script>
+
 function findMedicalShops() {
-    window.open("https://www.google.com/maps/search/medical+shop", "_blank");
+
+    if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition(function(position) {
+
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            window.open(
+                `https://www.google.com/maps/search/pharmacy/@${lat},${lng},15z`,
+                "_blank"
+            );
+
+        }, function() {
+
+            alert("Please allow location access.");
+
+        });
+
+    } else {
+
+        alert("Your browser does not support location.");
+
+    }
+
 }
 
-function findHospitals() {
-    window.open("https://www.google.com/maps/search/hospital", "_blank");
-} 
 </script>
-
 
 </body>
 </html>

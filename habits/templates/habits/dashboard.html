@@ -294,6 +294,64 @@ li{
 .stat-week{ 
     border-left:6px solid #ffc107;
  }
+@media (max-width:768px){
+
+.main{
+    padding:15px;
+}
+
+.heading{
+    font-size:28px;
+}
+
+.welcome-banner{
+    padding:18px;
+    border-radius:18px;
+}
+
+.card-box{
+    padding:18px;
+    border-radius:18px;
+    margin-bottom:15px;
+}
+
+.card-box h1{
+    font-size:32px;
+}
+
+.card-box h4,
+.card-box h5{
+    font-size:18px;
+}
+
+.pending-box,
+.completed-box{
+    padding:18px;
+    margin-bottom:15px;
+}
+
+.action-box{
+    height:110px;
+    font-size:18px;
+}
+
+.action-box div:first-child{
+    font-size:36px !important;
+}
+
+.topbar{
+    padding:12px;
+}
+
+.topbar h4{
+    font-size:20px;
+}
+
+.sidebar{
+    width:240px;
+}
+
+}
 
 
 </style>
@@ -345,7 +403,7 @@ li{
      
     <div class="row mt-4">
 
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 mb-3">
 
             <div class="card-box">
 
@@ -358,7 +416,7 @@ li{
             </div>
 
         </div>
-        <div class="col-md-6">
+        <div class="col-12 col-sm-6 mb-3">
 
             <div class="card-box">
 
@@ -379,21 +437,21 @@ li{
 
     <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-12 col-sm-6 col-lg-4 mb-3">
             <div class="card-box stat-total">
                 <h4>Total Habits</h4>
                 <h1>{{ total_habits }}</h1>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-12 col-sm-6 col-lg-4 mb-3">
             <div class="card-box stat-completed">
                 <h4>Completed Today</h4>
                 <h1>{{ completed_today }}</h1>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-12 col-sm-6 col-lg-4 mb-3">
             <div class="card-box stat-week">
                 <h4>Completed This Week</h4>
                 <h1>{{ completed_week }}</h1>
@@ -410,7 +468,7 @@ li{
 
     <div class="row">
 
-        <div class="col-md-6">
+        <div class="col-12 col-lg-6 mb-3">
 
             <div class="pending-box">
 
@@ -436,7 +494,7 @@ li{
 
         </div>
 
-        <div class="col-md-6">
+        <div class="col-12 col-lg-6 mb-3">
 
             <div class="completed-box">
 
@@ -473,7 +531,7 @@ li{
 
     <!-- Add Habit -->
 
-    <div class="col-md-6">
+    <div class="col-6 col-lg-3 mb-3">
 
         <a href="/add_habit/" class="text-decoration-none">
 
