@@ -293,13 +293,55 @@ Open Medicine Information
 <script>
 
 function findMedicalShops() {
-    window.location.href =
-    "https://www.google.com/maps/search/?api=1&query=medical+shop+near+me";
+
+    if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition(function(position) {
+
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            window.location.href =
+            `https://www.google.com/maps/search/?api=1&query=pharmacy&query_place_id=&center=${lat},${lng}`;
+
+        }, function(error) {
+
+            alert("Please allow location access.");
+
+        });
+
+    } else {
+
+        alert("Geolocation is not supported.");
+
+    }
+
 }
 
 function findHospitals() {
-    window.location.href =
-    "https://www.google.com/maps/search/?api=1&query=hospital+near+me";
+
+    if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition(function(position) {
+
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            window.location.href =
+            `https://www.google.com/maps/search/?api=1&query=hospital&center=${lat},${lng}`;
+
+        }, function(error) {
+
+            alert("Please allow location access.");
+
+        });
+
+    } else {
+
+        alert("Geolocation is not supported.");
+
+    }
+
 }
 
 </script>  
