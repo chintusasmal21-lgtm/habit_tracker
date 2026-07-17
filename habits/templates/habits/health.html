@@ -281,57 +281,14 @@ Open Medicine Information
 </div>
 <script>
 function findMedicalShops() {
-
-    if (!navigator.geolocation) {
-        alert("Geolocation is not supported by your browser.");
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-
-        function(position) {
-
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-
-            const url =
-                "https://www.google.com/maps/search/?api=1&query=pharmacy&query_place_id=&center="
-                + lat + "," + lng;
-
-            window.location.href = url;
-
-        },
-
-        function(error) {
-
-            switch(error.code){
-
-                case error.PERMISSION_DENIED:
-                    alert("Please allow location permission.");
-                    break;
-
-                case error.POSITION_UNAVAILABLE:
-                    alert("Location unavailable.");
-                    break;
-
-                case error.TIMEOUT:
-                    alert("Location request timed out.");
-                    break;
-
-                default:
-                    alert("Unable to get your location.");
-            }
-
-        },
-
-        {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
-        }
-
+    window.open(
+        "https://www.google.com/maps/search/?api=1&query=Medical+Shop+near+me",
+        "_blank"
     );
 }
+
+       
+
 </script>
 
 </body>
