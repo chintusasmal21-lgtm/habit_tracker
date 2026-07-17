@@ -280,35 +280,58 @@ Open Medicine Information
 
 </div>
 <script>
-
 function findMedicalShops() {
 
-    if (navigator.geolocation) {
+    if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser.");
+        return;
+    }
 
-        navigator.geolocation.getCurrentPosition(function(position) {
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
 
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
 
-            window.open(
-                `https://www.google.com/maps/search/pharmacy/@${lat},${lng},15z`,
-                "_blank"
-            );
+            const url =
+                "https://www.google.com/maps/search/?api=1&query=pharmacy&query_place_id=&center="
+                + lat + "," + lng;
 
-        }, function() {
+            window.location.href = url;
 
-            alert("Please allow location access.");
+        },
 
-        });
+        function(error) {
 
-    } else {
+            switch(error.code){
 
-        alert("Your browser does not support location.");
+                case error.PERMISSION_DENIED:
+                    alert("Please allow location permission.");
+                    break;
 
-    }
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location unavailable.");
+                    break;
 
+                case error.TIMEOUT:
+                    alert("Location request timed out.");
+                    break;
+
+                default:
+                    alert("Unable to get your location.");
+            }
+
+        },
+
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        }
+
+    );
 }
-
 </script>
 
 </body>
