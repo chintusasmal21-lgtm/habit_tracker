@@ -1442,20 +1442,16 @@ def medicine_search(request):
             "query": query,
         },
     )
-from django.utils import timezone
+
 from datetime import date
 @login_required
 def reminder(request):
 
     today = date.today()
-    current_time = timezone.localtime().time()
-
-    weekday = today.weekday()   # Monday=0 ... Sunday=6
+    weekday = today.weekday()
 
     habits = Habit.objects.filter(
         user=request.user,
-        reminder_time__isnull=False,
-        reminder_time__lte=current_time,
         start_date__lte=today,
         end_date__gte=today,
     )
@@ -1464,66 +1460,32 @@ def reminder(request):
 
     for habit in habits:
 
-        # Daily
+        show = False
+
         if habit.frequency == "Daily":
             show = True
 
-        # Monday-Friday
         elif habit.frequency == "Weekdays":
             show = weekday < 5
 
-        # Saturday-Sunday
         elif habit.frequency == "Weekends":
             show = weekday >= 5
 
-        # Weekly
         elif habit.frequency == "Weekly":
-            show = today.weekday() == habit.start_date.weekday()
+            show = weekday == habit.start_date.weekday()
 
-        else:
-            show = False
+        if not show:
+            continue
 
-        if show:
+        # If completed today, don't show it
+        completed = HabitLog.objects.filter(
+            habit=habit,
+            log_date=today,
+            completed=True
+        ).exists()
 
-            completed = HabitLog.objects.filter(
-                habit=habit,
-                log_date=today,
-                completed=True
-            ).exists()
-
-            if not completed:
-
-                pending_reminders.append(habit)
-
-                # Send reminder email
-                if request.user.email:
-
-                    try:
-
-                        send_mail(
-                            subject=f"🔔 Habit Reminder - {habit.name}",
-                            message=f"""
-Hello {request.user.username},
-
-This is a reminder that your habit is still pending today.
-
-Habit Name : {habit.name}
-Category   : {habit.category}
-Frequency  : {habit.frequency}
-Reminder   : {habit.reminder_time}
-
-Please complete it before the day ends.
-
-Thank you,
-Habit Tracker Team
-""",
-                            from_email=settings.EMAIL_HOST_USER,
-                            recipient_list=[request.user.email],
-                            fail_silently=False,
-                        )
-
-                    except Exception as e:
-                        print(e)
+        if not completed:
+            pending_reminders.append(habit)
 
     return render(
         request,
