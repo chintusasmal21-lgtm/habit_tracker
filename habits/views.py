@@ -1486,6 +1486,40 @@ def reminder(request):
 
         if not completed:
             pending_reminders.append(habit)
+            if request.user.email:
+
+                try:
+
+                    send_mail(
+
+                        subject=f"🔔 Habit Reminder - {habit.name}",
+
+                        message=f"""
+Hello {request.user.username},
+
+This is a reminder that your habit is still pending today.
+
+Habit Name : {habit.name}
+Category   : {habit.category}
+Frequency  : {habit.frequency}
+
+Please complete your habit today.
+
+Stay Healthy 💚
+
+Habit Tracker Team
+""",
+
+                        from_email=settings.EMAIL_HOST_USER,
+
+                        recipient_list=[request.user.email],
+
+                        fail_silently=False,
+
+                    )
+
+                except Exception as e:
+                    print("Email Error:", e)
 
     return render(
         request,
