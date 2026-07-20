@@ -1,7 +1,7 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -17,6 +17,44 @@ body{
     background:#f5f8ff;
     font-family:Arial,Helvetica,sans-serif;
 }
+
+/* Header */
+
+.top-header{
+    background:white;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+    padding:15px 0;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:bold;
+    color:#0d6efd;
+}
+
+.login-btn{
+    border-radius:30px;
+    padding:10px 25px;
+    font-weight:bold;
+}
+
+.dropdown-menu{
+    border:none;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+.dropdown-item{
+    padding:12px 18px;
+    font-size:16px;
+}
+
+.dropdown-item:hover{
+    background:#0d6efd;
+    color:white;
+}
+
+/* Hero */
 
 .hero{
     background:linear-gradient(135deg,#0d6efd,#5b9dff);
@@ -61,7 +99,6 @@ body{
 
 .info-card{
     background:white;
-    border:none;
     border-radius:20px;
     padding:30px;
     box-shadow:0 10px 25px rgba(0,0,0,.08);
@@ -73,7 +110,7 @@ body{
 }
 
 .feature-box{
-    background:#ffffff;
+    background:white;
     border-radius:20px;
     padding:25px;
     text-align:center;
@@ -84,6 +121,7 @@ body{
 .feature-box:hover{
     background:#0d6efd;
     color:white;
+    transform:translateY(-8px);
 }
 
 .feature-box h1{
@@ -99,12 +137,25 @@ body{
 
 @media(max-width:768px){
 
+.logo{
+    font-size:22px;
+}
+
+.hero{
+    padding:70px 15px;
+}
+
 .hero h1{
-font-size:2rem;
+    font-size:2rem;
 }
 
 .hero p{
-font-size:16px;
+    font-size:16px;
+}
+
+.login-btn{
+    padding:8px 18px;
+    font-size:14px;
 }
 
 }
@@ -115,35 +166,97 @@ font-size:16px;
 
 <body>
 
-{% include 'habits/navbar.html' %}
+<!-- Header -->
+
+<div class="top-header">
+
+<div class="container d-flex justify-content-between align-items-center">
+
+<div class="logo">
+🎯 Habit Tracker
+</div>
+
+<div class="dropdown">
+
+<button
+class="btn btn-primary dropdown-toggle login-btn"
+type="button"
+data-bs-toggle="dropdown">
+
+👤 Login
+
+</button>
+
+<ul class="dropdown-menu dropdown-menu-end">
+
+<li>
+
+<a class="dropdown-item" href="/admin-login/">
+
+👨‍💼 Admin Login
+
+</a>
+
+</li>
+
+<li>
+
+<a class="dropdown-item" href="/login/">
+
+👤 User Login
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Hero -->
 
 <div class="hero">
 
 <h1>Dynamic Habit Tracker</h1>
 
-<p>Build Better Habits • Improve Every Day • Achieve Your Goals</p>
-
-</div>
-
-<div class="container py-5">
-
-
-
-<div class="info-card mb-5">
-
-<h2 class="section-title">About Dynamic Habit Tracker</h2>
-
 <p>
 
-Dynamic Habit Tracker helps people build positive routines,
-track daily progress, maintain consistency, and achieve
-long-term personal goals through smart tracking and analytics.
+Build Better Habits • Improve Every Day • Achieve Your Goals
 
 </p>
 
 </div>
 
-<h2 class="section-title text-center">Our Features</h2>
+<div class="container py-5">
+
+<div class="info-card mb-5">
+
+<h2 class="section-title">
+
+About Dynamic Habit Tracker
+
+</h2>
+
+<p>
+
+Dynamic Habit Tracker helps people build positive routines,
+track daily progress, maintain consistency,
+and achieve long-term personal goals through
+smart tracking and analytics.
+
+</p>
+
+</div>
+
+<h2 class="section-title text-center">
+
+Our Features
+
+</h2>
 
 <div class="row g-4 mb-5">
 
@@ -189,7 +302,6 @@ long-term personal goals through smart tracking and analytics.
 
 </div>
 
-
 <div class="col-md-4">
 
 <div class="feature-box">
@@ -218,6 +330,20 @@ long-term personal goals through smart tracking and analytics.
 
 </div>
 
+<div class="col-md-4">
+
+<div class="feature-box">
+
+<h1>❤️</h1>
+
+<h5>Health Center</h5>
+
+<p>BMI, Calories & Medicine Information.</p>
+
+</div>
+
+</div>
+
 </div>
 
 <div class="row g-4 mb-5">
@@ -226,12 +352,17 @@ long-term personal goals through smart tracking and analytics.
 
 <div class="info-card">
 
-<h2 class="section-title">🎯 Our Mission</h2>
+<h2 class="section-title">
+
+🎯 Our Mission
+
+</h2>
 
 <p>
 
 To motivate every individual to build healthier habits,
-increase productivity, and become the best version of themselves.
+increase productivity,
+and become the best version of themselves.
 
 </p>
 
@@ -243,7 +374,11 @@ increase productivity, and become the best version of themselves.
 
 <div class="info-card">
 
-<h2 class="section-title">💡 Why Choose Us?</h2>
+<h2 class="section-title">
+
+💡 Why Choose Us?
+
+</h2>
 
 <ul>
 
@@ -266,34 +401,55 @@ increase productivity, and become the best version of themselves.
 </div>
 
 </div>
+
 <div class="row g-4 mb-5">
 
 <div class="col-md-3 col-6">
+
 <div class="stats-card">
+
 <h2>10K+</h2>
+
 <p>Active Users</p>
+
 </div>
+
 </div>
 
 <div class="col-md-3 col-6">
+
 <div class="stats-card">
+
 <h2>1M+</h2>
+
 <p>Habits Tracked</p>
+
 </div>
+
 </div>
 
 <div class="col-md-3 col-6">
+
 <div class="stats-card">
+
 <h2>365+</h2>
+
 <p>Daily Challenges</p>
+
 </div>
+
 </div>
 
 <div class="col-md-3 col-6">
+
 <div class="stats-card">
+
 <h2>4.9★</h2>
+
 <p>User Rating</p>
+
 </div>
+
 </div>
 
 </div>
@@ -304,8 +460,9 @@ increase productivity, and become the best version of themselves.
 
 <p>
 
-Dynamic Habit Tracker is designed to help people transform
-their lives through small consistent actions and smart technology.
+Dynamic Habit Tracker is designed to help people
+transform their lives through small consistent actions
+and smart technology.
 
 </p>
 
@@ -319,5 +476,8 @@ their lives through small consistent actions and smart technology.
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
+
 </html>
