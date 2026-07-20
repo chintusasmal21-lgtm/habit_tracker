@@ -12,77 +12,333 @@
 
 <style>
 
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
-    background:#8ad380;
+    background:linear-gradient(135deg,#b8f59e,#8ad380,#7ad36f);
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.container{
+    max-width:1300px;
+}
+
+/* Habit Card */
+
+.habit-card{
+    background:#fff;
+    border-radius:25px;
+    padding:35px;
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+    margin-bottom:30px;
 }
 
 .heading{
-    color:#001f8f;
+    font-size:42px;
+    color:#0b2d8f;
     font-weight:bold;
 }
 
+.desc{
+    color:#666;
+    font-size:18px;
+    margin:15px 0;
+}
+
+.info{
+    font-size:18px;
+    margin:8px 0;
+}
+
+/* Statistics */
+
 .stat-card{
-    background:white;
-    border-radius:15px;
+
+    background:#fff;
+    border-radius:20px;
     padding:25px;
     text-align:center;
-    box-shadow:0px 0px 10px rgba(0,0,0,.1);
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+    transition:.3s;
+    height:100%;
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.stat-card h5{
+
+    font-size:20px;
+    margin-bottom:15px;
+    color:#333;
+
 }
 
 .value{
-    font-size:35px;
+
+    font-size:42px;
     font-weight:bold;
+
 }
-.card canvas{
-    max-height:350px;
+
+/* Progress */
+
+.progress-card{
+
+    background:#fff;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+    margin-bottom:35px;
+
 }
+
+.progress{
+
+    height:32px;
+    border-radius:20px;
+
+}
+
+.progress-bar{
+
+    font-size:16px;
+    font-weight:bold;
+
+}
+
+/* Charts */
+
+.chart-card{
+
+    background:#fff;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+    margin-bottom:25px;
+    height:100%;
+
+}
+
+.chart-card h4{
+
+    font-weight:bold;
+    margin-bottom:20px;
+    color:#222;
+
+}
+
+.chart-card canvas{
+
+    width:100% !important;
+    height:300px !important;
+
+}
+
+/* Buttons */
+
 .button-group{
 
     display:flex;
-
     justify-content:center;
-
-    align-items:center;
-
     gap:20px;
-
     margin:40px 0;
-
     flex-wrap:wrap;
 
 }
 
 .button-group .btn{
 
-    min-width:180px;
-
-    border-radius:12px;
-
+    min-width:190px;
+    padding:14px;
+    border-radius:15px;
+    font-size:18px;
     font-weight:bold;
-
-    padding:12px 25px;
 
 }
 
-@media (max-width:768px){
+/* Mobile */
 
-    .button-group{
+@media(max-width:768px){
 
-        flex-direction:column;
+.heading{
+
+    font-size:32px;
+    text-align:center;
+
+}
+
+.desc{
+
+    text-align:center;
+    font-size:16px;
+
+}
+
+.info{
+
+    font-size:16px;
+    text-align:center;
+
+}
+
+.habit-card{
+
+    padding:22px;
+
+}
+
+.stat-card{
+
+    padding:18px;
+
+}
+
+.stat-card h5{
+
+    font-size:17px;
+
+}
+
+.value{
+
+    font-size:30px;
+
+}
+
+.chart-card{
+
+    padding:15px;
+
+}
+
+.chart-card canvas{
+
+    height:230px !important;
+
+}
+
+.button-group{
+
+    flex-direction:column;
+
+}
+
+.button-group .btn{
+
+    width:100%;
+
+}
+
+}
+.chart-card{
+
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+    transition:.3s;
+    height:100%;
+
+}
+
+.chart-card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.chart-card canvas{
+
+    width:100% !important;
+    height:320px !important;
+
+}
+
+@media(max-width:768px){
+
+.chart-card{
+
+    padding:15px;
+
+}
+
+.chart-card h4{
+
+    font-size:20px;
+
+}
+
+.chart-card canvas{
+
+    height:240px !important;
+
+}
+
+}
+/* Smooth animation */
+
+.card,
+.stat-card,
+.chart-card,
+.progress-card,
+.habit-card{
+
+    animation:fadeIn .8s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+        transform:translateY(20px);
 
     }
 
-    .button-group .btn{
+    to{
 
-        width:100%;
-
-        max-width:300px;
+        opacity:1;
+        transform:translateY(0);
 
     }
+
+}
+
+/* Nice scrollbar */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#0d6efd;
+    border-radius:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#eaeaea;
 
 }
 
 </style>
+
 
 
 </head>
@@ -92,151 +348,172 @@ body{
 
 <div class="container mt-5">
 
-    <div class="card shadow p-4 mb-4">
+<div class="habit-card">
 
-        <h1 class="heading">
-            {{ habit.name }}
-        </h1>
+    <h1 class="heading">
+        {{ habit.name }}
+    </h1>
 
-        <p>
-            {{ habit.description }}
-        </p>
+    <p class="desc">
+        {{ habit.description }}
+    </p>
 
-        <p>
-            <b>Start Date:</b> {{ habit.start_date }}
-        </p>
+    <p class="info">
+        <strong>📅 Start Date:</strong>
+        {{ habit.start_date }}
+    </p>
 
-        <p>
-            <b>End Date:</b> {{ habit.end_date }}
-        </p>
+    <p class="info">
+        <strong>🏁 End Date:</strong>
+        {{ habit.end_date }}
+    </p>
 
-    </div>
+</div>
 
-    <div class="row">
+   <div class="row g-4">
 
-        <div class="col-md-3 mb-4">
+    <div class="col-6 col-md-3">
 
-            <div class="stat-card">
+        <div class="stat-card">
 
-                <h5>Total Days</h5>
+            <h5>Total Days</h5>
 
-                <div class="value text-primary">
-                    {{ total_days }}
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3 mb-4">
-
-            <div class="stat-card">
-
-                <h5>Completed Days</h5>
-
-                <div class="value text-success">
-                    {{ completed_days }}
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3 mb-4">
-
-            <div class="stat-card">
-
-                <h5>Missed Days</h5>
-
-                <div class="value text-danger">
-                    {{ missed_days }}
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3 mb-4">
-
-            <div class="stat-card">
-
-                <h5>Remaining Days</h5>
-
-                <div class="value text-warning">
-                    {{ remaining_days }}
-                </div>
-
+            <div class="value text-primary">
+                {{ total_days }}
             </div>
 
         </div>
 
     </div>
 
-    <div class="card shadow p-4 mb-5">
+    <div class="col-6 col-md-3">
 
-        <h3>
-            Success Rate
-        </h3>
+        <div class="stat-card">
 
-        <div class="progress" style="height:30px;">
+            <h5>Completed</h5>
 
-          <div class="progress-bar bg-success"
+            <div class="value text-success">
+                {{ completed_days }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-6 col-md-3">
+
+        <div class="stat-card">
+
+            <h5>Missed</h5>
+
+            <div class="value text-danger">
+                {{ missed_days }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-6 col-md-3">
+
+        <div class="stat-card">
+
+            <h5>Remaining</h5>
+
+            <div class="value text-warning">
+                {{ remaining_days }}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<br>
+
+<div class="progress-card">
+
+    <h3 class="mb-3">
+        📈 Success Rate
+    </h3>
+
+    <div class="progress">
+
+        <div class="progress-bar bg-success"
              role="progressbar"
-             style="width: {{ success_rate }}%;">
+             style="width:{{ success_rate }}%;">
 
-             {{ success_rate }}%
+            {{ success_rate }}%
 
-            </div>
         </div>
+
     </div>
 
+</div>
 
-    <div class="row">
+   <!-- Charts Section -->
 
-      <div class="col-md-6 mb-4">
-          <div class="card shadow p-2">
-              <h4 class="text-center">Completion Overview</h4>
-              <canvas id="pieChart"  height="250"></canvas>
-         </div>
-      </div>
+<div class="row g-4 mt-2">
 
-      <div class="col-md-6 mb-4">
-          <div class="card shadow p-2">
-              <h4 class="text-center">Habit Progress</h4>
-              <canvas id="doughnutChart" height="250"></canvas>
-          </div>
-      </div>
- 
+    <!-- Completion Overview -->
+    <div class="col-12 col-lg-6">
+
+        <div class="chart-card">
+
+            <h4 class="text-center">
+                📊 Completion Overview
+            </h4>
+
+            <canvas id="pieChart"></canvas>
+
+        </div>
+
     </div>
 
-    <div class="row">
+    <!-- Habit Progress -->
+    <div class="col-12 col-lg-6">
 
-       <div class="col-md-6">
+        <div class="chart-card">
 
-        <div class="card p-3 shadow">
+            <h4 class="text-center">
+                🎯 Habit Progress
+            </h4>
 
-           <h4 class="text-center">
-              Date Wise Progress
-          </h4>
+            <canvas id="doughnutChart"></canvas>
+
+        </div>
+
+    </div>
+
+    <!-- Date Wise Progress -->
+    <div class="col-12 col-lg-6">
+
+        <div class="chart-card">
+
+            <h4 class="text-center">
+                📅 Date Wise Progress
+            </h4>
 
             <canvas id="dateChart"></canvas>
 
         </div>
 
-     </div>
-
-      <div class="col-md-6 mb-4">
-          <div class="card shadow p-3">
-              <h4 class="text-center">Progress Trend</h4>
-              <canvas id="lineChart"></canvas>
-          </div>
-      </div>
-
     </div>
 
-    <br>
+    <!-- Progress Trend -->
+    <div class="col-12 col-lg-6">
 
-  
+        <div class="chart-card">
+
+            <h4 class="text-center">
+                📈 Progress Trend
+            </h4>
+
+            <canvas id="lineChart"></canvas>
+
+        </div>
+
+    </div>
 
 </div>
 <script>
@@ -257,7 +534,6 @@ new Chart(document.getElementById('pieChart'), {
                 {{ completed_days }},
                 {{ missed_days }},
                 {{ remaining_days }}
-            
             ],
 
             backgroundColor: [
@@ -268,6 +544,16 @@ new Chart(document.getElementById('pieChart'), {
 
         }]
 
+    },
+
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{
+                position:'top'
+            }
+        }
     }
 
 });
@@ -286,9 +572,8 @@ new Chart(document.getElementById('doughnutChart'), {
         datasets: [{
 
             data: [
-                 {{ completed_days }},
-                 {{ remaining_days}}
-               
+                {{ completed_days }},
+                {{ remaining_days }}
             ],
 
             backgroundColor: [
@@ -298,6 +583,16 @@ new Chart(document.getElementById('doughnutChart'), {
 
         }]
 
+    },
+
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{
+                position:'top'
+            }
+        }
     }
 
 });
@@ -306,29 +601,39 @@ new Chart(document.getElementById('doughnutChart'), {
 // Date CHART
 new Chart(document.getElementById('dateChart'), {
 
-type: 'line',
+    type:'line',
 
-data: {
+    data:{
 
-labels: {{ date_labels|safe }},
+        labels: {{ date_labels|safe }},
 
-datasets: [{
+        datasets:[{
 
-label: 'Completed Habits',
+            label:'Completed Habits',
 
-data: {{ date_counts|safe }},
+            data: {{ date_counts|safe }},
 
-borderColor: '#0d6efd',
+            borderColor:'#0d6efd',
 
-backgroundColor: 'rgba(13,110,253,0.2)',
+            backgroundColor:'rgba(13,110,253,0.2)',
 
-fill: true,
+            fill:true,
 
-tension: 0.4
+            tension:0.4
 
-}]
+        }]
 
-}
+    },
+
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{
+                position:'top'
+            }
+        }
+    }
 
 });
 
@@ -337,32 +642,43 @@ tension: 0.4
 
 new Chart(document.getElementById('lineChart'), {
 
-    type: 'line',
+    type:'line',
 
-    data: {
+    data:{
 
-        labels: ['Start','Current','Target'],
+        labels:['Start','Current','Target'],
 
-        datasets: [{
+        datasets:[{
 
-            label: 'Progress',
+            label:'Progress',
 
-            data: [
+            data:[
                 0,
                 {{ completed_days|default:0 }},
                 {{ total_days|default:0 }}
             ],
 
-            borderColor: '#0d6efd',
-            fill: false,
-            tension: 0.4
+            borderColor:'#0d6efd',
+
+            fill:false,
+
+            tension:0.4
 
         }]
 
+    },
+
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{
+                position:'top'
+            }
+        }
     }
 
 });
-
 
 </script>
 <div class="button-group">

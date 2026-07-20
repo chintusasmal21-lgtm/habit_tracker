@@ -1675,4 +1675,40 @@ def change_language(request, lang):
     request.session["language"] = lang
     return redirect("language_settings")
 
+@login_required
+@login_required
+def achievements(request):
+
+    total_habits = Habit.objects.filter(
+        user=request.user
+    ).count()
+
+    completed = Habit.objects.filter(
+        user=request.user,
+        status="Completed"
+    ).count()
+
+    pending = Habit.objects.filter(
+        user=request.user,
+        status="Pending"
+    ).count()
+
+    achievements = []
+
+    if completed >= 1:
+        achievements.append("🎉 First Habit Completed")
+
+    if completed >= 5:
+        achievements.append("🔥 5 Habits Completed")
+
+    if completed >= 10:
+        achievements.append("🏆 Habit Master")
+
+    return render(request, "habits/achievements.html", {
+        "total_habits": total_habits,
+        "completed": completed,
+        "pending": pending,
+        "achievements": achievements,
+    })
+
 # Create your views here.
