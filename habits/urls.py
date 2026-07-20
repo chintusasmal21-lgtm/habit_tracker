@@ -171,6 +171,12 @@ path(
     views.food_summary,
     name="food_summary",
 ),
+path("feedback/", views.feedback, name="feedback"),
+path("help/", views.help_page, name="help"),
+path("language/", views.language_settings, name="language_settings"),
+path("change-language/<str:lang>/", views.change_language, name="change_language"),
+
+
 
 
 

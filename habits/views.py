@@ -873,9 +873,10 @@ def profile(request):
         user=request.user
     ).count()
 
-    completed_habits = HabitLog.objects.filter(
-        habit__user=request.user,
-        completed=True
+    completed_habits = Habit.objects.filter(
+      user=request.user
+    ).exclude(
+      habitlog__completed=False
     ).count()
 
     return render(
@@ -1641,5 +1642,37 @@ def food_summary(request):
         "habits/food_summary.html",
         context
     )
+from django.contrib import messages
+from .models import Feedback
+
+@login_required
+def feedback(request):
+
+    if request.method == "POST":
+
+        Feedback.objects.create(
+
+            user=request.user,
+
+            rating=request.POST["rating"],
+
+            feedback=request.POST["feedback"]
+
+        )
+
+        messages.success(request, "Thank you for your feedback ❤️")
+
+    return render(request, "habits/feedback.html")
+@login_required
+def help_page(request):
+    return render(request, "habits/help.html")
+@login_required
+def language_settings(request):
+    return render(request, "habits/language.html")
+from django.shortcuts import redirect
+
+def change_language(request, lang):
+    request.session["language"] = lang
+    return redirect("language_settings")
 
 # Create your views here.

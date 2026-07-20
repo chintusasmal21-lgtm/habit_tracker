@@ -2,81 +2,128 @@
 <html>
 <head>
 
-<title>Profile</title>
-
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Profile</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
 
 body{
-    background:#f4f6fb;
+    background:#eef3ff;
+    font-family:Arial,sans-serif;
 }
 
 .profile-card{
     background:#fff;
-    border-radius:18px;
+    border-radius:20px;
     overflow:hidden;
-    box-shadow:0 8px 20px rgba(0,0,0,.1);
-    margin-bottom:30px;
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
 }
 
 .profile-header{
-    background:#0d6efd;
+    background:linear-gradient(135deg,#0d6efd,#00c6ff);
     color:white;
-    padding:18px;
     text-align:center;
-}
-
-.profile-body{
     padding:30px;
 }
 
 .profile-pic{
-    width:160px;
-    height:160px;
+    width:140px;
+    height:140px;
     border-radius:50%;
     object-fit:cover;
-    border:5px solid #0d6efd;
+    border:5px solid white;
+    margin-bottom:15px;
 }
 
-.info-box h5{
-    margin-bottom:18px;
+.section-title{
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.list-group-item{
+    border:none;
+    border-bottom:1px solid #eee;
+    padding:18px;
     font-size:18px;
 }
 
-.action-btn{
-    min-width:200px;
-    margin:8px;
+.list-group-item:hover{
+    background:#f5f7ff;
 }
 
-/* Mobile */
+.stat-box{
+    background:#f8f9fa;
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
 
-@media (max-width:768px){
+.stat-number{
+    font-size:28px;
+    font-weight:bold;
+    color:#0d6efd;
+}
 
-    .profile-body{
-        padding:20px;
-    }
+.btn{
+    border-radius:12px;
+}
 
-    .profile-pic{
-        width:120px;
-        height:120px;
-        margin-bottom:20px;
-    }
+@media(max-width:768px){
 
-    .info-box{
-        text-align:center;
-    }
+.profile-pic{
+width:110px;
+height:110px;
+}
 
-    .info-box h5{
-        font-size:17px;
-    }
+.list-group-item{
+font-size:16px;
+}
 
-    .action-btn{
-        width:100%;
-        margin:8px 0;
-    }
+}
+.dark-mode{
+    background:#121212 !important;
+    color:white !important;
+}
+
+.dark-mode .profile-card,
+.dark-mode .card,
+.dark-mode .summary-card,
+.dark-mode .tool-card,
+.dark-mode .language-card{
+
+    background:#1f1f1f !important;
+    color:white !important;
+
+}
+
+.dark-mode .list-group-item{
+
+    background:#1f1f1f !important;
+    color:white !important;
+    border-color:#444;
+
+}
+
+.dark-mode .btn-secondary{
+
+    background:#444;
+    border:none;
+
+}
+
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode select{
+
+    background:#2a2a2a;
+    color:white;
+    border:1px solid #555;
 
 }
 
@@ -92,74 +139,213 @@ body{
 
 <div class="profile-header">
 
-<h2 class="mb-0">
-👤 User Profile
-</h2>
+<img src="{{ profile.profile_pic.url }}" class="profile-pic">
+
+<h3>{{ request.user.username }}</h3>
+
+<p>{{ request.user.email }}</p>
 
 </div>
 
-<div class="profile-body">
+<div class="p-4">
 
-<div class="row align-items-center">
+<!-- Stats -->
 
-<div class="col-md-4 text-center mb-4 mb-md-0">
+<h4 class="section-title">
+📊 Your Stats
+</h4>
 
-<img src="{{ profile.profile_pic.url }}"
-     class="profile-pic">
+<div class="row mb-4">
 
+<div class="col-6">
+
+<div class="stat-box">
+
+<div class="stat-number">
+{{ total_habits }}
 </div>
 
-<div class="col-md-8">
-
-<div class="info-box">
-
-<h5><b>Username:</b> {{ request.user.username }}</h5>
-
-<h5><b>Email:</b> {{ request.user.email }}</h5>
-
-<h5><b>Total Habits:</b> {{ total_habits }}</h5>
-
-<h5><b>Completed Habits:</b> {{ completed_habits }}</h5>
-
-</div>
+Total Habits
 
 </div>
 
 </div>
 
-<hr>
+<div class="col-6">
 
-<div class="text-center">
+<div class="stat-box">
 
-<a href="{% url 'edit_profile' %}"
-   class="btn btn-primary action-btn">
+<div class="stat-number">
+{{ completed_habits }}
+</div>
 
-✏️ Edit Profile
+Completed
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Account -->
+
+<h4 class="section-title">
+👤 Account
+</h4>
+
+<div class="list-group mb-4">
+
+<a href="{% url 'edit_profile' %}" class="list-group-item list-group-item-action">
+
+✏ Edit Profile
 
 </a>
 
-<a href="{% url 'change_password' %}"
-   class="btn btn-warning action-btn">
+<a href="{% url 'change_password' %}" class="list-group-item list-group-item-action">
 
 🔒 Change Password
 
 </a>
 
+</div>
 
+<!-- Settings -->
+
+<h4 class="section-title">
+⚙ Settings
+</h4>
+
+<div class="list-group mb-4">
+
+<div class="d-flex justify-content-between align-items-center border rounded p-3 mb-3">
+
+    <div>
+
+        <h5 class="mb-0">🌙 Dark Mode</h5>
+
+        <small class="text-muted">Switch between Light and Dark theme</small>
+
+    </div>
+
+    <div class="form-check form-switch">
+
+        <input
+            class="form-check-input"
+            type="checkbox"
+            id="darkModeToggle">
+
+    </div>
 
 </div>
 
 </div>
 
-</div>
-<a href="{% url 'dashboard' %}"
-    class="btn btn-secondary action-btn">
+<!-- Support -->
 
-    ⬅ Back to Dashboard
+<h4 class="section-title">
+❤️ Support
+</h4>
+
+<div class="list-group mb-4">
+
+
+
+<a href="{% url 'feedback' %}" class="list-group-item list-group-item-action">
+
+💬 Feedback
+
+</a>
+
+<a href="{% url 'contact' %}" class="list-group-item list-group-item-action">
+
+📞 Contact Us
+
+</a>
+
+<a href="{% url 'help' %}" class="list-group-item list-group-item-action">
+
+❓ Help
 
 </a>
 
 </div>
+
+<div class="d-grid gap-2">
+
+<a href="{% url 'dashboard' %}" class="btn btn-secondary">
+
+⬅ Back to Dashboard
+
+</a>
+
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function shareApp(){
+
+if(navigator.share){
+
+navigator.share({
+
+title:"Habit Tracker",
+
+text:"Track your daily habits using Habit Tracker!",
+
+url:window.location.origin
+
+});
+
+}else{
+
+alert("Sharing is not supported on this device.");
+
+}
+
+}
+
+
+const toggle = document.getElementById("darkModeToggle");
+
+// Load saved mode
+if(localStorage.getItem("darkMode") === "enabled"){
+
+    document.body.classList.add("dark-mode");
+
+    toggle.checked = true;
+
+}
+
+// Toggle Dark Mode
+toggle.addEventListener("change", function(){
+
+    if(this.checked){
+
+        document.body.classList.add("dark-mode");
+
+        localStorage.setItem("darkMode","enabled");
+
+    }else{
+
+        document.body.classList.remove("dark-mode");
+
+        localStorage.setItem("darkMode","disabled");
+
+    }
+
+});
+
+
+
+</script>
 
 </body>
 </html>

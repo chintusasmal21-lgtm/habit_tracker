@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Help Center</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    background:#eef3ff;
+}
+
+.help-card{
+    background:white;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+    padding:30px;
+}
+
+.accordion-button{
+    font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container py-5">
+
+<div class="help-card">
+
+<h2 class="text-center mb-4">
+❓ Help Center
+</h2>
+
+<p class="text-center text-muted">
+Find answers to the most common questions.
+</p>
+
+<div class="accordion" id="faqAccordion">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#q1">
+
+How do I add a new habit?
+
+</button>
+
+</h2>
+
+<div id="q1"
+class="accordion-collapse collapse show"
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Go to the Dashboard → <b>Add Habit</b>. Fill in the habit details and click <b>Save</b>.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#q2">
+
+How do I mark a habit as completed?
+
+</button>
+
+</h2>
+
+<div id="q2"
+class="accordion-collapse collapse"
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Open your Habit List and click the <b>Complete</b> button for today's habit.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#q3">
+
+How are calories calculated?
+
+</button>
+
+</h2>
+
+<div id="q3"
+class="accordion-collapse collapse"
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Calories are calculated based on the food items and quantities you select.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#q4">
+
+Why didn't I receive a reminder email?
+
+</button>
+
+</h2>
+
+<div id="q4"
+class="accordion-collapse collapse"
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Check that:
+<ul>
+<li>Your email address is correct.</li>
+<li>Email notifications are enabled.</li>
+<li>Your reminder time has been reached.</li>
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#q5">
+
+How do I change my password?
+
+</button>
+
+</h2>
+
+<div id="q5"
+class="accordion-collapse collapse"
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Go to <b>Profile → Change Password</b> and enter your current and new password.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#q6">
+
+Can I edit or delete a habit?
+
+</button>
+
+</h2>
+
+<div id="q6"
+class="accordion-collapse collapse"
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Yes. Open your Habit List and use the Edit or Delete options.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#q7">
+
+How do I find nearby medical shops?
+
+</button>
+
+</h2>
+
+<div id="q7"
+class="accordion-collapse collapse"
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Open the Health Center and tap <b>Nearby Medical Shops</b>. Google Maps will open and show pharmacies near your location.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#q8">
+
+How do I contact support?
+
+</button>
+
+</h2>
+
+<div id="q8"
+class="accordion-collapse collapse"
+data-bs-parent="#faqAccordion">
+
+<div class="accordion-body">
+
+Open <b>Profile → Contact Us</b> to view our support email and contact information.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="text-center mt-4">
+
+<a href="{% url 'profile' %}" class="btn btn-primary">
+
+⬅ Back to Profile
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
