@@ -121,6 +121,17 @@ body {
     width: 100%;
     height: 250px;
 }
+#pdfContent {
+
+    background: white;
+
+    width: 100%;
+
+    padding: 20px;
+
+    overflow: visible;
+
+}
 
 .chart-container canvas {
     width: 100% !important;
@@ -139,24 +150,6 @@ body {
     margin-bottom: 10px;
 }
 
-
-/* MOBILE */
-
-@media (max-width: 768px) {
-
-    .chart-container {
-        height: 180px;
-    }
-
-    .chart-card {
-        padding: 10px;
-    }
-
-    .chart-card h4 {
-        font-size: 12px;
-    }
-
-}
 
 
 
@@ -656,27 +649,7 @@ new Chart(
 
 async function downloadPDF() {
 
-    // Check required libraries
-    if (typeof html2canvas === "undefined") {
-
-        alert("PDF library is not loaded. Please refresh the page.");
-
-        return;
-
-    }
-
-    if (typeof window.jspdf === "undefined") {
-
-        alert("jsPDF library is not loaded. Please refresh the page.");
-
-        return;
-
-    }
-
-
-    const { jsPDF } = window.jspdf;
-
-    // Get PDF content
+    const button = document.getElementById("downloadPdfBtn");
     const element = document.getElementById("pdfContent");
 
     if (!element) {
@@ -687,67 +660,36 @@ async function downloadPDF() {
 
     }
 
+    button.disabled = true;
 
-    // Get download button
-    const downloadButton =
-        document.getElementById("downloadPdfBtn");
-
-
-    // Disable button
-    if (downloadButton) {
-
-        downloadButton.disabled = true;
-
-        downloadButton.innerHTML =
-            "⏳ Creating PDF...";
-
-    }
+    button.innerHTML = "⏳ Creating PDF...";
 
 
     try {
 
-        // Wait for Chart.js
-        await new Promise(
-            resolve => setTimeout(resolve, 2000)
-        );
+        // Wait for charts to finish rendering
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
 
-        // Capture report
-        const canvas = await html2canvas(
-            element,
-            {
+        // Capture PDF content
+        const canvas = await html2canvas(element, {
 
-                scale: 2,
+            scale: 2,
 
-                useCORS: true,
+            useCORS: true,
 
-                allowTaint: true,
+            backgroundColor: "#ffffff",
 
-                backgroundColor: "#ffffff",
+            logging: false,
 
-                scrollX: 0,
+            scrollX: 0,
 
-                scrollY: 0
+            scrollY: 0
 
-            }
-        );
+        });
 
 
-        // Check canvas
-        if (
-            !canvas ||
-            canvas.width === 0 ||
-            canvas.height === 0
-        ) {
-
-            throw new Error(
-                "Canvas is empty"
-            );
-
-        }
-
-
-        // Convert to image
+        // Convert canvas to image
         const imgData =
             canvas.toDataURL(
                 "image/jpeg",
@@ -756,6 +698,8 @@ async function downloadPDF() {
 
 
         // Create PDF
+        const { jsPDF } = window.jspdf;
+
         const pdf = new jsPDF(
             "p",
             "mm",
@@ -763,39 +707,38 @@ async function downloadPDF() {
         );
 
 
-        // A4 dimensions
+        // A4 size
         const pageWidth = 210;
 
         const pageHeight = 297;
 
+
+        // Margins
         const margin = 10;
 
         const pdfWidth =
-            pageWidth -
-            (margin * 2);
+            pageWidth - (margin * 2);
 
         const pdfHeight =
-            pageHeight -
-            (margin * 2);
+            pageHeight - (margin * 2);
 
 
         // Calculate image height
         const imageHeight =
-            (
-                canvas.height *
-                pdfWidth
-            ) /
-            canvas.width;
+            (canvas.height * pdfWidth)
+            / canvas.width;
 
 
         let heightLeft =
             imageHeight;
 
-        let position =
-            margin;
+        let position = margin;
 
 
-        // First page
+        // =========================
+        // FIRST PAGE
+        // =========================
+
         pdf.addImage(
 
             imgData,
@@ -816,17 +759,15 @@ async function downloadPDF() {
         heightLeft -= pdfHeight;
 
 
-        // Add additional pages
-        while (
-            heightLeft > 0
-        ) {
+        // =========================
+        // ADD MORE PAGES
+        // =========================
+
+        while (heightLeft > 0) {
 
             position =
                 margin -
-                (
-                    imageHeight -
-                    heightLeft
-                );
+                (imageHeight - heightLeft);
 
 
             pdf.addPage();
@@ -854,13 +795,16 @@ async function downloadPDF() {
         }
 
 
-        // Download
+        // =========================
+        // SAVE PDF
+        // =========================
+
         pdf.save(
             "Habit_Analytics.pdf"
         );
 
-    }
 
+    }
 
     catch (error) {
 
@@ -869,9 +813,9 @@ async function downloadPDF() {
             error
         );
 
-
         alert(
-            "PDF generation failed. Please try again."
+            "PDF generation failed: "
+            + error.message
         );
 
     }
@@ -879,16 +823,10 @@ async function downloadPDF() {
 
     finally {
 
-        // Enable button again
-        if (downloadButton) {
+        button.disabled = false;
 
-            downloadButton.disabled =
-                false;
-
-            downloadButton.innerHTML =
-                "📄 Download PDF";
-
-        }
+        button.innerHTML =
+            "📄 Download PDF";
 
     }
 
