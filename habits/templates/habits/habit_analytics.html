@@ -146,7 +146,7 @@ body {
 @media (max-width: 768px) {
 
     .chart-container {
-        height: 140px;
+        height: 160px;
     }
 
     .chart-card h4 {
@@ -660,7 +660,6 @@ async function downloadPDF() {
 
     const { jsPDF } = window.jspdf;
 
-    // Capture only the report
     const element = document.getElementById('pdfContent');
 
     if (!element) {
@@ -668,17 +667,20 @@ async function downloadPDF() {
         return;
     }
 
-    // Hide buttons if necessary
-    const buttons = document.querySelector('.button-group');
+    // Disable button while generating
+    const downloadButton = document.querySelector(
+        '.button-group button'
+    );
 
-    if (buttons) {
-        buttons.style.display = 'none';
+    if (downloadButton) {
+        downloadButton.disabled = true;
+        downloadButton.innerHTML = "⏳ Creating PDF...";
     }
 
-    // Wait for charts to render
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
     try {
+
+        // Wait for Chart.js to finish rendering
+        await new Promise(resolve => setTimeout(resolve, 1500));
 
         const canvas = await html2canvas(element, {
 
@@ -686,9 +688,7 @@ async function downloadPDF() {
 
             useCORS: true,
 
-            allowTaint: true,
-
-            backgroundColor: '#ffffff',
+            backgroundColor: "#ffffff",
 
             scrollX: 0,
 
@@ -704,87 +704,107 @@ async function downloadPDF() {
 
         });
 
-        const imgData = canvas.toDataURL('image/png');
-
-        const pdf = new jsPDF(
-            'p',
-            'mm',
-            'a4'
+        const imgData = canvas.toDataURL(
+            "image/jpeg",
+            0.95
         );
 
-        const pdfWidth = 190;
+        const pdf = new jsPDF(
+            "p",
+            "mm",
+            "a4"
+        );
 
-        const pdfHeight = 277;
+        const pageWidth = 210;
+        const pageHeight = 297;
 
-        const imgHeight =
-            (canvas.height * pdfWidth) /
+        const margin = 10;
+
+        const contentWidth =
+            pageWidth - (margin * 2);
+
+        const contentHeight =
+            pageHeight - (margin * 2);
+
+        const imageHeight =
+            (canvas.height * contentWidth) /
             canvas.width;
 
-        let heightLeft = imgHeight;
+        let heightLeft = imageHeight;
 
-        let position = 10;
+        let position = margin;
 
 
         // First page
 
         pdf.addImage(
             imgData,
-            'PNG',
-            10,
+            "JPEG",
+            margin,
             position,
-            pdfWidth,
-            imgHeight
+            contentWidth,
+            imageHeight
         );
 
-        heightLeft -= pdfHeight;
+        heightLeft -= contentHeight;
 
 
-        // More pages
+        // Remaining pages
 
         while (heightLeft > 0) {
 
             position =
-                heightLeft -
-                imgHeight +
-                10;
+                margin -
+                (imageHeight - heightLeft);
 
             pdf.addPage();
 
             pdf.addImage(
                 imgData,
-                'PNG',
-                10,
+                "JPEG",
+                margin,
                 position,
-                pdfWidth,
-                imgHeight
+                contentWidth,
+                imageHeight
             );
 
-            heightLeft -= pdfHeight;
+            heightLeft -= contentHeight;
 
         }
 
 
-        // Download PDF
-
         pdf.save(
-            'Habit_Analytics.pdf'
-        );
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert(
-            'PDF generation failed. Please try again.'
+            "Habit_Analytics.pdf"
         );
 
     }
 
+    catch (error) {
 
-    // Show buttons again
+        console.error(
+            "PDF Error:",
+            error
+        );
 
-    if (buttons) {
-        buttons.style.display = 'flex';
+        alert(
+            "PDF generation failed. Please try again."
+        );
+
+    }
+
+    finally {
+
+        // Enable button again
+
+        if (downloadButton) {
+
+            downloadButton.disabled = false;
+
+            downloadButton.innerHTML =
+                "📄 Download PDF";
+
+        }
+
     }
 
 }
