@@ -116,23 +116,6 @@ body {
 /* =========================
    CHARTS
 ========================= */
-.chart-card {
-    background: white;
-    border-radius: 15px;
-    padding: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,.12);
-    margin-bottom: 10px;
-    position: relative;
-    overflow: hidden;
-}
-
-.chart-card h4 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #222;
-}
-
 .chart-container {
     position: relative;
     width: 100%;
@@ -143,14 +126,34 @@ body {
     width: 100% !important;
     height: 100% !important;
 }
+
+.chart-card {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.1);
+}
+
+.chart-card h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+
+/* MOBILE */
+
 @media (max-width: 768px) {
 
     .chart-container {
-        height: 160px;
+        height: 180px;
+    }
+
+    .chart-card {
+        padding: 10px;
     }
 
     .chart-card h4 {
-        font-size: 11px;
+        font-size: 12px;
     }
 
 }
@@ -292,125 +295,90 @@ body {
 
 <body>
 
-<div class="container mt-5" id="pdfContent">
 
-<div class="habit-card">
+<div id="pdfContent">
 
-    <h1 class="heading">
-        {{ habit.name }}
-    </h1>
+    <!-- HABIT DETAILS -->
+    <div class="habit-card">
 
-    <p class="desc">
-        {{ habit.description }}
-    </p>
+        <h1 class="heading">
+            {{ habit.name }}
+        </h1>
 
-    <p class="info">
-        <strong>📅 Start Date:</strong>
-        {{ habit.start_date }}
-    </p>
+        <p class="desc">
+            {{ habit.description }}
+        </p>
 
-    <p class="info">
-        <strong>🏁 End Date:</strong>
-        {{ habit.end_date }}
-    </p>
+        <p class="info">
+            <strong>📅 Start Date:</strong>
+            {{ habit.start_date }}
+        </p>
 
-</div>
+        <p class="info">
+            <strong>🏁 End Date:</strong>
+            {{ habit.end_date }}
+        </p>
 
-   <div class="row g-4">
+    </div>
 
-    <div class="col-6 col-md-3">
 
-        <div class="stat-card">
+    <!-- STATISTICS -->
+    <div class="row g-4">
 
-            <h5>Total Days</h5>
-
-            <div class="value text-primary">
-                {{ total_days }}
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <h5>Total Days</h5>
+                <div class="value text-primary">
+                    {{ total_days }}
+                </div>
             </div>
-
         </div>
 
-    </div>
-
-    <div class="col-6 col-md-3">
-
-        <div class="stat-card">
-
-            <h5>Completed</h5>
-
-            <div class="value text-success">
-                {{ completed_days }}
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <h5>Completed</h5>
+                <div class="value text-success">
+                    {{ completed_days }}
+                </div>
             </div>
-
         </div>
 
-    </div>
-
-    <div class="col-6 col-md-3">
-
-        <div class="stat-card">
-
-            <h5>Missed</h5>
-
-            <div class="value text-danger">
-                {{ missed_days }}
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <h5>Missed</h5>
+                <div class="value text-danger">
+                    {{ missed_days }}
+                </div>
             </div>
-
         </div>
 
-    </div>
-
-    <div class="col-6 col-md-3">
-
-        <div class="stat-card">
-
-            <h5>Remaining</h5>
-
-            <div class="value text-warning">
-                {{ remaining_days }}
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <h5>Remaining</h5>
+                <div class="value text-warning">
+                    {{ remaining_days }}
+                </div>
             </div>
-
         </div>
 
     </div>
 
-</div>
-<br>
 
-<div class="progress-card">
+    <!-- SUCCESS RATE -->
+    <div class="progress-card mt-4">
 
-    <h3 class="mb-3">
-        📈 Success Rate
-    </h3>
+        <h3 class="mb-3">
+            📈 Success Rate
+        </h3>
 
-    <div class="progress">
+        <div class="progress">
 
-        <div class="progress-bar bg-success"
-             role="progressbar"
-             style="width:{{ success_rate }}%;">
+            <div class="progress-bar bg-success"
+                 role="progressbar"
+                 style="width: {{ success_rate }}%;">
 
-            {{ success_rate }}%
+                {{ success_rate }}%
 
-        </div>
-
-    </div>
-
-</div>
-
-   <!-- Charts Section -->
-<div class="row g-2 mt-2">
-
-    <!-- Completion Overview -->
-    <div class="col-6">
-
-        <div class="chart-card">
-
-            <h4 class="text-center">
-                📊 Completion Overview
-            </h4>
-
-            <div class="chart-container">
-                <canvas id="pieChart"></canvas>
             </div>
 
         </div>
@@ -418,237 +386,267 @@ body {
     </div>
 
 
-    <!-- Habit Progress -->
-    <div class="col-6">
+    <!-- CHARTS -->
+    <div class="row g-3 mt-2">
 
-        <div class="chart-card">
+        <!-- PIE -->
+        <div class="col-6">
 
-            <h4 class="text-center">
-                🎯 Habit Progress
-            </h4>
+            <div class="chart-card">
 
-            <div class="chart-container">
-                <canvas id="doughnutChart"></canvas>
+                <h4 class="text-center">
+                    📊 Completion Overview
+                </h4>
+
+                <div class="chart-container">
+                    <canvas id="pieChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DOUGHNUT -->
+        <div class="col-6">
+
+            <div class="chart-card">
+
+                <h4 class="text-center">
+                    🎯 Habit Progress
+                </h4>
+
+                <div class="chart-container">
+                    <canvas id="doughnutChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DATE -->
+        <div class="col-6">
+
+            <div class="chart-card">
+
+                <h4 class="text-center">
+                    📅 Date Wise Progress
+                </h4>
+
+                <div class="chart-container">
+                    <canvas id="dateChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TREND -->
+        <div class="col-6">
+
+            <div class="chart-card">
+
+                <h4 class="text-center">
+                    📈 Progress Trend
+                </h4>
+
+                <div class="chart-container">
+                    <canvas id="lineChart"></canvas>
+                </div>
+
             </div>
 
         </div>
 
     </div>
-
-
-    <!-- Date Wise Progress -->
-    <div class="col-6">
-
-        <div class="chart-card">
-
-            <h4 class="text-center">
-                📅 Date Wise Progress
-            </h4>
-
-            <div class="chart-container">
-                <canvas id="dateChart"></canvas>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Progress Trend -->
-    <div class="col-6">
-
-        <div class="chart-card">
-
-            <h4 class="text-center">
-                📈 Progress Trend
-            </h4>
-
-            <div class="chart-container">
-                <canvas id="lineChart"></canvas>
-            </div>
-
-        </div>
-
-    </div>
-
-</div>   
 
 </div>
 <script>
 
-// PIE CHART
+new Chart(
+    document.getElementById('pieChart'),
+    {
+        type: 'pie',
 
-new Chart(document.getElementById('pieChart'), {
-
-    type: 'pie',
-
-    data: {
-
-        labels: ['Completed','Missed','Remaining'],
-
-        datasets: [{
-
-            data: [
-                {{ completed_days }},
-                {{ missed_days }},
-                {{ remaining_days }}
+        data: {
+            labels: [
+                'Completed',
+                'Missed',
+                'Remaining'
             ],
 
-            backgroundColor: [
-                '#28a745',
-                '#dc3545',
-                '#ffc107'
-            ]
+            datasets: [{
+                data: [
+                    {{ completed_days|default:0 }},
+                    {{ missed_days|default:0 }},
+                    {{ remaining_days|default:0 }}
+                ],
 
-        }]
+                backgroundColor: [
+                    '#28a745',
+                    '#dc3545',
+                    '#ffc107'
+                ]
+            }]
+        },
 
-    },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
 
-    options:{
-        responsive:true,
-        maintainAspectRatio:false,
-        plugins:{
-            legend:{
-                position:'top'
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
             }
         }
     }
+);
 
-});
 
+new Chart(
+    document.getElementById('doughnutChart'),
+    {
+        type: 'doughnut',
 
-// DOUGHNUT CHART
-
-new Chart(document.getElementById('doughnutChart'), {
-
-    type: 'doughnut',
-
-    data: {
-
-        labels: ['Completed','Remaining'],
-
-        datasets: [{
-
-            data: [
-                {{ completed_days }},
-                {{ remaining_days }}
+        data: {
+            labels: [
+                'Completed',
+                'Remaining'
             ],
 
-            backgroundColor: [
-                '#198754',
-                '#0d6efd'
-            ]
+            datasets: [{
+                data: [
+                    {{ completed_days|default:0 }},
+                    {{ remaining_days|default:0 }}
+                ],
 
-        }]
+                backgroundColor: [
+                    '#198754',
+                    '#0d6efd'
+                ]
+            }]
+        },
 
-    },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
 
-    options:{
-        responsive:true,
-        maintainAspectRatio:false,
-        plugins:{
-            legend:{
-                position:'top'
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
             }
         }
     }
+);
 
-});
 
+new Chart(
+    document.getElementById('dateChart'),
+    {
+        type: 'line',
 
-// Date CHART
-new Chart(document.getElementById('dateChart'), {
+        data: {
+            labels: {{ date_labels|safe }},
 
-    type:'line',
+            datasets: [{
+                label: 'Completed Habits',
 
-    data:{
+                data: {{ date_counts|safe }},
 
-        labels: {{ date_labels|safe }},
+                borderColor: '#0d6efd',
 
-        datasets:[{
+                backgroundColor:
+                    'rgba(13,110,253,0.2)',
 
-            label:'Completed Habits',
+                fill: true,
 
-            data: {{ date_counts|safe }},
+                tension: 0.4
+            }]
+        },
 
-            borderColor:'#0d6efd',
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
 
-            backgroundColor:'rgba(13,110,253,0.2)',
-
-            fill:true,
-
-            tension:0.4
-
-        }]
-
-    },
-
-    options:{
-        responsive:true,
-        maintainAspectRatio:false,
-        plugins:{
-            legend:{
-                position:'top'
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
             }
         }
     }
+);
 
-});
 
+new Chart(
+    document.getElementById('lineChart'),
+    {
+        type: 'line',
 
-// LINE CHART
-
-new Chart(document.getElementById('lineChart'), {
-
-    type:'line',
-
-    data:{
-
-        labels:['Start','Current','Target'],
-
-        datasets:[{
-
-            label:'Progress',
-
-            data:[
-                0,
-                {{ completed_days|default:0 }},
-                {{ total_days|default:0 }}
+        data: {
+            labels: [
+                'Start',
+                'Current',
+                'Target'
             ],
 
-            borderColor:'#0d6efd',
+            datasets: [{
+                label: 'Progress',
 
-            fill:false,
+                data: [
+                    0,
+                    {{ completed_days|default:0 }},
+                    {{ total_days|default:0 }}
+                ],
 
-            tension:0.4
+                borderColor: '#0d6efd',
 
-        }]
+                backgroundColor:
+                    'rgba(13,110,253,0.2)',
 
-    },
+                fill: false,
 
-    options:{
-        responsive:true,
-        maintainAspectRatio:false,
-        plugins:{
-            legend:{
-                position:'top'
+                tension: 0.4
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
             }
         }
     }
-
-});
+);
 
 </script>
+
 <div class="container mb-5">
 
     <div class="button-group">
 
-        <button onclick="downloadPDF()" class="btn btn-danger">
+        <button type="button"
+                id="downloadPdfBtn"
+                onclick="downloadPDF()"
+                class="btn btn-danger">
+
             📄 Download PDF
+
         </button>
 
-        <a href="/analytics/" class="btn btn-primary">
+        <a href="/analytics/"
+           class="btn btn-primary">
+
             ⬅ Back
+
         </a>
 
     </div>
@@ -658,126 +656,211 @@ new Chart(document.getElementById('lineChart'), {
 
 async function downloadPDF() {
 
+    // Check required libraries
+    if (typeof html2canvas === "undefined") {
+
+        alert("PDF library is not loaded. Please refresh the page.");
+
+        return;
+
+    }
+
+    if (typeof window.jspdf === "undefined") {
+
+        alert("jsPDF library is not loaded. Please refresh the page.");
+
+        return;
+
+    }
+
+
     const { jsPDF } = window.jspdf;
 
-    const element = document.getElementById('pdfContent');
+    // Get PDF content
+    const element = document.getElementById("pdfContent");
 
     if (!element) {
+
         alert("PDF content not found!");
+
         return;
+
     }
 
-    // Disable button while generating
-    const downloadButton = document.querySelector(
-        '.button-group button'
-    );
 
+    // Get download button
+    const downloadButton =
+        document.getElementById("downloadPdfBtn");
+
+
+    // Disable button
     if (downloadButton) {
+
         downloadButton.disabled = true;
-        downloadButton.innerHTML = "⏳ Creating PDF...";
+
+        downloadButton.innerHTML =
+            "⏳ Creating PDF...";
+
     }
+
 
     try {
 
-        // Wait for Chart.js to finish rendering
-        await new Promise(resolve => setTimeout(resolve, 1500));
-
-        const canvas = await html2canvas(element, {
-
-            scale: 2,
-
-            useCORS: true,
-
-            backgroundColor: "#ffffff",
-
-            scrollX: 0,
-
-            scrollY: 0,
-
-            width: element.scrollWidth,
-
-            height: element.scrollHeight,
-
-            windowWidth: element.scrollWidth,
-
-            windowHeight: element.scrollHeight
-
-        });
-
-        const imgData = canvas.toDataURL(
-            "image/jpeg",
-            0.95
+        // Wait for Chart.js
+        await new Promise(
+            resolve => setTimeout(resolve, 2000)
         );
 
+
+        // Capture report
+        const canvas = await html2canvas(
+            element,
+            {
+
+                scale: 2,
+
+                useCORS: true,
+
+                allowTaint: true,
+
+                backgroundColor: "#ffffff",
+
+                scrollX: 0,
+
+                scrollY: 0
+
+            }
+        );
+
+
+        // Check canvas
+        if (
+            !canvas ||
+            canvas.width === 0 ||
+            canvas.height === 0
+        ) {
+
+            throw new Error(
+                "Canvas is empty"
+            );
+
+        }
+
+
+        // Convert to image
+        const imgData =
+            canvas.toDataURL(
+                "image/jpeg",
+                0.95
+            );
+
+
+        // Create PDF
         const pdf = new jsPDF(
             "p",
             "mm",
             "a4"
         );
 
+
+        // A4 dimensions
         const pageWidth = 210;
+
         const pageHeight = 297;
 
         const margin = 10;
 
-        const contentWidth =
-            pageWidth - (margin * 2);
+        const pdfWidth =
+            pageWidth -
+            (margin * 2);
 
-        const contentHeight =
-            pageHeight - (margin * 2);
+        const pdfHeight =
+            pageHeight -
+            (margin * 2);
 
+
+        // Calculate image height
         const imageHeight =
-            (canvas.height * contentWidth) /
+            (
+                canvas.height *
+                pdfWidth
+            ) /
             canvas.width;
 
-        let heightLeft = imageHeight;
 
-        let position = margin;
+        let heightLeft =
+            imageHeight;
+
+        let position =
+            margin;
 
 
         // First page
-
         pdf.addImage(
+
             imgData,
+
             "JPEG",
+
             margin,
+
             position,
-            contentWidth,
+
+            pdfWidth,
+
             imageHeight
+
         );
 
-        heightLeft -= contentHeight;
+
+        heightLeft -= pdfHeight;
 
 
-        // Remaining pages
-
-        while (heightLeft > 0) {
+        // Add additional pages
+        while (
+            heightLeft > 0
+        ) {
 
             position =
                 margin -
-                (imageHeight - heightLeft);
+                (
+                    imageHeight -
+                    heightLeft
+                );
+
 
             pdf.addPage();
 
+
             pdf.addImage(
+
                 imgData,
+
                 "JPEG",
+
                 margin,
+
                 position,
-                contentWidth,
+
+                pdfWidth,
+
                 imageHeight
+
             );
 
-            heightLeft -= contentHeight;
+
+            heightLeft -= pdfHeight;
 
         }
 
 
+        // Download
         pdf.save(
             "Habit_Analytics.pdf"
         );
 
     }
+
 
     catch (error) {
 
@@ -786,19 +869,21 @@ async function downloadPDF() {
             error
         );
 
+
         alert(
             "PDF generation failed. Please try again."
         );
 
     }
 
+
     finally {
 
         // Enable button again
-
         if (downloadButton) {
 
-            downloadButton.disabled = false;
+            downloadButton.disabled =
+                false;
 
             downloadButton.innerHTML =
                 "📄 Download PDF";
