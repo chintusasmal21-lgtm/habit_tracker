@@ -118,13 +118,10 @@ body {
 ========================= */
 .chart-card {
     background: white;
-    border-radius: 20px;
-    padding: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,.12);
-
-    margin-bottom: 15px;
-
-    /* Important */
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.12);
+    margin-bottom: 10px;
     position: relative;
     overflow: hidden;
 }
@@ -135,14 +132,27 @@ body {
     margin-bottom: 5px;
     color: #222;
 }
+
 .chart-container {
     position: relative;
     width: 100%;
-    height: 230px;
+    height: 250px;
 }
+
 .chart-container canvas {
     width: 100% !important;
     height: 100% !important;
+}
+@media (max-width: 768px) {
+
+    .chart-container {
+        height: 140px;
+    }
+
+    .chart-card h4 {
+        font-size: 11px;
+    }
+
 }
 
 
@@ -234,48 +244,29 @@ body {
 @media (max-width: 768px) {
 
     .chart-card {
-        padding: 10px;
-        margin-bottom: 12px;
+        padding: 5px;
+        border-radius: 12px;
+        margin-bottom: 8px;
     }
 
     .chart-card h4 {
-        font-size: 16px;
-        margin-bottom: 3px;
+        font-size: 11px;
+        margin-bottom: 2px;
+        white-space: nowrap;
     }
 
     .chart-container {
-        height: 200px;
+        height: 140px;
     }
+
+}
 
 
     /* Buttons */
 
-    .button-group {
-        position: relative;
-        z-index: 9999;
+ 
 
-        display: flex;
-        flex-direction: row;
 
-        justify-content: center;
-        align-items: center;
-
-        gap: 10px;
-
-        margin-top: 20px;
-        margin-bottom: 60px;
-
-        padding: 15px 5px;
-    }
-
-    .button-group button,
-    .button-group a {
-        min-width: 135px;
-        padding: 10px 12px;
-        font-size: 14px;
-    }
-
-}
 
 .button-group .btn {
     position: relative;
@@ -407,61 +398,80 @@ body {
 </div>
 
    <!-- Charts Section -->
-
-<div class="row g-3 mt-2">
+<div class="row g-2 mt-2">
 
     <!-- Completion Overview -->
-    <div class="col-12 col-lg-6">
+    <div class="col-6">
+
         <div class="chart-card">
+
             <h4 class="text-center">
                 📊 Completion Overview
             </h4>
+
             <div class="chart-container">
                 <canvas id="pieChart"></canvas>
             </div>
+
         </div>
+
     </div>
 
 
     <!-- Habit Progress -->
-    <div class="col-12 col-lg-6">
+    <div class="col-6">
+
         <div class="chart-card">
+
             <h4 class="text-center">
                 🎯 Habit Progress
             </h4>
+
             <div class="chart-container">
                 <canvas id="doughnutChart"></canvas>
             </div>
-        </div>
-    </div>
-</div>    
 
-<div class="row g-3 mt-2">
+        </div>
+
+    </div>
+
+
     <!-- Date Wise Progress -->
-    <div class="col-12 col-lg-6">
+    <div class="col-6">
+
         <div class="chart-card">
+
             <h4 class="text-center">
                 📅 Date Wise Progress
             </h4>
+
             <div class="chart-container">
                 <canvas id="dateChart"></canvas>
             </div>
+
         </div>
+
     </div>
 
 
     <!-- Progress Trend -->
-    <div class="col-12 col-lg-6">
+    <div class="col-6">
+
         <div class="chart-card">
+
             <h4 class="text-center">
                 📈 Progress Trend
             </h4>
+
             <div class="chart-container">
                 <canvas id="lineChart"></canvas>
             </div>
+
         </div>
+
     </div>
-</div>    
+
+</div>   
 
 </div>
 <script>
