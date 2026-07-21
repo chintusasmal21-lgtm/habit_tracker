@@ -655,62 +655,143 @@ new Chart(document.getElementById('lineChart'), {
 
 </div>
 <script>
+
 async function downloadPDF() {
 
     const { jsPDF } = window.jspdf;
 
-    const pdf = new jsPDF('p', 'mm', 'a4');
-
+    // Select the complete report
     const element = document.querySelector('.container');
 
-    const canvas = await html2canvas(element, {
-        scale: 2
-    });
+    if (!element) {
+        alert("Report not found!");
+        return;
+    }
 
-    const imgData = canvas.toDataURL('image/png');
+    // Temporarily hide buttons from PDF
+    const buttonGroup = document.querySelector('.button-group');
 
-    const imgWidth = 190;
+    if (buttonGroup) {
+        buttonGroup.style.display = 'none';
+    }
 
-    const pageHeight = 297;
+    // Wait for charts to fully render
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-    const imgHeight =
-        canvas.height * imgWidth / canvas.width;
+    try {
 
-    let heightLeft = imgHeight;
+        const canvas = await html2canvas(element, {
 
-    let position = 10;
+            scale: 2,
 
-    pdf.addImage(
-        imgData,
-        'PNG',
-        10,
-        position,
-        imgWidth,
-        imgHeight
-    );
+            useCORS: true,
 
-    heightLeft -= pageHeight;
+            backgroundColor: '#ffffff',
 
-    while (heightLeft > 0) {
+            logging: false,
 
-        position = heightLeft - imgHeight;
+            scrollX: 0,
 
-        pdf.addPage();
+            scrollY: -window.scrollY,
+
+            windowWidth: element.scrollWidth,
+
+            windowHeight: element.scrollHeight
+
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+
+        const pdf = new jsPDF(
+            'p',
+            'mm',
+            'a4'
+        );
+
+        const pdfWidth = 190;
+
+        const pageHeight = 277;
+
+        const imgHeight =
+            (canvas.height * pdfWidth) /
+            canvas.width;
+
+        let heightLeft = imgHeight;
+
+        let position = 10;
+
+        // First page
 
         pdf.addImage(
             imgData,
             'PNG',
             10,
             position,
-            imgWidth,
+            pdfWidth,
             imgHeight
         );
 
         heightLeft -= pageHeight;
+
+
+        // Additional pages
+
+        while (heightLeft > 0) {
+
+            position =
+                heightLeft -
+                imgHeight +
+                10;
+
+            pdf.addPage();
+
+            pdf.addImage(
+                imgData,
+                'PNG',
+                10,
+                position,
+                pdfWidth,
+                imgHeight
+            );
+
+            heightLeft -= pageHeight;
+
+        }
+
+
+        // Download
+
+        pdf.save(
+            'Habit_Analytics.pdf'
+        );
+
     }
 
-    pdf.save('Habit_Analytics.pdf');
+    catch (error) {
+
+        console.error(
+            'PDF Error:',
+            error
+        );
+
+        alert(
+            'Unable to generate PDF. Please try again.'
+        );
+
+    }
+
+    finally {
+
+        // Show buttons again
+
+        if (buttonGroup) {
+            buttonGroup.style.display = 'flex';
+        }
+
+    }
+
 }
+
 </script>
 </body>
 </html>
