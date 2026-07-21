@@ -292,7 +292,7 @@ body {
 
 <body>
 
-<div class="container mt-5">
+<div class="container mt-5" id="pdfContent">
 
 <div class="habit-card">
 
@@ -660,22 +660,22 @@ async function downloadPDF() {
 
     const { jsPDF } = window.jspdf;
 
-    // Select the complete report
-    const element = document.querySelector('.container');
+    // Capture only the report
+    const element = document.getElementById('pdfContent');
 
     if (!element) {
-        alert("Report not found!");
+        alert("PDF content not found!");
         return;
     }
 
-    // Temporarily hide buttons from PDF
-    const buttonGroup = document.querySelector('.button-group');
+    // Hide buttons if necessary
+    const buttons = document.querySelector('.button-group');
 
-    if (buttonGroup) {
-        buttonGroup.style.display = 'none';
+    if (buttons) {
+        buttons.style.display = 'none';
     }
 
-    // Wait for charts to fully render
+    // Wait for charts to render
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     try {
@@ -686,13 +686,17 @@ async function downloadPDF() {
 
             useCORS: true,
 
-            backgroundColor: '#ffffff',
+            allowTaint: true,
 
-            logging: false,
+            backgroundColor: '#ffffff',
 
             scrollX: 0,
 
-            scrollY: -window.scrollY,
+            scrollY: 0,
+
+            width: element.scrollWidth,
+
+            height: element.scrollHeight,
 
             windowWidth: element.scrollWidth,
 
@@ -710,7 +714,7 @@ async function downloadPDF() {
 
         const pdfWidth = 190;
 
-        const pageHeight = 277;
+        const pdfHeight = 277;
 
         const imgHeight =
             (canvas.height * pdfWidth) /
@@ -719,6 +723,7 @@ async function downloadPDF() {
         let heightLeft = imgHeight;
 
         let position = 10;
+
 
         // First page
 
@@ -731,10 +736,10 @@ async function downloadPDF() {
             imgHeight
         );
 
-        heightLeft -= pageHeight;
+        heightLeft -= pdfHeight;
 
 
-        // Additional pages
+        // More pages
 
         while (heightLeft > 0) {
 
@@ -754,40 +759,32 @@ async function downloadPDF() {
                 imgHeight
             );
 
-            heightLeft -= pageHeight;
+            heightLeft -= pdfHeight;
 
         }
 
 
-        // Download
+        // Download PDF
 
         pdf.save(
             'Habit_Analytics.pdf'
         );
 
-    }
+    } catch (error) {
 
-    catch (error) {
-
-        console.error(
-            'PDF Error:',
-            error
-        );
+        console.error(error);
 
         alert(
-            'Unable to generate PDF. Please try again.'
+            'PDF generation failed. Please try again.'
         );
 
     }
 
-    finally {
 
-        // Show buttons again
+    // Show buttons again
 
-        if (buttonGroup) {
-            buttonGroup.style.display = 'flex';
-        }
-
+    if (buttons) {
+        buttons.style.display = 'flex';
     }
 
 }
