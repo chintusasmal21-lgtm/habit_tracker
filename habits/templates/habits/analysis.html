@@ -12,130 +12,257 @@
 
 <style>
 
-body{
-    background:linear-gradient(135deg,#d4fc79,#96e6a1);
-    font-family:'Segoe UI',sans-serif;
-    min-height:100vh;
+/* =========================
+   BODY
+========================= */
+
+body {
+    background: linear-gradient(135deg, #d4fc79, #96e6a1);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
 }
 
-.container{
-    margin-top:40px;
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+    margin-top: 40px;
 }
 
-h1{
-    text-align:center;
-    font-size:45px;
-    font-weight:bold;
-    color:#1f2937;
-    margin-bottom:35px;
+
+/* =========================
+   MAIN HEADING
+========================= */
+
+h1 {
+    text-align: center;
+    font-size: 45px;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 35px;
 }
 
-/* Cards */
 
-.card{
-    border:none;
-    border-radius:20px;
-    box-shadow:0 12px 30px rgba(0,0,0,.15);
-    transition:.3s;
+/* =========================
+   GENERAL CARDS
+========================= */
+
+.card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .15);
+    transition: .3s;
 }
 
-.card:hover{
-    transform:translateY(-6px);
+.card:hover {
+    transform: translateY(-6px);
 }
 
-/* Statistic Cards */
 
-.total-card{
-    background:#dbeafe;
+/* =========================
+   STATISTIC CARDS
+========================= */
+
+.total-card {
+    background: #dbeafe;
 }
 
-.completed-card{
-    background:#dcfce7;
+.completed-card {
+    background: #dcfce7;
 }
 
-.pending-card{
-    background:#fef9c3;
+.pending-card {
+    background: #fef9c3;
 }
 
-.missed-card{
-    background:#fee2e2;
+.missed-card {
+    background: #fee2e2;
 }
 
-.card h5{
-    font-weight:bold;
-    color:#555;
+.card h5 {
+    font-weight: bold;
+    color: #555;
 }
 
-.card h2{
-    font-size:40px;
-    font-weight:bold;
+.card h2 {
+    font-size: 40px;
+    font-weight: bold;
 }
 
-/* Chart Cards */
 
-.chart-card{
-    background:#ffffff;
-    margin-bottom:25px;
+/* =========================
+   CHART CARDS
+========================= */
+
+.chart-card {
+    background: #ffffff;
+
+    border-radius: 20px;
+
+    padding: 20px !important;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+
+    /* Same height for all chart boxes */
+    height: 100%;
+
+    min-height: 320px;
+
+    margin-bottom: 20px;
+
+    display: flex;
+    flex-direction: column;
 }
 
-.chart-card h4{
-    font-weight:bold;
-    margin-bottom:20px;
+
+/* Chart title */
+
+.chart-card h4 {
+    font-size: 20px;
+    font-weight: bold;
+
+    margin-bottom: 15px;
+
+    text-align: center;
+
+    color: #222;
 }
 
-/* Progress */
 
-.progress{
-    height:30px;
-    border-radius:20px;
+/* Chart area */
+
+.chart-card canvas {
+    width: 100% !important;
+
+    height: 230px !important;
+
+    max-height: none !important;
+
+    display: block;
 }
 
-.progress-bar{
-    font-size:18px;
-    font-weight:bold;
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress {
+    height: 30px;
+    border-radius: 20px;
 }
 
-/* Charts */
-
-canvas{
-    max-height:300px;
+.progress-bar {
+    font-size: 18px;
+    font-weight: bold;
 }
 
-/* Buttons */
 
-.button-group{
+/* =========================
+   BUTTONS
+========================= */
 
-    display:flex;
-    justify-content:center;
-    margin:40px 0;
+.button-group {
+    display: flex;
 
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin: 40px 0;
 }
 
-.button-group .btn{
+.button-group .btn {
+    min-width: 180px;
 
-    min-width:180px;
-    padding:12px 30px;
-    border-radius:12px;
-    font-size:18px;
-    font-weight:bold;
+    padding: 12px 30px;
 
+    border-radius: 12px;
+
+    font-size: 18px;
+
+    font-weight: bold;
 }
 
-/* Mobile */
 
-@media(max-width:768px){
+/* =========================
+   MOBILE
+========================= */
 
-h1{
-    font-size:32px;
-}
+@media (max-width: 768px) {
 
-.card{
-    margin-bottom:20px;
-}
+    /* Main heading */
 
-.button-group .btn{
-    width:100%;
-}
+    h1 {
+        font-size: 32px;
+
+        margin-bottom: 25px;
+    }
+
+
+    /* General cards */
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+
+    /* Chart cards */
+
+    .chart-card {
+        min-height: 280px;
+
+        padding: 15px !important;
+
+        margin-bottom: 15px;
+
+        border-radius: 18px;
+    }
+
+
+    /* Chart titles */
+
+    .chart-card h4 {
+        font-size: 16px;
+
+        margin-bottom: 10px;
+
+        white-space: nowrap;
+    }
+
+
+    /* All charts same size */
+
+    .chart-card canvas {
+        width: 100% !important;
+
+        height: 210px !important;
+
+        max-height: none !important;
+    }
+
+
+    /* Buttons */
+
+    .button-group {
+        flex-direction: column;
+
+        gap: 12px;
+
+        margin: 30px 0;
+    }
+
+
+    .button-group .btn {
+        width: 100%;
+
+        min-width: 0;
+
+        font-size: 16px;
+    }
 
 }
 
@@ -241,72 +368,52 @@ style="width:{{ success_rate }}%;">
 
 <br>
 
-<div class="row">
+<div class="row g-3">
 
-<div class="col-md-6">
+    <div class="col-12 col-md-6">
+        <div class="card chart-card">
 
-<div class="card chart-card p-4">
+            <h4>🥧 Habit Status</h4>
 
-<h4 class="text-center">
+            <canvas id="pieChart"></canvas>
 
-🥧 Habit Status
+        </div>
+    </div>
 
-</h4>
 
-<canvas id="pieChart"></canvas>
+    <div class="col-12 col-md-6">
+        <div class="card chart-card">
 
-</div>
+            <h4>📊 Habit Comparison</h4>
 
-</div>
+            <canvas id="barChart"></canvas>
 
-<div class="col-md-6">
+        </div>
+    </div>
 
-<div class="card chart-card p-4">
 
-<h4 class="text-center">
+    <div class="col-12 col-md-6">
+        <div class="card chart-card">
 
-📊 Habit Comparison
+            <h4>📅 Date Wise Progress</h4>
 
-</h4>
+            <canvas id="dateChart"></canvas>
 
-<canvas id="barChart"></canvas>
+        </div>
+    </div>
 
-</div>
 
-</div>
+    <div class="col-12 col-md-6">
+        <div class="card chart-card">
 
-<div class="col-md-6">
+            <h4>📈 Weekly Progress</h4>
 
-<div class="card chart-card p-4">
+            <canvas id="weeklyChart"></canvas>
 
-<h4 class="text-center">
-
-📅 Date Wise Progress
-
-</h4>
-
-<canvas id="dateChart"></canvas>
-
-</div>
+        </div>
+    </div>
 
 </div>
-
-<div class="col-md-6">
-
-<div class="card chart-card p-4">
-
-<h4 class="text-center">
-
-📈 Weekly Progress
-
-</h4>
-
-<canvas id="weeklyChart"></canvas>
-
-</div>
-
-</div>
-
 </div>
 
 <div class="button-group">
