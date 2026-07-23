@@ -690,6 +690,26 @@
 
             {% endif %}
 
+            {% if medicine.consult_doctor %}
+
+            <div class="warning-box">
+
+                <div class="warning-title">
+
+                    ⚠️ Doctor's consult
+
+                </div>
+
+                <div>
+
+                    {{ medicine.consult_doctor}}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
 
         </div>
 
