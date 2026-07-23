@@ -97,11 +97,10 @@ path(
     name='forgot_password'
 ),
 path(
-    'verify-otp/',
+    "verify-otp/",
     views.verify_otp,
-    name='verify_otp'
+     name="verify_otp"
 ),
-
 path(
     'reset-password/',
     views.reset_password,

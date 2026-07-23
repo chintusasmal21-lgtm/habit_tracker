@@ -15,6 +15,7 @@ from habits.models import Profile
 from django.shortcuts import render
 import random
 from django.conf import settings
+from .models import PasswordOTP
 
 
    
@@ -61,62 +62,149 @@ def dashboard(request):
 
     today = date.today()
 
-    # Total Habits
+    # ==========================================
+    # TOTAL HABITS
+    # ==========================================
+
     total_habits = Habit.objects.filter(
         user=request.user
     ).count()
 
-    # Pending Habits
+
+    # ==========================================
+    # PENDING HABITS
+    # ==========================================
+
     pending_habits = Habit.objects.filter(
         user=request.user,
         status="Pending"
     )
 
-    # Completed Habits
+
+    # ==========================================
+    # COMPLETED HABITS
+    # ==========================================
+
     completed_habits = Habit.objects.filter(
         user=request.user,
         status="Completed"
     )
 
-    # Habits completed today
+
+    # ==========================================
+    # HABITS COMPLETED TODAY
+    # ==========================================
+
     completed_today = HabitLog.objects.filter(
         habit__user=request.user,
         log_date=today,
         completed=True
     ).count()
-    
 
-    # Habits completed this week
+
+    # ==========================================
+    # HABITS COMPLETED THIS WEEK
+    # ==========================================
+
     completed_week = 0
 
-    habits = Habit.objects.filter(user=request.user)
+    habits = Habit.objects.filter(
+        user=request.user
+    )
 
     for habit in habits:
-       total_logs = HabitLog.objects.filter(habit=habit).count()
-       completed_logs = HabitLog.objects.filter(
-        habit=habit,
-        completed=True
+
+        total_logs = HabitLog.objects.filter(
+            habit=habit
         ).count()
-       if total_logs > 0 and total_logs == completed_logs:
-        completed_week += 1
+
+        completed_logs = HabitLog.objects.filter(
+            habit=habit,
+            completed=True
+        ).count()
+
+        if total_logs > 0 and total_logs == completed_logs:
+            completed_week += 1
+
+
+    # ==========================================
+    # ACTIVE DAYS
+    # ==========================================
 
     active_days = HabitLog.objects.filter(
-    habit__user=request.user,
-    completed=True
-    ).values('log_date').distinct().count()
+        habit__user=request.user,
+        completed=True
+    ).values(
+        'log_date'
+    ).distinct().count()
+
+
+    # ==========================================
+    # CURRENT STREAK
+    # ==========================================
+
+    completed_dates = set(
+        HabitLog.objects.filter(
+            habit__user=request.user,
+            completed=True
+        ).values_list(
+            'log_date',
+            flat=True
+        )
+    )
 
     current_streak = 0
-    check_date = date.today()
 
-    while HabitLog.objects.filter(
-        habit__user=request.user,
-        log_date=check_date,
-        completed=True
-    ).exists():
+    check_date = today
 
-       current_streak += 1
-       check_date -= timedelta(days=1)
-    
+    while check_date in completed_dates:
+
+        current_streak += 1
+
+        check_date -= timedelta(days=1)
+
+
+    # ==========================================
+    # HIGHEST / LONGEST STREAK
+    # ==========================================
+
+    highest_streak = 0
+
+    current_count = 0
+
+    # Sort all completed dates
+    sorted_dates = sorted(completed_dates)
+
+    previous_date = None
+
+    for completed_date in sorted_dates:
+
+        # First completed date
+        if previous_date is None:
+
+            current_count = 1
+
+        # Consecutive day
+        elif completed_date == previous_date + timedelta(days=1):
+
+            current_count += 1
+
+        # Streak broken
+        else:
+
+            current_count = 1
+
+        # Update highest streak
+        if current_count > highest_streak:
+
+            highest_streak = current_count
+
+        previous_date = completed_date
+
+
+    # ==========================================
+    # CONTEXT
+    # ==========================================
 
     context = {
 
@@ -129,20 +217,21 @@ def dashboard(request):
         "completed_today": completed_today,
 
         "completed_week": completed_week,
+
         "active_days": active_days,
 
         "current_streak": current_streak,
-       
-       
+
+        "highest_streak": highest_streak,
 
     }
+
 
     return render(
         request,
         "habits/dashboard.html",
         context
     )
-
 
 def user_login(request):
 
@@ -1033,54 +1122,61 @@ def forgot_password(request):
 
     if request.method == "POST":
 
-        email = request.POST.get('email')
+        email = request.POST.get("email", "").strip()
 
-        try:
+        # Find users with this email
+        users = User.objects.filter(email=email)
 
-            user = User.objects.get(
-                email=email
-            )
-
-            otp = str(
-                random.randint(
-                    100000,
-                    999999
-                )
-            )
-
-            PasswordOTP.objects.create(
-                user=user,
-                otp=otp
-            )
-
-            send_mail(
-                'Password Reset OTP',
-                f'Your OTP is {otp}',
-                'admin@gmail.com',
-                [email],
-                fail_silently=False
-            )
-
-            request.session['reset_user'] = user.id
-
-            return redirect(
-                'verify_otp'
-            )
-
-        except User.DoesNotExist:
-
+        # Email not found
+        if not users.exists():
             return render(
                 request,
-                'habits/forgot_password.html',
+                "habits/forgot_password.html",
                 {
-                    'error':
-                    'Email not found'
+                    "error": "Email not found"
                 }
             )
 
+        # Same email used by multiple accounts
+        if users.count() > 1:
+            return render(
+                request,
+                "habits/forgot_password.html",
+                {
+                    "error": "Multiple accounts are using this email. Please contact support."
+                }
+            )
+
+        # Get the user
+        user = users.first()
+
+        # Generate 6-digit OTP
+        otp = str(random.randint(100000, 999999))
+
+        # Save OTP
+        PasswordOTP.objects.create(
+            user=user,
+            otp=otp
+        )
+
+        # Send OTP
+        send_mail(
+            "Password Reset OTP",
+            f"Your OTP is {otp}",
+            "admin@gmail.com",
+            [email],
+            fail_silently=False
+        )
+
+        # Save user ID in session
+        request.session["reset_user"] = user.id
+
+        # Go to OTP verification
+        return redirect("verify_otp")
+
     return render(
         request,
-        'habits/forgot_password.html'
+        "habits/forgot_password.html"
     )
 from .models import PasswordOTP
 def verify_otp(request):
