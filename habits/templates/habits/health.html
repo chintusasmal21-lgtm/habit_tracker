@@ -282,13 +282,16 @@ Open Medicine Information
 </div>
 
 <script>
-function findMedicalShops() {
-  window.location.assign(
-    "https://www.google.com/maps/search/?api=1&query=Medical+Shop+near+me"
-);
-}
 
-       
+function openNearbyMedicalShops() {
+
+    // Open Google Maps app directly
+    const googleMapsUrl =
+        "https://www.google.com/maps/search/?api=1&query=Medical+Shop+near+me";
+
+    window.location.href = googleMapsUrl;
+
+}
 
 </script>
 
