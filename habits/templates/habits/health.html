@@ -285,13 +285,21 @@ Open Medicine Information
 <script>
 
 function openNearbyMedicalShops() {
+    const query = "Medical Shop near me";
+    const encodedQuery = encodeURIComponent(query);
 
-    const googleMapsUrl =
-        "https://www.google.com/maps/search/?api=1&query=Medical+Shop+near+me";
+    // Best option: launch native Google Maps app directly.
+    // If Maps app isn't installed, Android automatically falls back
+    // to the browser_fallback_url below instead of failing silently.
+    const intentUrl = 
+        "intent://maps.google.com/maps?q=" + encodedQuery +
+        "#Intent;scheme=https;package=com.google.android.apps.maps;" +
+        "S.browser_fallback_url=" + encodeURIComponent(
+            "https://www.google.com/maps/search/?api=1&query=" + encodedQuery
+        ) +
+        ";end";
 
-    // Open Google Maps without replacing the current Health page
-    window.location.href = googleMapsUrl;
-
+    window.location.href = intentUrl;
 }
 
 </script>
