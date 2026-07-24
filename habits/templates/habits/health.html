@@ -254,10 +254,11 @@ Open Medicine Information
         </div>
 
         <button
-            class="btn btn-danger tool-btn"
-            onclick="openNearbyRestaurants()">
+             type="button"
+             class="btn btn-danger tool-btn"
+             onclick="openNearbyMedicalShops()">
 
-            Find Medical Shops
+            📍 Find Nearby Medical Shops
 
         </button>
 
@@ -281,15 +282,15 @@ Open Medicine Information
 
 </div>
 
-
 <script>
 
-function openNearbyRestaurants() {
+function openNearbyMedicalShops() {
 
     const googleMapsUrl =
-        "https://www.google.com/maps/search/?api=1&query=Restaurants+near+me";
+        "https://www.google.com/maps/search/?api=1&query=Medical+Shop+near+me";
 
-    window.location.href = googleMapsUrl;
+    // Open Google Maps without replacing the current Health page
+    window.open(googleMapsUrl, "_blank");
 
 }
 
