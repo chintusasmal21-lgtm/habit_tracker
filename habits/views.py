@@ -36,33 +36,52 @@ def contact(request):
 
     if request.method == "POST":
 
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        subject = request.POST.get("subject")
+        message = request.POST.get("message")
 
-        send_mail(
-            subject,
-            f"""
-               Name: {name}
+        try:
+            send_mail(
+                subject=f"Contact Form: {subject}",
 
-               Email: {email}
+                message=f"""
+You have received a new message from the Habit Tracker contact form.
 
-               Message:{message}
-            """,
-            email,
-            ['yourgmail@gmail.com'],
-            fail_silently=False,
-        )
+Name    : {name}
+Email   : {email}
 
-        messages.success(
-            request,
-            "Message sent successfully!"
-        )
+Message:
+{message}
+""",
+
+                # Sender email configured in Brevo
+                from_email=settings.DEFAULT_FROM_EMAIL,
+
+                # Your email address where you want to receive messages
+                recipient_list=[settings.DEFAULT_FROM_EMAIL],
+
+                fail_silently=False,
+            )
+
+            messages.success(
+                request,
+                "Message sent successfully!"
+            )
+
+        except Exception as e:
+            logger.exception(
+                f"Contact Email Error: {e}"
+            )
+
+            messages.error(
+                request,
+                "Unable to send message. Please try again later."
+            )
 
     return render(
         request,
-        'habits/contact.html'
+        "habits/contact.html"
     )
 @login_required
 def dashboard(request):
@@ -1652,7 +1671,6 @@ def reminder(request):
         if not show:
             continue
 
-        # If completed today, don't show it
         completed = HabitLog.objects.filter(
             habit=habit,
             log_date=today,
@@ -1660,13 +1678,14 @@ def reminder(request):
         ).exists()
 
         if not completed:
+
             pending_reminders.append(habit)
+
             if request.user.email:
 
                 try:
 
                     send_mail(
-
                         subject=f"🔔 Habit Reminder - {habit.name}",
 
                         message=f"""
@@ -1685,16 +1704,25 @@ Stay Healthy 💚
 Habit Tracker Team
 """,
 
-                        from_email=settings.EMAIL_HOST_USER,
+                        from_email=settings.DEFAULT_FROM_EMAIL,
 
-                        recipient_list=[request.user.email],
+                        recipient_list=[
+                            request.user.email
+                        ],
 
                         fail_silently=False,
+                    )
 
+                    print(
+                        f"Reminder email sent to {request.user.email}"
                     )
 
                 except Exception as e:
-                    print("Email Error:", e)
+
+                    print(
+                        "Reminder Email Error:",
+                        e
+                    )
 
     return render(
         request,

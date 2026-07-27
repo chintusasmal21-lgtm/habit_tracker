@@ -498,8 +498,10 @@ id="habitTable">
 <tr>
 
 <th>#</th>
+<th>Username</th>
 
 <th>Habit</th>
+
 
 <th>Description</th>
 
@@ -522,12 +524,16 @@ id="habitTable">
 {{ forloop.counter }}
 
 </td>
+<td>
+👤 {{ habit.user.username }}
+</td>
 
 <td>
 
 {{ habit.name }}
 
 </td>
+
 
 <td>
 
