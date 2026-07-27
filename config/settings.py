@@ -148,7 +148,7 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = "chintu.sasmal21@gmail.com"
 
-EMAIL_HOST_PASSWORD ="byfgrjdmupttfmcl"
+EMAIL_HOST_PASSWORD ="iqoxayypabwhgyyr"
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
