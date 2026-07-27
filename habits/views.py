@@ -341,10 +341,11 @@ def register(request):
         )
 
         # Send welcome email
-        try:
-            send_mail(
-                subject="🎉 Welcome to Habit Tracker",
-                message=f"""
+        if email:
+            try:
+                send_mail(
+                    subject="🎉 Welcome to Habit Tracker",
+                    message=f"""
 Hello {username},
 
 Welcome to Habit Tracker!
@@ -361,17 +362,26 @@ You can now log in and start building healthy habits.
 Thank you for joining us!
 
 Habit Tracker Team
-                """,
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[email],
-                fail_silently=False,
-            )
+""",
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[email],
+                    fail_silently=False,
+                )
 
-        except Exception as e:
-           import traceback
-           traceback.print_exc()
+                logger.info(
+                    f"Welcome email sent successfully to {email}"
+                )
 
-        messages.success(request, "Registration successful.")
+            except Exception as e:
+                logger.exception(
+                    f"Welcome Email Error: {e}"
+                )
+
+        messages.success(
+            request,
+            "Registration successful. Welcome email sent!"
+        )
+
         return redirect("/login/")
 
     return render(request, "habits/register.html")
@@ -682,7 +692,9 @@ def habit_edits(request, id):
             old_end_date != habit.end_date
         ):
 
-            HabitLog.objects.filter(habit=habit).delete()
+            HabitLog.objects.filter(
+                habit=habit
+            ).delete()
 
             current_date = habit.start_date
 
@@ -744,31 +756,56 @@ def habit_edits(request, id):
 
                     current_date += timedelta(days=7)
 
-        try:
-            send_mail(
-                "Habit Updated",
-                f"""
-Your habit "{habit.name}" has been updated.
+        # Send habit updated email
+        if request.user.email:
+            try:
 
+                send_mail(
+                    subject="Habit Updated Successfully",
+                    message=f"""
+Your habit "{habit.name}" has been updated successfully.
+
+Habit Details:
+-------------------------
+
+Habit Name : {habit.name}
 Description : {habit.description}
 Category    : {habit.category}
 Frequency   : {habit.frequency}
 Reminder    : {habit.reminder_time}
+
 Start Date  : {habit.start_date}
 End Date    : {habit.end_date}
 Status      : {habit.status}
+
+Your habit details have been successfully updated.
+
+Habit Tracker Team
 """,
-                settings.EMAIL_HOST_USER,
-                [request.user.email],
-                fail_silently=False,
-            )
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[request.user.email],
+                    fail_silently=False,
+                )
 
-        except Exception as e:
-            print("Email Error:", e)
+                logger.info(
+                    f"Habit update email sent successfully to "
+                    f"{request.user.email}"
+                )
 
-        messages.success(request, "Habit updated successfully!")
+            except Exception as e:
+                logger.exception(
+                    f"Habit Update Email Error: {e}"
+                )
 
-        return redirect("edit_habit")
+        messages.success(
+            request,
+            "Habit updated successfully!"
+        )
+
+        return redirect(
+            "edit_habit",
+            id=habit.id
+        )
 
     return render(
         request,
