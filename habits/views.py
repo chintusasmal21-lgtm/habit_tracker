@@ -1688,73 +1688,36 @@ def reminder(request):
 
         show = False
 
+        # Daily habit
         if habit.frequency == "Daily":
             show = True
 
+        # Monday to Friday
         elif habit.frequency == "Weekdays":
             show = weekday < 5
 
+        # Saturday and Sunday
         elif habit.frequency == "Weekends":
             show = weekday >= 5
 
+        # Same weekday as the habit start date
         elif habit.frequency == "Weekly":
             show = weekday == habit.start_date.weekday()
 
+        # Not scheduled for today
         if not show:
             continue
 
+        # Check whether today's habit is completed
         completed = HabitLog.objects.filter(
             habit=habit,
             log_date=today,
             completed=True
         ).exists()
 
+        # Show only if not completed
         if not completed:
-
             pending_reminders.append(habit)
-
-            if request.user.email:
-
-                try:
-
-                    send_mail(
-                        subject=f"🔔 Habit Reminder - {habit.name}",
-
-                        message=f"""
-Hello {request.user.username},
-
-This is a reminder that your habit is still pending today.
-
-Habit Name : {habit.name}
-Category   : {habit.category}
-Frequency  : {habit.frequency}
-
-Please complete your habit today.
-
-Stay Healthy 💚
-
-Habit Tracker Team
-""",
-
-                        from_email=settings.DEFAULT_FROM_EMAIL,
-
-                        recipient_list=[
-                            request.user.email
-                        ],
-
-                        fail_silently=False,
-                    )
-
-                    print(
-                        f"Reminder email sent to {request.user.email}"
-                    )
-
-                except Exception as e:
-
-                    print(
-                        "Reminder Email Error:",
-                        e
-                    )
 
     return render(
         request,
