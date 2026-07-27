@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Count
 from habits.models import Profile
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import random
 from django.conf import settings
 from .models import PasswordOTP
@@ -369,10 +369,37 @@ Habit Tracker Team
 
     return render(request, "habits/register.html")
 
+import threading
 import logging
 from datetime import datetime, timedelta
 from .models import Habit, HabitLog
 logger = logging.getLogger(__name__)
+def send_habit_email(user_email, habit):
+    try:
+        send_mail(
+            subject="Habit Created Successfully",
+            message=f"""
+Your habit has been created successfully.
+
+Habit Name : {habit.name}
+Category   : {habit.category}
+Frequency  : {habit.frequency}
+Reminder   : {habit.reminder_time}
+
+Start Date : {habit.start_date}
+End Date   : {habit.end_date}
+
+Stay consistent and achieve your goals!
+""",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[user_email],
+            fail_silently=True,
+        )
+
+        logger.info(f"Habit creation email sent to {user_email}")
+
+    except Exception as e:
+        logger.error(f"Email Error: {e}")
 
 @login_required
 def add_habit(request):
@@ -460,6 +487,12 @@ def add_habit(request):
                 )
 
                 current_date += timedelta(days=7)
+            if request.user.email:
+              threading.Thread(
+                target=send_habit_email,
+                args=(request.user.email, habit),
+                daemon=True
+            ).start()
 
 
         messages.success(request, "Habit added successfully!")
