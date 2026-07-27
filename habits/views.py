@@ -488,11 +488,10 @@ def add_habit(request):
 
                 current_date += timedelta(days=7)
             if request.user.email:
-              threading.Thread(
-                target=send_habit_email,
-                args=(request.user.email, habit),
-                daemon=True
-            ).start()
+                send_habit_email(
+                  request.user.email,
+                   habit
+                )
 
 
         messages.success(request, "Habit added successfully!")
