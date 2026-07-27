@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect,get_object_or_404,redirect
 from .models import Register
-from django.core.mail import send_mail
 from .models import Habit,HabitLog
 from datetime import date, datetime,timedelta
 
@@ -16,6 +15,14 @@ from django.shortcuts import render, redirect
 import random
 from django.conf import settings
 from .models import PasswordOTP
+import resend
+import logging
+from django.conf import settings
+import threading
+from datetime import datetime, timedelta
+from .models import Habit, HabitLog
+
+logger = logging.getLogger(__name__)
 
 
    
@@ -369,16 +376,17 @@ Habit Tracker Team
 
     return render(request, "habits/register.html")
 
-import threading
-import logging
-from datetime import datetime, timedelta
-from .models import Habit, HabitLog
-logger = logging.getLogger(__name__)
+
+
 def send_habit_email(user_email, habit):
     try:
-        send_mail(
-            subject="Habit Created Successfully",
-            message=f"""
+        resend.api_key = settings.RESEND_API_KEY
+
+        response = resend.Emails.send({
+            "from": "onboarding@resend.dev",
+            "to": [user_email],
+            "subject": "Habit Created Successfully",
+            "text": f"""
 Your habit has been created successfully.
 
 Habit Name : {habit.name}
@@ -390,16 +398,14 @@ Start Date : {habit.start_date}
 End Date   : {habit.end_date}
 
 Stay consistent and achieve your goals!
-""",
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[user_email],
-            fail_silently=False,
-        )
+"""
+        })
 
         logger.info(f"Habit creation email sent to {user_email}")
+        logger.info(f"Resend response: {response}")
 
     except Exception as e:
-        logger.error(f"Email Error: {e}")
+        logger.exception(f"Email Error: {e}")
 
 @login_required
 def add_habit(request):
