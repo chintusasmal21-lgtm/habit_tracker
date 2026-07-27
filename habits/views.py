@@ -376,17 +376,12 @@ Habit Tracker Team
 
     return render(request, "habits/register.html")
 
-
-
+from django.core.mail import send_mail
 def send_habit_email(user_email, habit):
     try:
-        resend.api_key = settings.RESEND_API_KEY
-
-        response = resend.Emails.send({
-            "from": "onboarding@resend.dev",
-            "to": [user_email],
-            "subject": "Habit Created Successfully",
-            "text": f"""
+        send_mail(
+            subject="Habit Created Successfully",
+            message=f"""
 Your habit has been created successfully.
 
 Habit Name : {habit.name}
@@ -398,11 +393,15 @@ Start Date : {habit.start_date}
 End Date   : {habit.end_date}
 
 Stay consistent and achieve your goals!
-"""
-        })
+""",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[user_email],
+            fail_silently=False,
+        )
 
-        logger.info(f"Habit creation email sent to {user_email}")
-        logger.info(f"Resend response: {response}")
+        logger.info(
+            f"Habit creation email sent successfully to {user_email}"
+        )
 
     except Exception as e:
         logger.exception(f"Email Error: {e}")
@@ -493,11 +492,11 @@ def add_habit(request):
                 )
 
                 current_date += timedelta(days=7)
-            if request.user.email:
-                send_habit_email(
-                  request.user.email,
-                   habit
-                )
+        if request.user.email:
+            send_habit_email(
+              request.user.email,
+              habit
+            )   
 
 
         messages.success(request, "Habit added successfully!")
