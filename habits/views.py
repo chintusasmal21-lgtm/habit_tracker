@@ -21,6 +21,7 @@ from django.conf import settings
 import threading
 from datetime import datetime, timedelta
 from .models import Habit, HabitLog
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -335,16 +336,37 @@ def user_login(request):
 def register(request):
     if request.method == "POST":
 
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-        phone = request.POST.get("phone")
+        username = request.POST.get("username", "").strip()
+        email = request.POST.get("email", "").strip()
+        phone = request.POST.get("phone", "").strip()
         gender = request.POST.get("gender")
         password = request.POST.get("password")
 
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "Username already exists.")
-            return render(request, "habits/register.html")
+        # Username format validation
+        # Example allowed: chintu16, amit12, rahul25
+        if not re.match(r'^[A-Za-z]+[0-9]+$', username):
+            messages.error(
+                request,
+                "Username must contain letters followed by numbers. "
+                "Example: chintu16 or amit12."
+            )
+            return render(
+                request,
+                "habits/register.html"
+            )
 
+        # Check if username already exists
+        if User.objects.filter(username=username).exists():
+            messages.error(
+                request,
+                "Username already exists."
+            )
+            return render(
+                request,
+                "habits/register.html"
+            )
+
+        # Create Register record
         Register.objects.create(
             username=username,
             email=email,
@@ -353,6 +375,7 @@ def register(request):
             password=password
         )
 
+        # Create Django User
         User.objects.create_user(
             username=username,
             email=email,
@@ -362,8 +385,10 @@ def register(request):
         # Send welcome email
         if email:
             try:
+
                 send_mail(
                     subject="🎉 Welcome to Habit Tracker",
+
                     message=f"""
 Hello {username},
 
@@ -382,8 +407,11 @@ Thank you for joining us!
 
 Habit Tracker Team
 """,
+
                     from_email=settings.DEFAULT_FROM_EMAIL,
+
                     recipient_list=[email],
+
                     fail_silently=False,
                 )
 
@@ -392,6 +420,7 @@ Habit Tracker Team
                 )
 
             except Exception as e:
+
                 logger.exception(
                     f"Welcome Email Error: {e}"
                 )
@@ -403,7 +432,10 @@ Habit Tracker Team
 
         return redirect("/login/")
 
-    return render(request, "habits/register.html")
+    return render(
+        request,
+        "habits/register.html"
+    )
 
 from django.core.mail import send_mail
 def send_habit_email(user_email, habit):

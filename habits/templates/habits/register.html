@@ -815,26 +815,8 @@ h2{
     </p>
 
 
-    <!-- MESSAGES -->
+    <!-- MESSAGES -->   
 
-    {% if messages %}
-
-        {% for message in messages %}
-
-            <div class="alert
-            {% if message.tags == 'error' %}
-                alert-danger
-            {% else %}
-                alert-success
-            {% endif %}">
-
-                {{ message }}
-
-            </div>
-
-        {% endfor %}
-
-    {% endif %}
 
 
     <!-- FORM -->
@@ -860,17 +842,14 @@ h2{
 
                 <input
 
-                    type="text"
-
-                    name="username"
-
-                    class="form-control"
-
-                    placeholder="Enter username"
-
-                    autocomplete="off"
-
-                    required>
+                     type="text"
+                     name="username"
+                     class="form-control"
+                     placeholder="Example: chintu16 or amit12"
+                     pattern="[A-Za-z]+[0-9]+"
+                     title="Username must contain letters followed by numbers. Example: chintu16"
+                     autocomplete="off"
+                     required>
 
             </div>
 
