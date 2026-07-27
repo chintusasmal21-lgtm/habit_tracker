@@ -802,10 +802,7 @@ Habit Tracker Team
             "Habit updated successfully!"
         )
 
-        return redirect(
-            "edit_habit",
-            id=habit.id
-        )
+        return redirect("habit_list")
 
     return render(
         request,
