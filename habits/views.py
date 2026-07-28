@@ -2075,19 +2075,73 @@ def feedback(request):
 
     if request.method == "POST":
 
+        rating = request.POST.get("rating")
+        feedback_text = request.POST.get("feedback")
+
+        # Save feedback
         Feedback.objects.create(
-
             user=request.user,
-
-            rating=request.POST["rating"],
-
-            feedback=request.POST["feedback"]
-
+            rating=rating,
+            feedback=feedback_text
         )
 
-        messages.success(request, "Thank you for your feedback ❤️")
+        # Send email to admin
+        try:
 
-    return render(request, "habits/feedback.html")
+            send_mail(
+                subject=f"⭐ New Feedback - Rating {rating}/5",
+
+                message=f"""
+Hello Admin,
+
+A new user feedback has been submitted.
+
+User Details
+-------------------------
+Username : {request.user.username}
+Email    : {request.user.email}
+Rating   : {rating}/5
+
+Feedback
+-------------------------
+{feedback_text}
+
+Please review the feedback.
+
+Habit Tracker Team
+""",
+
+                from_email=settings.DEFAULT_FROM_EMAIL,
+
+                # Admin email where you want to receive feedback
+                recipient_list=[
+                    settings.DEFAULT_FROM_EMAIL
+                ],
+
+                fail_silently=False,
+            )
+
+            messages.success(
+                request,
+                "Thank you for your feedback ❤️"
+            )
+
+        except Exception as e:
+
+            print(
+                "Feedback Email Error:",
+                e
+            )
+
+            messages.success(
+                request,
+                "Thank you for your feedback ❤️"
+            )
+
+    return render(
+        request,
+        "habits/feedback.html"
+    )
 @login_required
 def help_page(request):
     return render(request, "habits/help.html")
@@ -2100,7 +2154,7 @@ def change_language(request, lang):
     request.session["language"] = lang
     return redirect("language_settings")
 
-@login_required
+
 @login_required
 def achievements(request):
 
