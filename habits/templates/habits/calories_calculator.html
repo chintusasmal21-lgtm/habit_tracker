@@ -156,20 +156,82 @@ body{
                                        required>
 
                             </div>
-
                             <div class="col-md-6 mb-3">
 
-                                <label class="form-label">
-                                    Height (cm)
-                                </label>
+    <label class="form-label">
+        Height Unit
+    </label>
 
-                                <input type="number"
-                                       step="0.1"
-                                       name="height"
-                                       class="form-control"
-                                       required>
+    <select name="height_unit"
+            id="height_unit"
+            class="form-select"
+            onchange="changeHeightUnit()"
+            required>
 
-                            </div>
+        <option value="cm">Centimeters (cm)</option>
+        <option value="ft">Feet & Inches (ft/in)</option>
+
+    </select>
+
+</div>
+
+
+<!-- Height in CM -->
+
+<div class="col-md-6 mb-3"
+     id="cm_input">
+
+    <label class="form-label">
+        Height (cm)
+    </label>
+
+    <input type="number"
+           step="0.1"
+           name="height_cm"
+           class="form-control"
+           placeholder="Example: 170">
+
+</div>
+
+
+<!-- Height in Feet and Inches -->
+
+<div class="col-md-6 mb-3"
+     id="ft_input"
+     style="display:none;">
+
+    <label class="form-label">
+        Height (ft/in)
+    </label>
+
+    <div class="row">
+
+        <div class="col-6">
+
+            <input type="number"
+                   name="height_ft"
+                   class="form-control"
+                   placeholder="Feet"
+                   min="1"
+                   max="8">
+
+        </div>
+
+        <div class="col-6">
+
+            <input type="number"
+                   name="height_in"
+                   class="form-control"
+                   placeholder="Inches"
+                   min="0"
+                   max="11">
+
+        </div>
+
+    </div>
+
+</div>
+
 
                             <div class="col-md-6 mb-3">
 
@@ -291,6 +353,34 @@ body{
 </div>
 
 </div>
+<script>
+
+function changeHeightUnit() {
+
+    const unit = document.getElementById("height_unit").value;
+
+    const cmInput = document.getElementById("cm_input");
+
+    const ftInput = document.getElementById("ft_input");
+
+
+    if (unit === "cm") {
+
+        cmInput.style.display = "block";
+
+        ftInput.style.display = "none";
+
+    } else {
+
+        cmInput.style.display = "none";
+
+        ftInput.style.display = "block";
+
+    }
+
+}
+
+</script>
 
 </body>
 

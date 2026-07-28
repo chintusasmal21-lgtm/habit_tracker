@@ -1465,7 +1465,6 @@ from django.shortcuts import render
 
 
 
-
 def bmi_calculator(request):
 
     bmi = None
@@ -1476,13 +1475,72 @@ def bmi_calculator(request):
 
         age = int(request.POST["age"])
         gender = request.POST["gender"]
-        height = float(request.POST["height"])
-        weight = float(request.POST["weight"])
 
-        bmi = round(weight / ((height / 100) ** 2), 1)
+        # --------------------------------
+        # HEIGHT UNIT
+        # --------------------------------
+
+        height_unit = request.POST.get("height_unit")
+
+        # --------------------------------
+        # HEIGHT CONVERSION TO CM
+        # --------------------------------
+
+        if height_unit == "cm":
+
+            height = float(
+                request.POST.get("height_cm")
+            )
+
+        elif height_unit == "ft":
+
+            feet = float(
+                request.POST.get("height_ft", 0)
+            )
+
+            inches = float(
+                request.POST.get("height_in", 0)
+            )
+
+            # Convert feet + inches to cm
+            height = (
+                feet * 30.48
+            ) + (
+                inches * 2.54
+            )
+
+        else:
+
+            height = 0
+
+
+        # --------------------------------
+        # WEIGHT
+        # --------------------------------
+
+        weight = float(
+            request.POST["weight"]
+        )
+
+
+        # --------------------------------
+        # BMI CALCULATION
+        # --------------------------------
+
+        bmi = round(
+            weight / ((height / 100) ** 2),
+            1
+        )
+
+
+        # --------------------------------
+        # BMI STATUS & TIPS
+        # --------------------------------
 
         if bmi < 18.5:
+
             status = "🔵 Underweight"
+
             tips = [
                 "🍗 Eat protein-rich foods",
                 "🥛 Drink milk daily",
@@ -1490,8 +1548,11 @@ def bmi_calculator(request):
                 "🍌 Increase healthy calories"
             ]
 
+
         elif bmi < 25:
+
             status = "🟢 Healthy"
+
             tips = [
                 "🥗 Maintain a balanced diet",
                 "🏃 Exercise daily",
@@ -1499,8 +1560,11 @@ def bmi_calculator(request):
                 "😴 Sleep 7-8 hours"
             ]
 
+
         elif bmi < 30:
+
             status = "🟠 Overweight"
+
             tips = [
                 "🚶 Walk 8000 steps daily",
                 "🥦 Eat more vegetables",
@@ -1508,8 +1572,11 @@ def bmi_calculator(request):
                 "🚫 Avoid junk food"
             ]
 
+
         else:
+
             status = "🔴 Obese"
+
             tips = [
                 "👨‍⚕️ Consult a doctor",
                 "🏃 Cardio exercise",
@@ -1517,26 +1584,55 @@ def bmi_calculator(request):
                 "🚫 Avoid sugary drinks"
             ]
 
+
+        # --------------------------------
+        # GENDER BASED TIPS
+        # --------------------------------
+
         if gender == "Male":
-            tips.append("🥩 Increase protein for muscle growth")
-            tips.append("🏋️ Include strength workouts")
+
+            tips.append(
+                "🥩 Increase protein for muscle growth"
+            )
+
+            tips.append(
+                "🏋️ Include strength workouts"
+            )
 
         else:
-            tips.append("🥛 Eat calcium-rich foods")
-            tips.append("🥬 Include iron-rich foods")
 
-        return render(request, "habits/bmi.html", {
-            "age": age,
-            "gender": gender,
-            "height": height,
-            "weight": weight,
-            "bmi": bmi,
-            "status": status,
-            "tips": tips,
-        })
+            tips.append(
+                "🥛 Eat calcium-rich foods"
+            )
 
-    return render(request, "habits/bmi.html")
+            tips.append(
+                "🥬 Include iron-rich foods"
+            )
 
+
+        # --------------------------------
+        # SHOW RESULT
+        # --------------------------------
+
+        return render(
+            request,
+            "habits/bmi.html",
+            {
+                "age": age,
+                "gender": gender,
+                "height": height,
+                "weight": weight,
+                "bmi": bmi,
+                "status": status,
+                "tips": tips,
+            }
+        )
+
+
+    return render(
+        request,
+        "habits/bmi.html"
+    )
 
 from django.shortcuts import render
 
@@ -1550,26 +1646,98 @@ def calorie_calculator(request):
         age = int(request.POST.get("age"))
         gender = request.POST.get("gender")
         weight = float(request.POST.get("weight"))
-        height = float(request.POST.get("height"))
-        activity = float(request.POST.get("activity"))
+
+        # Get selected height unit
+        height_unit = request.POST.get("height_unit")
+
+        # --------------------------------
+        # HEIGHT CONVERSION
+        # --------------------------------
+
+        if height_unit == "cm":
+
+            # User entered height in centimeters
+            height = float(
+                request.POST.get("height_cm")
+            )
+
+        elif height_unit == "ft":
+
+            # User entered height in feet and inches
+            feet = float(
+                request.POST.get("height_ft", 0)
+            )
+
+            inches = float(
+                request.POST.get("height_in", 0)
+            )
+
+            # Convert feet + inches to centimeters
+            height = (
+                feet * 30.48
+            ) + (
+                inches * 2.54
+            )
+
+        else:
+
+            height = 0
+
+
+        activity = float(
+            request.POST.get("activity")
+        )
+
         goal = request.POST.get("goal")
 
-        # Calculate BMR (Mifflin-St Jeor Equation)
-        if gender == "Male":
-            bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5
-        else:
-            bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161
 
-        # Daily calories
+        # --------------------------------
+        # CALCULATE BMR
+        # Mifflin-St Jeor Equation
+        # --------------------------------
+
+        if gender == "Male":
+
+            bmr = (
+                (10 * weight)
+                + (6.25 * height)
+                - (5 * age)
+                + 5
+            )
+
+        else:
+
+            bmr = (
+                (10 * weight)
+                + (6.25 * height)
+                - (5 * age)
+                - 161
+            )
+
+
+        # --------------------------------
+        # DAILY CALORIE REQUIREMENT
+        # --------------------------------
+
         calories = bmr * activity
 
-        # Adjust based on goal
+
+        # --------------------------------
+        # ADJUST BASED ON GOAL
+        # --------------------------------
+
         if goal == "Weight Loss":
+
             calories -= 500
+
         elif goal == "Weight Gain":
+
             calories += 500
 
+
+        # Round final calories
         calories = round(calories)
+
 
     return render(
         request,

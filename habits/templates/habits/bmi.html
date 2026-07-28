@@ -222,33 +222,120 @@ value="Female">
 
 <div class="row">
 
-<div class="col-md-6">
+    <!-- HEIGHT UNIT -->
 
-<label>Height (cm)</label>
+    <div class="col-md-6 mb-3">
 
-<input
-type="number"
-step="0.1"
-name="height"
-class="form-control"
-placeholder="Enter Height"
-required>
+        <label class="form-label">
+            Height Unit
+        </label>
 
-</div>
+        <select
+            name="height_unit"
+            id="height_unit"
+            class="form-select"
+            onchange="changeHeightUnit()"
+            required
+        >
 
-<div class="col-md-6">
+            <option value="cm">
+                Centimeters (cm)
+            </option>
 
-<label>Weight (kg)</label>
+            <option value="ft">
+                Feet & Inches (ft/in)
+            </option>
 
-<input
-type="number"
-step="0.1"
-name="weight"
-class="form-control"
-placeholder="Enter Weight"
-required>
+        </select>
 
-</div>
+    </div>
+
+
+    <!-- HEIGHT IN CM -->
+
+    <div
+        class="col-md-6 mb-3"
+        id="cm_input"
+    >
+
+        <label class="form-label">
+            Height (cm)
+        </label>
+
+        <input
+            type="number"
+            step="0.1"
+            name="height_cm"
+            class="form-control"
+            placeholder="Enter Height in cm"
+        >
+
+    </div>
+
+
+    <!-- HEIGHT IN FEET AND INCHES -->
+
+    <div
+        class="col-md-6 mb-3"
+        id="ft_input"
+        style="display:none;"
+    >
+
+        <label class="form-label">
+            Height (ft/in)
+        </label>
+
+        <div class="row">
+
+            <div class="col-6">
+
+                <input
+                    type="number"
+                    name="height_ft"
+                    class="form-control"
+                    placeholder="Feet"
+                    min="1"
+                    max="8"
+                >
+
+            </div>
+
+            <div class="col-6">
+
+                <input
+                    type="number"
+                    name="height_in"
+                    class="form-control"
+                    placeholder="Inches"
+                    min="0"
+                    max="11"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- WEIGHT -->
+
+    <div class="col-md-6 mb-3">
+
+        <label class="form-label">
+            Weight (kg)
+        </label>
+
+        <input
+            type="number"
+            step="0.1"
+            name="weight"
+            class="form-control"
+            placeholder="Enter Weight"
+            required
+        >
+
+    </div>
 
 </div>
 
@@ -327,6 +414,64 @@ Health Tips
 
 </div>
 
+<script>
 
+function changeHeightUnit() {
+
+    const unit =
+        document.getElementById("height_unit").value;
+
+    const cmInput =
+        document.getElementById("cm_input");
+
+    const ftInput =
+        document.getElementById("ft_input");
+
+
+    if (unit === "cm") {
+
+        cmInput.style.display = "block";
+
+        ftInput.style.display = "none";
+
+        // Make CM required
+        document.querySelector(
+            'input[name="height_cm"]'
+        ).required = true;
+
+        // Remove required from feet/inches
+        document.querySelector(
+            'input[name="height_ft"]'
+        ).required = false;
+
+        document.querySelector(
+            'input[name="height_in"]'
+        ).required = false;
+
+    } else {
+
+        cmInput.style.display = "none";
+
+        ftInput.style.display = "block";
+
+        // Remove required from CM
+        document.querySelector(
+            'input[name="height_cm"]'
+        ).required = false;
+
+        // Make feet/inches required
+        document.querySelector(
+            'input[name="height_ft"]'
+        ).required = true;
+
+        document.querySelector(
+            'input[name="height_in"]'
+        ).required = true;
+
+    }
+
+}
+
+</script>
 </body>
 </html>
