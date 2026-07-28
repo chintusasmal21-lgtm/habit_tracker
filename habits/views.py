@@ -1253,7 +1253,7 @@ def forgot_password(request):
 
         email = request.POST.get("email", "").strip()
 
-        # Find users with this email
+        # Find user with this email
         users = User.objects.filter(email=email)
 
         # Email not found
@@ -1266,7 +1266,7 @@ def forgot_password(request):
                 }
             )
 
-        # Same email used by multiple accounts
+        # Multiple accounts with same email
         if users.count() > 1:
             return render(
                 request,
@@ -1276,10 +1276,10 @@ def forgot_password(request):
                 }
             )
 
-        # Get the user
+        # Get user
         user = users.first()
 
-        # Generate 6-digit OTP
+        # Generate 6 digit OTP
         otp = str(random.randint(100000, 999999))
 
         # Save OTP
@@ -1288,19 +1288,56 @@ def forgot_password(request):
             otp=otp
         )
 
-        # Send OTP
-        send_mail(
-            "Password Reset OTP",
-            f"Your OTP is {otp}",
-            "admin@gmail.com",
-            [email],
-            fail_silently=False
-        )
+        # Send OTP email using Brevo SMTP
+        try:
+
+            send_mail(
+                subject="Password Reset OTP",
+
+                message=f"""
+Hello {user.username},
+
+Your Password Reset OTP is:
+
+{otp}
+
+Please enter this OTP to reset your password.
+
+If you did not request a password reset, please ignore this email.
+
+Thank you,
+Habit Tracker Team
+""",
+
+                from_email=settings.DEFAULT_FROM_EMAIL,
+
+                recipient_list=[email],
+
+                fail_silently=False,
+            )
+
+            logger.info(
+                f"Password reset OTP sent successfully to {email}"
+            )
+
+        except Exception as e:
+
+            logger.exception(
+                f"Password Reset Email Error: {e}"
+            )
+
+            return render(
+                request,
+                "habits/forgot_password.html",
+                {
+                    "error": "Unable to send OTP. Please try again later."
+                }
+            )
 
         # Save user ID in session
         request.session["reset_user"] = user.id
 
-        # Go to OTP verification
+        # Redirect to OTP verification
         return redirect("verify_otp")
 
     return render(
@@ -1308,18 +1345,24 @@ def forgot_password(request):
         "habits/forgot_password.html"
     )
 from .models import PasswordOTP
+from django.shortcuts import render, redirect
+from django.utils import timezone
+
+
 def verify_otp(request):
+
+    # Get user ID from session
+    user_id = request.session.get("reset_user")
+
+    # If session does not exist
+    if not user_id:
+        return redirect("forgot_password")
 
     if request.method == "POST":
 
-        entered_otp = request.POST.get(
-            'otp'
-        )
+        entered_otp = request.POST.get("otp", "").strip()
 
-        user_id = request.session.get(
-            'reset_user'
-        )
-
+        # Find latest OTP for this user
         otp_obj = PasswordOTP.objects.filter(
             user_id=user_id,
             otp=entered_otp
@@ -1327,72 +1370,89 @@ def verify_otp(request):
 
         if otp_obj:
 
-            request.session[
-                'otp_verified'
-            ] = True
+            # OTP verified successfully
+            request.session["otp_verified"] = True
 
-            return redirect(
-                'reset_password'
-            )
+            # Delete used OTP
+            otp_obj.delete()
+
+            return redirect("reset_password")
 
         else:
 
             return render(
                 request,
-                'habits/verify_otp.html',
+                "habits/verify_otp.html",
                 {
-                    'error':
-                    'Invalid OTP'
+                    "error": "Invalid OTP. Please enter the correct OTP."
                 }
             )
 
     return render(
         request,
-        'habits/verify_otp.html'
+        "habits/verify_otp.html"
     )
 def reset_password(request):
 
-    if not request.session.get(
-        'otp_verified'
-    ):
-
-        return redirect(
-            'forgot_password'
-        )
+    # Check whether OTP was verified
+    if not request.session.get("otp_verified"):
+        return redirect("forgot_password")
 
     if request.method == "POST":
 
-        password = request.POST.get(
-            'password'
+        password = request.POST.get("password", "").strip()
+        confirm_password = request.POST.get("confirm_password", "").strip()
+
+        # Check passwords
+        if password != confirm_password:
+            return render(
+                request,
+                "habits/reset_password.html",
+                {
+                    "error": "Passwords do not match."
+                }
+            )
+
+        # Check password length
+        if len(password) < 8:
+            return render(
+                request,
+                "habits/reset_password.html",
+                {
+                    "error": "Password must be at least 8 characters."
+                }
+            )
+
+        # Get user ID from session
+        user_id = request.session.get("reset_user")
+
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return redirect("forgot_password")
+
+        # Set new password
+        user.set_password(password)
+        user.save()
+
+        # Delete used OTPs
+        PasswordOTP.objects.filter(
+            user=user
+        ).delete()
+
+        # Clear reset session
+        request.session.flush()
+
+        messages.success(
+            request,
+            "Password reset successfully. Please login with your new password."
         )
 
-        confirm_password = request.POST.get(
-            'confirm_password'
-        )
-
-        if password == confirm_password:
-
-            user = User.objects.get(
-                id=request.session[
-                    'reset_user'
-                ]
-            )
-
-            user.set_password(
-                password
-            )
-
-            user.save()
-
-            request.session.flush()
-
-            return redirect(
-                'login'
-            )
+        return redirect("login")
 
     return render(
         request,
-        'habits/reset_password.html'
+        "habits/reset_password.html"
     )
 
 

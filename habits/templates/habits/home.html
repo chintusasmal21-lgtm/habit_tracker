@@ -68,29 +68,377 @@ body{
    MOBILE APP CONTAINER
 ===================================== */
 
+/* =====================================
+   MOBILE / APP CONTAINER
+===================================== */
+
 .mobile{
 
     width:100%;
 
-    max-width:400px;
+    max-width:1200px;
 
-    min-height:850px;
+    min-height:100vh;
+
+    margin:0 auto;
 
     background:#f8fafc;
 
-    border-radius:35px;
-
     overflow:hidden;
 
-    box-shadow:
-    0 30px 70px
-    rgba(0,0,0,.35);
-
     position:relative;
+
+    box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.20);
 
     transition:
     transform .4s ease,
     box-shadow .4s ease;
+
+}
+
+
+/* =====================================
+   DESKTOP
+===================================== */
+
+@media(min-width:992px){
+
+    body{
+
+        padding:30px;
+
+        align-items:flex-start;
+
+    }
+
+    .mobile{
+
+        width:100%;
+
+        max-width:1200px;
+
+        min-height:calc(100vh - 60px);
+
+        border-radius:35px;
+
+    }
+
+}
+
+
+/* =====================================
+   TOP IMAGE SECTION
+===================================== */
+
+.top{
+
+    height:360px;
+
+    background:
+    linear-gradient(
+        145deg,
+        #2563eb,
+        #4f46e5,
+        #06b6d4
+    );
+
+    border-radius:
+    0 0 45px 45px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+
+/* =====================================
+   DESKTOP TOP SECTION
+===================================== */
+
+@media(min-width:992px){
+
+    .top{
+
+        height:420px;
+
+    }
+
+    .top img{
+
+        width:70%;
+
+        max-width:700px;
+
+        height:90%;
+
+    }
+
+}
+
+
+/* =====================================
+   CONTENT
+===================================== */
+
+.content{
+
+    width:100%;
+
+    max-width:1000px;
+
+    margin:0 auto;
+
+    padding:
+    40px 50px 20px;
+
+}
+
+
+/* =====================================
+   DESKTOP CONTENT
+===================================== */
+
+@media(min-width:992px){
+
+    h1{
+
+        font-size:40px;
+
+    }
+
+    .subtitle{
+
+        font-size:17px;
+
+        max-width:700px;
+
+        margin-left:auto;
+
+        margin-right:auto;
+
+    }
+
+    .feature{
+
+        padding:20px;
+
+    }
+
+    .feature h5{
+
+        font-size:18px;
+
+    }
+
+    .feature p{
+
+        font-size:14px;
+
+    }
+
+    .btn-start{
+
+        max-width:500px;
+
+        display:block;
+
+        margin:
+        25px auto 0;
+
+    }
+
+}
+
+
+/* =====================================
+   TABLET
+===================================== */
+
+@media(min-width:576px) and (max-width:991px){
+
+    body{
+
+        padding:20px;
+
+    }
+
+    .mobile{
+
+        max-width:750px;
+
+        border-radius:30px;
+
+    }
+
+    .content{
+
+        padding:
+        35px 35px 20px;
+
+    }
+
+    .top{
+
+        height:380px;
+
+    }
+
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media(max-width:575px){
+
+    body{
+
+        padding:0;
+
+        display:block;
+
+        min-height:100vh;
+
+    }
+
+    .mobile{
+
+        width:100%;
+
+        max-width:100%;
+
+        min-height:100vh;
+
+        border-radius:0;
+
+        box-shadow:none;
+
+    }
+
+    .mobile:hover{
+
+        transform:none;
+
+        box-shadow:none;
+
+    }
+
+    .top{
+
+        height:330px;
+
+        border-radius:
+        0 0 40px 40px;
+
+    }
+
+    .top img{
+
+        width:88%;
+
+        height:88%;
+
+    }
+
+    .content{
+
+        width:100%;
+
+        padding:
+        25px 20px 10px;
+
+    }
+
+    h1{
+
+        font-size:28px;
+
+    }
+
+    .subtitle{
+
+        font-size:14px;
+
+        line-height:22px;
+
+    }
+
+    .feature{
+
+        padding:13px;
+
+    }
+
+    .feature:hover{
+
+        transform:
+        translateY(-3px)
+        scale(1.01);
+
+    }
+
+    .btn-start{
+
+        padding:14px;
+
+        font-size:16px;
+
+    }
+
+}
+
+
+/* =====================================
+   SMALL MOBILE
+===================================== */
+
+@media(max-width:360px){
+
+    .top{
+
+        height:290px;
+
+    }
+
+    h1{
+
+        font-size:25px;
+
+    }
+
+    .feature h5{
+
+        font-size:15px;
+
+    }
+
+    .feature p{
+
+        font-size:12px;
+
+    }
+
+    .icon{
+
+        width:48px;
+
+        height:48px;
+
+        min-width:48px;
+
+        font-size:22px;
+
+    }
 
 }
 

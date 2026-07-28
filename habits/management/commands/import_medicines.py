@@ -11,7 +11,7 @@ class Command(BaseCommand):
 
         file_path = os.path.join(
             "data",
-            "Health_Medicine_Database_100.xlsx"
+            "Health_Medicine_Database_100_updated(1).xlsx"
         )
 
         workbook = openpyxl.load_workbook(file_path)
