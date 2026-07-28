@@ -12,18 +12,18 @@
 
 <style>
 
-body{
-    background:#eef3ff;
+body {
+    background: #eef3ff;
 }
 
-.card{
-    border:none;
-    border-radius:20px;
-    box-shadow:0 10px 20px rgba(0,0,0,.12);
+.card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,.12);
 }
 
-textarea{
-    resize:none;
+textarea {
+    resize: none;
 }
 
 </style>
@@ -34,125 +34,141 @@ textarea{
 
 <div class="container py-5">
 
-<div class="row justify-content-center">
+    <div class="row justify-content-center">
 
-<div class="col-md-7">
+        <div class="col-md-7">
 
-<div class="card">
+            <div class="card">
 
-<div class="card-body p-4">
+                <div class="card-body p-4">
 
-<h2 class="text-center mb-4">
-💬 Feedback
-</h2>
+                    <h2 class="text-center mb-4">
+                        💬 Feedback
+                    </h2>
 
-{% if messages %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success text-center">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
 
-{% for message in messages %}
+                    <form method="POST">
 
-<div class="alert alert-success">
-{{ message }}
-</div>
+                        {% csrf_token %}
 
-{% endfor %}
+                        <div class="mb-3">
 
-{% endif %}
+                            <label class="form-label">
+                                Your Name
+                            </label>
 
-<form method="POST">
+                            <input
+                                type="text"
+                                class="form-control"
+                                value="{{ request.user.username }}"
+                                readonly>
 
-{% csrf_token %}
+                        </div>
 
-<div class="mb-3">
+                        <div class="mb-3">
 
-<label class="form-label">
-Your Name
-</label>
+                            <label class="form-label">
+                                Email
+                            </label>
 
-<input
-type="text"
-class="form-control"
-value="{{ request.user.username }}"
-readonly>
+                            <input
+                                type="email"
+                                class="form-control"
+                                value="{{ request.user.email }}"
+                                readonly>
 
-</div>
+                        </div>
 
-<div class="mb-3">
+                        <div class="mb-3">
 
-<label class="form-label">
-Email
-</label>
+                            <label class="form-label">
+                                Rate Your Experience
+                            </label>
 
-<input
-type="email"
-class="form-control"
-value="{{ request.user.email }}"
-readonly>
+                            <select
+                                name="rating"
+                                class="form-select"
+                                required>
 
-</div>
+                                <option value="">
+                                    Select Rating
+                                </option>
 
-<div class="mb-3">
+                                <option value="5">
+                                    ⭐⭐⭐⭐⭐ Excellent
+                                </option>
 
-<label class="form-label">
-Rate Your Experience
-</label>
+                                <option value="4">
+                                    ⭐⭐⭐⭐ Good
+                                </option>
 
-<select
-name="rating"
-class="form-select"
-required>
+                                <option value="3">
+                                    ⭐⭐⭐ Average
+                                </option>
 
-<option value="">Select Rating</option>
-<option>⭐⭐⭐⭐⭐ Excellent</option>
-<option>⭐⭐⭐⭐ Good</option>
-<option>⭐⭐⭐ Average</option>
-<option>⭐⭐ Poor</option>
-<option>⭐ Very Bad</option>
+                                <option value="2">
+                                    ⭐⭐ Poor
+                                </option>
 
-</select>
+                                <option value="1">
+                                    ⭐ Very Bad
+                                </option>
 
-</div>
+                            </select>
 
-<div class="mb-3">
+                        </div>
 
-<label class="form-label">
-Your Feedback
-</label>
+                        <div class="mb-3">
 
-<textarea
-name="feedback"
-rows="5"
-class="form-control"
-placeholder="Write your feedback..."
-required></textarea>
+                            <label class="form-label">
+                                Your Feedback
+                            </label>
 
-</div>
+                            <textarea
+                                name="feedback"
+                                rows="5"
+                                class="form-control"
+                                placeholder="Write your feedback..."
+                                required></textarea>
 
-<button
-class="btn btn-success w-100">
+                        </div>
 
-Submit Feedback
+                        <button
+                            type="submit"
+                            class="btn btn-success w-100">
 
-</button>
+                            Submit Feedback
 
-</form>
+                        </button>
 
-<div class="text-center mt-3">
+                    </form>
 
-<a href="{% url 'profile' %}" class="btn btn-secondary">
+                    <div class="text-center mt-3">
 
-⬅ Back
+                        <a
+                            href="{% url 'profile' %}"
+                            class="btn btn-secondary">
 
-</a>
+                            ⬅ Back
 
-</div>
+                        </a>
 
-</div>
+                    </div>
 
-</div>
+                </div>
 
-</div>
+            </div>
 
-</div>
+        </div>
+
+    </div>
 
 </div>
 
