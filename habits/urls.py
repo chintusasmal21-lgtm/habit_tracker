@@ -175,7 +175,11 @@ path("help/", views.help_page, name="help"),
 path("language/", views.language_settings, name="language_settings"),
 path("change-language/<str:lang>/", views.change_language, name="change_language"),
 path('achievements/', views.achievements, name='achievements'),
-
+path(
+    "trigger-habit-reminders/",
+    views.trigger_habit_reminders,
+    name="trigger_habit_reminders"
+),
 
 
 

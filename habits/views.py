@@ -15,7 +15,6 @@ from django.shortcuts import render, redirect
 import random
 from django.conf import settings
 from .models import PasswordOTP
-import resend
 import logging
 from django.conf import settings
 import threading
@@ -24,6 +23,42 @@ from .models import Habit, HabitLog
 import re
 
 logger = logging.getLogger(__name__)
+import os
+from django.core.management import call_command
+from django.http import JsonResponse
+def trigger_habit_reminders(request):
+
+    # Get secret from Render environment variable
+    secret = os.environ.get("HABIT_REMINDER_SECRET")
+
+    # Get secret sent by scheduler
+    provided_secret = request.GET.get("token")
+
+    # Check secret
+    if not secret or provided_secret != secret:
+        return JsonResponse(
+            {"error": "Unauthorized"},
+            status=401
+        )
+
+    # Run the Django management command
+    try:
+        call_command("send_habit_reminders")
+
+        return JsonResponse({
+            "success": True,
+            "message": "Habit reminder command executed successfully."
+        })
+
+    except Exception as e:
+
+        return JsonResponse(
+            {
+                "success": False,
+                "error": str(e)
+            },
+            status=500
+        )
 
 
    
