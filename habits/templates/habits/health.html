@@ -283,25 +283,35 @@ Open Medicine Information
 </div>
 
 <script>
-
 function openNearbyMedicalShops() {
+
     const query = "Medical Shop near me";
     const encodedQuery = encodeURIComponent(query);
 
-    // Best option: launch native Google Maps app directly.
-    // If Maps app isn't installed, Android automatically falls back
-    // to the browser_fallback_url below instead of failing silently.
-    const intentUrl = 
-        "intent://maps.google.com/maps?q=" + encodedQuery +
-        "#Intent;scheme=https;package=com.google.android.apps.maps;" +
-        "S.browser_fallback_url=" + encodeURIComponent(
-            "https://www.google.com/maps/search/?api=1&query=" + encodedQuery
-        ) +
-        ";end";
+    const webUrl =
+        "https://www.google.com/maps/search/?api=1&query=" +
+        encodedQuery;
 
-    window.location.href = intentUrl;
+    // Detect Android device
+    if (/Android/i.test(navigator.userAgent)) {
+
+        const intentUrl =
+            "intent://maps.google.com/maps?q=" + encodedQuery +
+            "#Intent;scheme=https;" +
+            "package=com.google.android.apps.maps;" +
+            "S.browser_fallback_url=" +
+            encodeURIComponent(webUrl) +
+            ";end";
+
+        window.location.href = intentUrl;
+
+    } else {
+
+        // Laptop / iPhone / other devices
+        window.open(webUrl, "_blank");
+
+    }
 }
-
 </script>
 
 </body>
