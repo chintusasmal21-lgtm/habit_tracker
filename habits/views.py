@@ -2077,14 +2077,38 @@ def food_summary(request):
         elif food["meal_type"] == "Dinner":
             dinner.append(food)
 
+    # Calculate remaining calories
     remaining = target - total
-    # Suggested foods within remaining calories
+
+    # Suggested foods
     suggested_foods = []
 
-    if remaining > 0:
-       suggested_foods = Food.objects.filter(
-          calories__lte=remaining
+    if remaining > 50:
+        suggested_foods = Food.objects.filter(
+            calories__lte=remaining
         ).order_by("-health_score", "calories")[:5]
+
+    # Activity suggestions when remaining calories are 50 or below
+    activity_suggestion = []
+
+    if 0 < remaining <= 50:
+        activity_suggestion = [
+            {
+                "name": "Walking",
+                "duration": "5–10 minutes",
+                "calories": "20–50 kcal"
+            },
+            {
+                "name": "Light Stretching",
+                "duration": "10 minutes",
+                "calories": "20–30 kcal"
+            },
+            {
+                "name": "Light Household Activity",
+                "duration": "10–15 minutes",
+                "calories": "30–50 kcal"
+            }
+        ]
 
     context = {
         "breakfast": breakfast,
@@ -2095,6 +2119,7 @@ def food_summary(request):
         "total": total,
         "remaining": remaining,
         "suggested_foods": suggested_foods,
+        "activity_suggestion": activity_suggestion,
     }
 
     return render(
