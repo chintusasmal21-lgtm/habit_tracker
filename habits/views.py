@@ -1989,30 +1989,58 @@ def reminder(request):
             "pending_reminders": pending_reminders
         }
     )
+from .models import Food, FoodLog
 @login_required
 def food_selection(request):
 
-    breakfast_foods = Food.objects.filter(meal_type="Breakfast")
-    lunch_foods = Food.objects.filter(meal_type="Lunch")
-    snack_foods = Food.objects.filter(meal_type="Snacks")
-    dinner_foods = Food.objects.filter(meal_type="Dinner")
+    breakfast_foods = Food.objects.filter(
+        meal_type="Breakfast"
+    )
 
-    target_calories = request.GET.get("target") or request.POST.get("target")
+    lunch_foods = Food.objects.filter(
+        meal_type="Lunch"
+    )
+
+    snack_foods = Food.objects.filter(
+        meal_type="Snacks"
+    )
+
+    dinner_foods = Food.objects.filter(
+        meal_type="Dinner"
+    )
+
+    target_calories = (
+        request.GET.get("target")
+        or request.POST.get("target")
+    )
 
     if request.method == "POST":
 
-        selected_foods = request.POST.getlist("foods")
+        selected_foods = request.POST.getlist(
+            "foods"
+        )
 
         food_data = []
+
         total_calories = 0
 
+        # First: collect all selected foods
         for food_id in selected_foods:
 
-            food = Food.objects.get(id=food_id)
+            food = Food.objects.get(
+                id=food_id
+            )
 
-            quantity = float(request.POST.get(f"quantity_{food_id}", 1))
+            quantity = float(
+                request.POST.get(
+                    f"quantity_{food_id}",
+                    1
+                )
+            )
 
-            food_total = round(food.calories * quantity)
+            food_total = round(
+                food.calories * quantity
+            )
 
             total_calories += food_total
 
@@ -2024,17 +2052,44 @@ def food_selection(request):
                 "quantity": quantity,
                 "calories_per_serving": food.calories,
                 "total_calories": food_total,
-                
             })
 
+        # Second: save selected foods to database
+        # This loop MUST be outside the first loop
+
+        today = timezone.localdate()
+
+        # Delete previous selected foods for today
+        # This prevents duplicate records
+        FoodLog.objects.filter(
+            user=request.user,
+            date=today,
+            source="Selected"
+        ).delete()
+
+        # Save current selected foods
+        for food in food_data:
+
+            FoodLog.objects.create(
+                user=request.user,
+                food_id=food["id"],
+                meal_type=food["meal_type"],
+                quantity=food["quantity"],
+                total_calories=food["total_calories"],
+                source="Selected",
+            )
+
+        # Save data in session
+
         request.session["food_data"] = food_data
+
         request.session["target_calories"] = target_calories
-        request.session["selected_total"] = total_calories
-        request.session["food_data"] = food_data
-        request.session["target_calories"] = target_calories
+
         request.session["selected_total"] = total_calories
 
-        return redirect("food_summary")
+        return redirect(
+            "food_summary"
+        )
 
     return render(
         request,
@@ -2047,12 +2102,17 @@ def food_selection(request):
             "target_calories": target_calories,
         },
     )
+from django.utils import timezone
 @login_required
 def food_summary(request):
 
-    food_data = request.session.get("food_data", [])
+    today = timezone.localdate()
 
-    target = int(request.session.get("target_calories", 0))
+    # Get today's food records from database
+    food_logs = FoodLog.objects.filter(
+        user=request.user,
+        date=today
+    ).select_related("food")
 
     breakfast = []
     lunch = []
@@ -2061,66 +2121,111 @@ def food_summary(request):
 
     total = 0
 
-    for food in food_data:
+    # Separate foods by meal type
+    for log in food_logs:
 
-        total += food["total_calories"]
+        food_data = {
+            "id": log.food.id,
+            "name": log.food.name,
+            "meal_type": log.meal_type,
+            "serving_size": log.food.serving_size,
+            "quantity": log.quantity,
+            "calories_per_serving": log.food.calories,
+            "total_calories": log.total_calories,
+            "source": log.source,
+        }
 
-        if food["meal_type"] == "Breakfast":
-            breakfast.append(food)
+        total += log.total_calories
 
-        elif food["meal_type"] == "Lunch":
-            lunch.append(food)
+        if log.meal_type == "Breakfast":
+            breakfast.append(food_data)
 
-        elif food["meal_type"] == "Snacks":
-            snacks.append(food)
+        elif log.meal_type == "Lunch":
+            lunch.append(food_data)
 
-        elif food["meal_type"] == "Dinner":
-            dinner.append(food)
+        elif log.meal_type == "Snacks":
+            snacks.append(food_data)
+
+        elif log.meal_type == "Dinner":
+            dinner.append(food_data)
+
+
+    # Get target calories from session
+    target = int(
+        request.session.get(
+            "target_calories",
+            0
+        )
+    )
+
 
     # Calculate remaining calories
     remaining = target - total
+
 
     # Suggested foods
     suggested_foods = []
 
     if remaining > 50:
+
         suggested_foods = Food.objects.filter(
             calories__lte=remaining
-        ).order_by("-health_score", "calories")[:5]
+        ).order_by(
+            "-health_score",
+            "calories"
+        )[:5]
 
-    # Activity suggestions when remaining calories are 50 or below
+
+    # Activity suggestions
     activity_suggestion = []
 
     if 0 < remaining <= 50:
+
         activity_suggestion = [
+
             {
                 "name": "Walking",
                 "duration": "5–10 minutes",
                 "calories": "20–50 kcal"
             },
+
             {
                 "name": "Light Stretching",
                 "duration": "10 minutes",
                 "calories": "20–30 kcal"
             },
+
             {
                 "name": "Light Household Activity",
                 "duration": "10–15 minutes",
                 "calories": "30–50 kcal"
             }
+
         ]
 
+
     context = {
+
         "breakfast": breakfast,
+
         "lunch": lunch,
+
         "snacks": snacks,
+
         "dinner": dinner,
+
         "target": target,
+
         "total": total,
+
         "remaining": remaining,
+
         "suggested_foods": suggested_foods,
+
         "activity_suggestion": activity_suggestion,
+
     }
+
 
     return render(
         request,
@@ -2249,5 +2354,44 @@ def achievements(request):
         "pending": pending,
         "achievements": achievements,
     })
+@login_required
+def add_suggested_food(request, food_id):
 
-# Create your views here.
+    if request.method == "POST":
+
+        food = get_object_or_404(
+            Food,
+            id=food_id
+        )
+
+        # Check whether this food was already added today
+        already_added = FoodLog.objects.filter(
+            user=request.user,
+            food=food,
+            date=date.today()
+        ).exists()
+
+        if not already_added:
+
+            FoodLog.objects.create(
+                user=request.user,
+                food=food,
+                meal_type=food.meal_type,
+                quantity=1,
+                total_calories=food.calories,
+                source="Suggested"
+            )
+
+            messages.success(
+                request,
+                f"{food.name} added successfully!"
+            )
+
+        else:
+
+            messages.info(
+                request,
+                f"{food.name} is already added today."
+            )
+
+    return redirect("food_summary")

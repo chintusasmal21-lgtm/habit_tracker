@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,58 +16,65 @@
 
 <style>
 
-body{
-    background:#f4f6fb;
+body {
+    background: #f4f6fb;
 }
 
-.summary-card{
-    background:white;
-    border-radius:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,.12);
-    padding:25px;
-    margin-bottom:20px;
+.summary-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.12);
+    padding: 25px;
+    margin-bottom: 20px;
 }
 
-.meal-title{
-    background:#198754;
-    color:white;
-    padding:10px;
-    border-radius:10px;
-    font-weight:bold;
+.meal-title {
+    background: #198754;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
 }
 
-.food-row{
-    display:flex;
-    justify-content:space-between;
-    padding:10px;
-    border-bottom:1px solid #eee;
+.food-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    gap: 15px;
 }
 
-.total-card{
-    background:#198754;
-    color:white;
-    border-radius:20px;
-    padding:20px;
+.total-card {
+    background: #198754;
+    color: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
-.progress{
-    height:18px;
-    border-radius:10px;
+.progress {
+    height: 18px;
+    border-radius: 10px;
 }
 
-.btn{
-    border-radius:10px;
+.btn {
+    border-radius: 10px;
 }
 
-@media(max-width:768px){
-
-.summary-card{
-    padding:15px;
+.suggested-food {
+    margin-bottom: 10px;
 }
 
-.food-row{
-    font-size:15px;
-}
+@media(max-width:768px) {
+
+    .summary-card {
+        padding: 15px;
+    }
+
+    .food-row {
+        font-size: 15px;
+    }
 
 }
 
@@ -74,13 +82,24 @@ body{
 
 </head>
 
+
 <body>
+
 
 <div class="container mt-4 mb-5">
 
+
+<!-- Page Title -->
+
 <h2 class="text-center mb-4">
+
 🍽 Today's Meal Summary
+
 </h2>
+
+
+<!-- Today's Meals Status -->
+
 <div class="summary-card">
 
 <h4>
@@ -89,46 +108,70 @@ Today's Meals
 
 </h4>
 
+
 <p>
 
 🍳 Breakfast
+
 {% if breakfast %}
+
 ✅
+
 {% else %}
+
 ❌
+
 {% endif %}
 
 </p>
+
 
 <p>
 
 🍛 Lunch
+
 {% if lunch %}
+
 ✅
+
 {% else %}
+
 ❌
+
 {% endif %}
 
 </p>
+
 
 <p>
 
 🥜 Snacks
+
 {% if snacks %}
+
 ✅
+
 {% else %}
+
 ❌
+
 {% endif %}
 
 </p>
+
 
 <p>
 
 🍽 Dinner
+
 {% if dinner %}
+
 ✅
+
 {% else %}
+
 ❌
+
 {% endif %}
 
 </p>
@@ -136,36 +179,58 @@ Today's Meals
 </div>
 
 
-<!-- Breakfast -->
+
+<!-- ========================= -->
+<!-- BREAKFAST -->
+<!-- ========================= -->
 
 <div class="summary-card">
 
 <div class="meal-title">
+
 🍳 Breakfast
+
 </div>
+
 
 {% for food in breakfast %}
 
 <div class="food-row">
 
 <div>
-    <strong>{{ food.name }}</strong><br>
 
-    <small class="text-muted">
-        {{ food.quantity }} × {{ food.serving_size }}
-    </small>
+<strong>
+
+{{ food.name }}
+
+</strong>
+
+<br>
+
+<small class="text-muted">
+
+{{ food.quantity }} × {{ food.serving_size }}
+
+</small>
+
 </div>
+
 
 <div class="text-end">
-    {{ food.total_calories }} kcal
+
+{{ food.total_calories }} kcal
+
 </div>
 
 </div>
+
 
 {% empty %}
 
 <p class="mt-3 text-muted">
+
 No Breakfast Selected
+
 </p>
 
 {% endfor %}
@@ -173,36 +238,58 @@ No Breakfast Selected
 </div>
 
 
-<!-- Lunch -->
+
+<!-- ========================= -->
+<!-- LUNCH -->
+<!-- ========================= -->
 
 <div class="summary-card">
 
 <div class="meal-title">
+
 🍛 Lunch
+
 </div>
+
 
 {% for food in lunch %}
 
 <div class="food-row">
 
 <div>
-    <strong>{{ food.name }}</strong><br>
 
-    <small class="text-muted">
-        {{ food.quantity }} × {{ food.serving_size }}
-    </small>
+<strong>
+
+{{ food.name }}
+
+</strong>
+
+<br>
+
+<small class="text-muted">
+
+{{ food.quantity }} × {{ food.serving_size }}
+
+</small>
+
 </div>
+
 
 <div class="text-end">
-    {{ food.total_calories }} kcal
+
+{{ food.total_calories }} kcal
+
 </div>
 
 </div>
+
 
 {% empty %}
 
 <p class="mt-3 text-muted">
+
 No Lunch Selected
+
 </p>
 
 {% endfor %}
@@ -210,36 +297,58 @@ No Lunch Selected
 </div>
 
 
-<!-- Snacks -->
+
+<!-- ========================= -->
+<!-- SNACKS -->
+<!-- ========================= -->
 
 <div class="summary-card">
 
 <div class="meal-title">
+
 🥜 Snacks
+
 </div>
+
 
 {% for food in snacks %}
 
 <div class="food-row">
 
 <div>
-    <strong>{{ food.name }}</strong><br>
 
-    <small class="text-muted">
-        {{ food.quantity }} × {{ food.serving_size }}
-    </small>
+<strong>
+
+{{ food.name }}
+
+</strong>
+
+<br>
+
+<small class="text-muted">
+
+{{ food.quantity }} × {{ food.serving_size }}
+
+</small>
+
 </div>
+
 
 <div class="text-end">
-    {{ food.total_calories }} kcal
+
+{{ food.total_calories }} kcal
+
 </div>
 
 </div>
+
 
 {% empty %}
 
 <p class="mt-3 text-muted">
+
 No Snacks Selected
+
 </p>
 
 {% endfor %}
@@ -247,36 +356,58 @@ No Snacks Selected
 </div>
 
 
-<!-- Dinner -->
+
+<!-- ========================= -->
+<!-- DINNER -->
+<!-- ========================= -->
 
 <div class="summary-card">
 
 <div class="meal-title">
+
 🍽 Dinner
+
 </div>
+
 
 {% for food in dinner %}
 
 <div class="food-row">
 
 <div>
-    <strong>{{ food.name }}</strong><br>
 
-    <small class="text-muted">
-        {{ food.quantity }} × {{ food.serving_size }}
-    </small>
+<strong>
+
+{{ food.name }}
+
+</strong>
+
+<br>
+
+<small class="text-muted">
+
+{{ food.quantity }} × {{ food.serving_size }}
+
+</small>
+
 </div>
+
 
 <div class="text-end">
-    {{ food.total_calories }} kcal
+
+{{ food.total_calories }} kcal
+
 </div>
 
 </div>
+
 
 {% empty %}
 
 <p class="mt-3 text-muted">
+
 No Dinner Selected
+
 </p>
 
 {% endfor %}
@@ -284,33 +415,66 @@ No Dinner Selected
 </div>
 
 
-<!-- Summary -->
+
+<!-- ========================= -->
+<!-- CALORIE SUMMARY -->
+<!-- ========================= -->
 
 <div class="total-card text-center">
 
+
 <h4>
+
 🎯 Target Calories
+
 </h4>
 
-<h2>{{ target }} kcal</h2>
+
+<h2>
+
+{{ target }} kcal
+
+</h2>
+
 
 <hr>
 
+
 <h4>
+
 🍽 Selected Calories
+
 </h4>
 
-<h2>{{ total }} kcal</h2>
+
+<h2>
+
+{{ total }} kcal
+
+</h2>
+
 
 <hr>
 
+
 <h4>
+
 🔥 Remaining Calories
+
 </h4>
 
-<h2>{{ remaining }} kcal</h2>
+
+<h2>
+
+{{ remaining }} kcal
+
+</h2>
+
 
 <br>
+
+
+<!-- Progress Bar -->
 
 <div class="progress">
 
@@ -323,124 +487,259 @@ style="width:{% widthratio total target 100 %}%">
 
 </div>
 
+
 <br>
+
+
+<!-- Calorie Message -->
 
 {% if remaining > 0 %}
 
 <div class="alert alert-warning">
 
 You need
-<strong>{{ remaining }} kcal</strong>
+
+<strong>
+
+{{ remaining }} kcal
+
+</strong>
+
 more to reach your target.
 
 </div>
+
 
 {% elif remaining == 0 %}
 
 <div class="alert alert-success">
 
 🎉 Congratulations!
+
 You reached your target calories.
 
 </div>
+
 
 {% else %}
 
 <div class="alert alert-danger">
 
 ⚠ You exceeded your target by
-<strong>{{ remaining|add:"0"|cut:"-" }} kcal</strong>
+
+<strong>
+
+{{ remaining|cut:"-" }} kcal
+
+</strong>
 
 </div>
 
 {% endif %}
 
+
 </div>
+
+
+
+<!-- ========================= -->
+<!-- SUGGESTED FOODS -->
+<!-- ========================= -->
+
 {% if remaining > 0 %}
 
 <div class="summary-card">
 
-    <h4 class="text-success">
-        🥗 Suggested Foods
-    </h4>
 
-    <p class="text-muted">
-        These foods fit within your remaining {{ remaining }} kcal.
-    </p>
+<h4 class="text-success">
 
-    {% for food in suggested_foods %}
+🥗 Suggested Foods
 
-    <div class="food-row">
+</h4>
 
-        <div>
-            <strong>{{ food.name }}</strong><br>
 
-            <small>
-                {{ food.serving_size }}
-            </small>
+<p class="text-muted">
 
-        </div>
+These foods fit within your remaining
 
-        <span class="badge bg-success">
+<strong>
 
-            {{ food.calories }} kcal
+{{ remaining }} kcal
 
-        </span>
+</strong>.
 
-    </div>
+</p>
 
-    {% empty %}
 
-    <p class="text-muted">
+{% for food in suggested_foods %}
 
-        No suitable foods found.
 
-    </p>
+<div class="food-row suggested-food">
 
-    {% endfor %}
+
+<div>
+
+<strong>
+
+{{ food.name }}
+
+</strong>
+
+<br>
+
+
+<small class="text-muted">
+
+{{ food.serving_size }}
+
+</small>
+
+</div>
+
+
+<div class="text-end">
+
+
+<span class="badge bg-success mb-2">
+
+{{ food.calories }} kcal
+
+</span>
+
+
+<br>
+
+
+<!-- Add Suggested Food -->
+
+<form method="POST"
+      action="{% url 'add_suggested_food' food.id %}">
+
+{% csrf_token %}
+
+
+<button type="submit"
+        class="btn btn-sm btn-success">
+
+➕ Add This Food
+
+</button>
+
+
+</form>
+
+
+</div>
+
+
+</div>
+
+
+{% empty %}
+
+
+<p class="text-muted">
+
+No suitable foods found.
+
+</p>
+
+
+{% endfor %}
+
 
 </div>
 
 {% endif %}
+
+
+
+<!-- ========================= -->
+<!-- ACTIVITY SUGGESTIONS -->
+<!-- ========================= -->
+
 {% if remaining > 0 and remaining <= 50 %}
+
 
 <div class="summary-card">
 
-    <h4 class="text-primary">
-        🏃 Activity Suggestions
-    </h4>
 
-    <p class="text-muted">
-        You have only {{ remaining }} kcal remaining.
-        Try a light activity to stay active.
-    </p>
+<h4 class="text-primary">
 
-    {% for activity in activity_suggestion %}
+🏃 Activity Suggestions
 
-    <div class="food-row">
+</h4>
 
-        <div>
-            <strong>{{ activity.name }}</strong><br>
 
-            <small>
-                {{ activity.duration }}
-            </small>
-        </div>
+<p class="text-muted">
 
-        <span class="badge bg-primary">
-            🔥 {{ activity.calories }}
-        </span>
+You have only
 
-    </div>
+<strong>
 
-    {% endfor %}
+{{ remaining }} kcal
+
+</strong>
+
+remaining.
+
+Try a light activity to stay active.
+
+</p>
+
+
+{% for activity in activity_suggestion %}
+
+
+<div class="food-row">
+
+
+<div>
+
+<strong>
+
+{{ activity.name }}
+
+</strong>
+
+<br>
+
+
+<small>
+
+{{ activity.duration }}
+
+</small>
 
 </div>
+
+
+<span class="badge bg-primary">
+
+🔥 {{ activity.calories }}
+
+</span>
+
+
+</div>
+
+
+{% endfor %}
+
+
+</div>
+
 
 {% endif %}
 
 
+
+<!-- ========================= -->
+<!-- NAVIGATION BUTTONS -->
+<!-- ========================= -->
+
 <div class="text-center mt-4">
+
 
 <a href="{% url 'food_selection' %}?target={{ target }}"
    class="btn btn-secondary">
@@ -449,6 +748,7 @@ You reached your target calories.
 
 </a>
 
+
 <a href="{% url 'dashboard' %}"
    class="btn btn-success">
 
@@ -456,10 +756,21 @@ You reached your target calories.
 
 </a>
 
-</div>
 
 </div>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+
+</div>
+
+
+
+<!-- ========================= -->
+<!-- CONFETTI -->
+<!-- ========================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
+</script>
+
 
 {% if remaining == 0 %}
 
@@ -467,17 +778,20 @@ You reached your target calories.
 
 confetti({
 
-    particleCount:250,
+    particleCount: 250,
 
-    spread:180,
+    spread: 180,
 
-    origin:{y:0.6}
+    origin: {
+        y: 0.6
+    }
 
 });
 
 </script>
 
 {% endif %}
+
 
 </body>
 

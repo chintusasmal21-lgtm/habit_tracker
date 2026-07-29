@@ -180,6 +180,11 @@ path(
     views.trigger_habit_reminders,
     name="trigger_habit_reminders"
 ),
+path(
+    "add-suggested-food/<int:food_id>/",
+    views.add_suggested_food,
+    name="add_suggested_food"
+),
 
 
 
