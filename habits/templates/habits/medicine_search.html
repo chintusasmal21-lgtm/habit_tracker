@@ -474,7 +474,7 @@
         <form method="GET">
 
             <label>
-                Search Medicine or Health Problem
+               🩺 Describe Your Health Problem
             </label>
 
             <div class="input-group">
@@ -483,8 +483,8 @@
                     type="text"
                     name="q"
                     class="form-control search-input"
-                    placeholder="Example: Fever, Cold, Headache..."
-                    value="{{ query }}"
+                    placeholder="Example: My body temperature is high and I am feeling unwell..."
+                    value="{{ query|default:'' }}"
                     required
                 >
 
@@ -576,27 +576,7 @@
             {% endif %}
 
 
-            <!-- Symptoms -->
-
-            {% if medicine.symptoms %}
-
-            <div class="info-box">
-
-                <span class="info-label">
-
-                    🩺 Symptoms
-
-                </span>
-
-                <div class="info-value">
-
-                    {{ medicine.symptoms }}
-
-                </div>
-
-            </div>
-
-            {% endif %}
+        
 
 
             <!-- Home Remedy -->
