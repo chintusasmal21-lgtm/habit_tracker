@@ -125,38 +125,74 @@ def dashboard(request):
     today = date.today()
 
     # ==========================================
-    # CHECK AND UPDATE COMPLETED HABITS
+    # GET ALL USER HABITS
     # ==========================================
 
     habits = Habit.objects.filter(
         user=request.user
     )
 
+
+    # ==========================================
+    # UPDATE HABIT STATUS
+    # ==========================================
+
     for habit in habits:
 
-        # Get all logs for this habit
-        logs = HabitLog.objects.filter(
-            habit=habit
-        )
+        # Get today's log
+        today_log = HabitLog.objects.filter(
+            habit=habit,
+            log_date=today
+        ).first()
 
-        # Total required days
-        total_logs = logs.count()
 
-        # Completed days
-        completed_logs = logs.filter(
-            completed=True
-        ).count()
+        # --------------------------------------
+        # HABIT WITHOUT END DATE
+        # --------------------------------------
 
-        # If all required days are completed
-        if total_logs > 0 and total_logs == completed_logs:
+        if not habit.end_date:
+
+            habit.status = "Pending"
+
+
+        # --------------------------------------
+        # END DATE HAS PASSED
+        # --------------------------------------
+
+        elif today > habit.end_date:
 
             habit.status = "Completed"
-            habit.save(update_fields=["status"])
+
+
+        # --------------------------------------
+        # TODAY IS THE LAST DAY
+        # --------------------------------------
+
+        elif today == habit.end_date:
+
+            # User completed the final day
+            if today_log and today_log.completed:
+
+                habit.status = "Completed"
+
+            else:
+
+                habit.status = "Pending"
+
+
+        # --------------------------------------
+        # END DATE IS IN THE FUTURE
+        # --------------------------------------
 
         else:
 
             habit.status = "Pending"
-            habit.save(update_fields=["status"])
+
+
+        # Save status
+        habit.save(
+            update_fields=["status"]
+        )
 
 
     # ==========================================
@@ -207,16 +243,11 @@ def dashboard(request):
 
     for habit in habits:
 
-        total_logs = HabitLog.objects.filter(
-            habit=habit
-        ).count()
-
-        completed_logs = HabitLog.objects.filter(
-            habit=habit,
-            completed=True
-        ).count()
-
-        if total_logs > 0 and total_logs == completed_logs:
+        if (
+            habit.end_date
+            and today >= habit.end_date
+            and habit.status == "Completed"
+        ):
 
             completed_week += 1
 
@@ -234,10 +265,11 @@ def dashboard(request):
 
 
     # ==========================================
-    # GET ALL COMPLETED DATES
+    # ALL COMPLETED DATES
     # ==========================================
 
     completed_dates = set(
+
         HabitLog.objects.filter(
             habit__user=request.user,
             completed=True
@@ -245,6 +277,7 @@ def dashboard(request):
             "log_date",
             flat=True
         )
+
     )
 
 
@@ -260,7 +293,9 @@ def dashboard(request):
 
         current_streak += 1
 
-        check_date -= timedelta(days=1)
+        check_date -= timedelta(
+            days=1
+        )
 
 
     # ==========================================
@@ -271,27 +306,41 @@ def dashboard(request):
 
     current_count = 0
 
-    sorted_dates = sorted(completed_dates)
+    sorted_dates = sorted(
+        completed_dates
+    )
 
     previous_date = None
 
+
     for completed_date in sorted_dates:
 
+        # First completed date
         if previous_date is None:
 
             current_count = 1
 
-        elif completed_date == previous_date + timedelta(days=1):
+
+        # Consecutive date
+        elif (
+            completed_date
+            == previous_date + timedelta(days=1)
+        ):
 
             current_count += 1
 
+
+        # Streak broken
         else:
 
             current_count = 1
 
+
+        # Update highest streak
         if current_count > highest_streak:
 
             highest_streak = current_count
+
 
         previous_date = completed_date
 
@@ -320,6 +369,10 @@ def dashboard(request):
 
     }
 
+
+    # ==========================================
+    # RENDER DASHBOARD
+    # ==========================================
 
     return render(
         request,
