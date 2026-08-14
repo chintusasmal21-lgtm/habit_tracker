@@ -792,6 +792,7 @@ def edit_habit(request):
     )
 
 
+
 @login_required
 def habit_edits(request, id):
 
@@ -801,22 +802,29 @@ def habit_edits(request, id):
         user=request.user
     )
 
+    # Store old values before updating
     old_frequency = habit.frequency
     old_start_date = habit.start_date
     old_end_date = habit.end_date
 
     if request.method == "POST":
 
+        # -----------------------------
+        # Update habit information
+        # -----------------------------
+
         habit.description = request.POST.get("description")
         habit.category = request.POST.get("category")
         habit.frequency = request.POST.get("frequency")
         habit.reminder_time = request.POST.get("reminder_time")
 
+        # Update end date
         habit.end_date = datetime.strptime(
             request.POST.get("end_date"),
             "%Y-%m-%d"
         ).date()
 
+        # Update habit status
         if habit.end_date >= date.today():
             habit.status = "Pending"
         else:
@@ -824,65 +832,47 @@ def habit_edits(request, id):
 
         habit.save()
 
-        # Recreate logs only if schedule changed
+        # -----------------------------
+        # Create missing HabitLogs
+        # -----------------------------
+        #
+        # IMPORTANT:
+        # Do NOT delete existing HabitLogs.
+        # Existing completed/missed records must remain.
+        #
+
         if (
             old_frequency != habit.frequency or
             old_start_date != habit.start_date or
             old_end_date != habit.end_date
         ):
 
-            HabitLog.objects.filter(
-                habit=habit
-            ).delete()
-
             current_date = habit.start_date
 
             while current_date <= habit.end_date:
 
+                should_create = False
+
+                # Daily
                 if habit.frequency == "Daily":
+                    should_create = True
 
-                    HabitLog.objects.get_or_create(
-                        habit=habit,
-                        log_date=current_date,
-                        defaults={
-                            "completed": False,
-                            "missed": False
-                        }
-                    )
-
-                    current_date += timedelta(days=1)
-
+                # Weekdays
                 elif habit.frequency == "Weekdays":
-
                     if current_date.weekday() < 5:
+                        should_create = True
 
-                        HabitLog.objects.get_or_create(
-                            habit=habit,
-                            log_date=current_date,
-                            defaults={
-                                "completed": False,
-                                "missed": False
-                            }
-                        )
-
-                    current_date += timedelta(days=1)
-
+                # Weekends
                 elif habit.frequency == "Weekends":
-
                     if current_date.weekday() >= 5:
+                        should_create = True
 
-                        HabitLog.objects.get_or_create(
-                            habit=habit,
-                            log_date=current_date,
-                            defaults={
-                                "completed": False,
-                                "missed": False
-                            }
-                        )
-
-                    current_date += timedelta(days=1)
-
+                # Weekly
                 elif habit.frequency == "Weekly":
+                    should_create = True
+
+                # Create only if log does not already exist
+                if should_create:
 
                     HabitLog.objects.get_or_create(
                         habit=habit,
@@ -893,14 +883,23 @@ def habit_edits(request, id):
                         }
                     )
 
+                # Move to next date
+                if habit.frequency == "Weekly":
                     current_date += timedelta(days=7)
+                else:
+                    current_date += timedelta(days=1)
 
-        # Send habit updated email
+        # -----------------------------
+        # Send update email
+        # -----------------------------
+
         if request.user.email:
+
             try:
 
                 send_mail(
                     subject="Habit Updated Successfully",
+
                     message=f"""
 Your habit "{habit.name}" has been updated successfully.
 
@@ -921,8 +920,13 @@ Your habit details have been successfully updated.
 
 Habit Tracker Team
 """,
+
                     from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[request.user.email],
+
+                    recipient_list=[
+                        request.user.email
+                    ],
+
                     fail_silently=False,
                 )
 
@@ -932,9 +936,14 @@ Habit Tracker Team
                 )
 
             except Exception as e:
+
                 logger.exception(
                     f"Habit Update Email Error: {e}"
                 )
+
+        # -----------------------------
+        # Success message
+        # -----------------------------
 
         messages.success(
             request,
@@ -942,6 +951,10 @@ Habit Tracker Team
         )
 
         return redirect("habit_list")
+
+    # -----------------------------
+    # GET request
+    # -----------------------------
 
     return render(
         request,
@@ -965,19 +978,20 @@ def complete_habit(request, id):
     return redirect('/dashboard/')
 @login_required
 def habit_detail(request, id):
-
     habit = get_object_or_404(
         Habit,
         id=id,
         user=request.user
     )
 
-    today = date.today()
+    today = timezone.localdate()
 
+    # Mark only past incomplete logs as missed
     HabitLog.objects.filter(
         habit=habit,
         log_date__lt=today,
-        completed=False
+        completed=False,
+        missed=False
     ).update(
         missed=True
     )
